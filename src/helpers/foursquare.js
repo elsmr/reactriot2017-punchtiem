@@ -17,3 +17,5 @@ export const getVenuePhoto = id =>
     limit: 1
   });
 
+export const getScore = ({ checkinsCount, usersCount, tipCount }) =>
+  checkinsCount + tipCount + usersCount;

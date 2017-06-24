@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { getVenues, getVenuePhoto } from './helpers/foursquare';
+import { getVenues, getVenuePhoto, getScore } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import Loading from './components/Loading';
 import BottomBar from './components/BottomBar';
@@ -26,6 +26,7 @@ class Foursquare extends Component {
         categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY, // arts & entertainment
       },
       history: [],
+      loaded: false,
     };
   }
 
@@ -40,11 +41,14 @@ class Foursquare extends Component {
               ...prev,
               position,
               history: [...prev.history, [longitude, latitude]],
+              loaded: true,
             };
           });
 
           getVenues({ latitude, longitude, ...this.state.query }).then(res => {
-            res.response.venues.forEach(venue => {
+            const { response: { venues } } = res;
+            venues.sort((a, b) => a.location.distance - b.location.distance);
+            venues.forEach(venue => {
               if (this.state.venueImages.hasOwnProperty(venue.id)) {
                 getVenuePhoto(venue.id).then(res => {
                   console.log(res);
@@ -76,10 +80,9 @@ class Foursquare extends Component {
   }
 
   render() {
-    const { position, venues, venueImages, history } = this.state;
+    const { position, venues, venueImages, history, loaded } = this.state;
 
-    const loading = !position || venues === 0;
-    if (loading) {
+    if (loaded === false) {
       return (
         <div style={{ height: 'calc(100vh - 64px)' }}>
           <Loading />
@@ -90,15 +93,24 @@ class Foursquare extends Component {
     const { coords: { latitude, longitude } } = position;
     const here = [longitude, latitude];
 
+    const closest = venues && venues[0]
+      ? {
+          name: venues[0].name,
+          distance: venues[0].location.distance,
+          score: getScore(venues[0].stats),
+          heading: 0, // calc direction to walk
+        }
+      : {};
+
     return (
       <div>
         <InteractiveMap here={here} venues={venues} venueImages={venueImages} history={history} />
         <BottomBar
           position={position}
           progress={Math.random() * 100}
-          isNear={Math.random() > 0.5}
+          isNear={closest.distance < 20}
+          closest={closest}
         />
-        {this.state.venues.map(item => <Item {...item} key={item.id} />)}
       </div>
     );
   }
