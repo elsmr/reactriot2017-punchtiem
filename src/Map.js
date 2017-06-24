@@ -5,13 +5,6 @@ import InteractiveMap from './components/InteractiveMap';
 import Loading from './components/Loading';
 import BottomBar from './components/BottomBar';
 
-const Item = ({ name, location: { lat, lng } }) =>
-  <div style={{ border: '1px solid black' }}>
-    <p>{name}</p>
-    <p>{lat}</p>
-    <p>{lng}</p>
-  </div>;
-
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
 
@@ -55,16 +48,15 @@ class Foursquare extends Component {
                   const { prefix, suffix } = res.response.photos[0];
                   const url = `${prefix}36x36${suffix}`;
                   this.setState(prevState => {
-                    return { venueImages: Object.assign(
-                        {},
-                        prevState.venueImages,
-                        { [venue.id]: url }
-                      ) };
+                    return {
+                      venueImages: Object.assign({}, prevState.venueImages, {
+                        [venue.id]: url,
+                      }),
+                    };
                   });
                 });
               }
-
-            })
+            });
             this.setState(prev => ({ ...prev, venues: res.response.venues }));
           });
         },
@@ -104,7 +96,12 @@ class Foursquare extends Component {
 
     return (
       <div>
-        <InteractiveMap here={here} venues={venues} venueImages={venueImages} history={history} />
+        <InteractiveMap
+          here={here}
+          venues={venues}
+          venueImages={venueImages}
+          history={history}
+        />
         <BottomBar
           position={position}
           progress={Math.random() * 100}
