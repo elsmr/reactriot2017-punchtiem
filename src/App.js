@@ -80,6 +80,7 @@ class App extends Component {
                 } else {
                   this.history.push(`/${key}`);
                 }
+                this.setState({ collapsed: true });
               }}
             >
               <Menu.Item key="profile">
