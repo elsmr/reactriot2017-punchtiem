@@ -46,7 +46,7 @@ const BottomBar = ({
     name: 'Trafalgar Square',
     score: 200,
     distance: 223,
-    heading: 20,
+    heading: 10,
   },
 }) =>
   <footer className="BottomBar">
