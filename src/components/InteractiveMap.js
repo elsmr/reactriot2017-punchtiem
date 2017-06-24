@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
 import { PRIMARY_COLOR } from '../constants';
 
 const Map = ReactMapboxGl({
