@@ -47,14 +47,14 @@ class App extends Component {
     return loading ?
       <div>Loading...</div> : (
       <Router>
-        <div>
+        <Switch>
           <Route exact path="/" component={Landing} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route exact path="/fsq" component={Foursquare} />
           <Route path="/leaderbord" component={Leaderboard} />
           <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} />} />
-        </div>
+        </Switch>
       </Router>
     );
   }
