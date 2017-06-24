@@ -22,12 +22,12 @@ class App extends Component {
     loading: true,
     token: null,
     user: null,
-    collapsed: true,
+    collapsed: true
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !this.state.collapsed
     });
   };
 
@@ -38,12 +38,12 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken,
+          token: user.accessToken
         });
       } else {
         this.setState({
           auth: false,
-          loading: false,
+          loading: false
         });
       }
     });
@@ -78,7 +78,7 @@ class App extends Component {
                 <Icon type="user" />
                 <span className="nav-text">Profile</span>
               </Menu.Item>
-              <Menu.Item key="fsq">
+              <Menu.Item key="app">
                 <Icon type="flag" />
                 <span className="nav-text">Game</span>
               </Menu.Item>
