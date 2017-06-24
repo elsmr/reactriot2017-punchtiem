@@ -30,6 +30,35 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
+const InteractiveMap = ({ here, items, position }) =>
+  <Map
+    style="mapbox://styles/mapbox/streets-v8"
+    containerStyle={{
+      height: '80vh',
+      width: '100vw',
+    }}
+    center={here}
+  >
+    <Layer type="symbol" id="monuments" layout={{ 'icon-image': 'marker-10' }}>
+      {items
+        ? items.map(item =>
+            <Popup
+              key={item.id}
+              coordinates={[item.location.lng, item.location.lat]}
+            >
+              test
+            </Popup>
+          )
+        : null}
+    </Layer>
+    <Layer type="symbol" id="here" layout={{ 'icon-image': 'marker-15' }}>
+      {position ? <Feature coordinates={here} /> : null}
+    </Layer>
+  </Map>;
+
+const navigationError = () =>
+  alert(`oops, your device doesn't have geolocation capabilities`);
+
 class Foursquare extends Component {
   constructor(props) {
     super(props);
@@ -43,17 +72,24 @@ class Foursquare extends Component {
 
   componentDidMount() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.watchPosition(position => {
-        this.setState({ position });
-        const { coords: { latitude, longitude } } = position;
-        foursquare.venues
-          .getVenues({ ...this.state.query, ll: `${latitude},${longitude}` })
-          .then(res => {
-            this.setState({ items: res.response.venues });
-          });
-      });
+      navigator.geolocation.watchPosition(
+        position => {
+          this.setState({ position });
+          const { coords: { latitude, longitude } } = position;
+          foursquare.venues
+            .getVenues({ ...this.state.query, ll: `${latitude},${longitude}` })
+            .then(res => {
+              this.setState({ items: res.response.venues });
+            });
+        },
+        console.warn,
+        {
+          enableHighAccuracy: true,
+          timeout: 1000,
+        }
+      );
     } else {
-      alert(`oops, your device doesn't have geolocation capabilities`);
+      navigationError();
     }
   }
 
@@ -66,34 +102,11 @@ class Foursquare extends Component {
       : [0, 0];
     return (
       <div>
-        <Map
-          style="mapbox://styles/mapbox/streets-v8"
-          containerStyle={{
-            height: '80vh',
-            width: '100vw',
-          }}
-          center={here}
-        >
-          <Layer
-            type="symbol"
-            id="monuments"
-            layout={{ 'icon-image': 'marker-10' }}
-          >
-            {this.state.items
-              ? this.state.items.map(item =>
-                  <Popup
-                    key={item.id}
-                    coordinates={[item.location.lng, item.location.lat]}
-                  >
-                    test
-                  </Popup>
-                )
-              : null}
-          </Layer>
-          <Layer type="symbol" id="here" layout={{ 'icon-image': 'marker-15' }}>
-            {this.state.position ? <Feature coordinates={here} /> : null}
-          </Layer>
-        </Map>
+        <InteractiveMap
+          here={here}
+          items={this.state.items}
+          position={this.state.position}
+        />
         {this.state.items.length === 0
           ? <Loading />
           : this.state.items.map(item => <Item {...item} key={item.id} />)}
