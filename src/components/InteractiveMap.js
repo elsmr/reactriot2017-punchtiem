@@ -6,8 +6,17 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
+const markerStyle = {
+  borderRadius: '50px',
+  border: `2px solid ${PRIMARY_COLOR}`,
+  width: '36px',
+  height: '36px',
+  padding: '3px',
+  backgroundColor: '#fff'
+};
+
 /*eslint-disable react/style-prop-object*/
-const InteractiveMap = ({ here, venues, history }) =>
+const InteractiveMap = ({ here, venues, venueImages, history }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
@@ -17,11 +26,11 @@ const InteractiveMap = ({ here, venues, history }) =>
     zoom={[15]}
     center={here}
   >
-    <Layer type="symbol" id="monuments" layout={{ 'icon-image': 'marker-15' }}>
-      <Feature
-        coordinates={venues.map(item => [item.location.lng, item.location.lat])}
-      />
-    </Layer>
+    {venues.map(item =>
+      <Marker coordinates={[item.location.lng, item.location.lat]}>
+        <img style={markerStyle} src={venueImages[item.id] || 'http://simpleicon.com/wp-content/uploads/camera.svg'} alt={item.name} />
+      </Marker>
+    )}
     <Layer type="symbol" id="here" layout={{ 'icon-image': 'dot-11' }}>
       {here ? <Feature coordinates={here} /> : null}
     </Layer>

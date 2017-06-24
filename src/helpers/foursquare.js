@@ -10,3 +10,10 @@ export const getVenues = ({ latitude, longitude, ...query }) =>
     ll: `${latitude},${longitude}`,
     ...query,
   });
+
+export const getVenuePhoto = id =>
+  foursquare.venues.getVenuePhotos({
+    'VENUE_ID': id,
+    limit: 1
+  });
+

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { getVenues } from './helpers/foursquare';
+import { getVenues, getVenuePhoto } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import Loading from './components/Loading';
 import BottomBar from './components/BottomBar';
@@ -20,6 +20,7 @@ class Foursquare extends Component {
     super(props);
     this.state = {
       venues: [],
+      venueImages: {},
       query: {
         radius: 100,
         categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY, // arts & entertainment
@@ -43,6 +44,23 @@ class Foursquare extends Component {
           });
 
           getVenues({ latitude, longitude, ...this.state.query }).then(res => {
+            res.response.venues.forEach(venue => {
+              if (this.state.venueImages.hasOwnProperty(venue.id)) {
+                getVenuePhoto(venue.id).then(res => {
+                  console.log(res);
+                  const { prefix, suffix } = res.response.photos[0];
+                  const url = `${prefix}36x36${suffix}`;
+                  this.setState(prevState => {
+                    return { venueImages: Object.assign(
+                        {},
+                        prevState.venueImages,
+                        { [venue.id]: url }
+                      ) };
+                  });
+                });
+              }
+
+            })
             this.setState(prev => ({ ...prev, venues: res.response.venues }));
           });
         },
@@ -58,7 +76,7 @@ class Foursquare extends Component {
   }
 
   render() {
-    const { position, venues, history } = this.state;
+    const { position, venues, venueImages, history } = this.state;
 
     const loading = !position || venues === 0;
     if (loading) {
@@ -74,7 +92,7 @@ class Foursquare extends Component {
 
     return (
       <div>
-        <InteractiveMap here={here} venues={venues} history={history} />
+        <InteractiveMap here={here} venues={venues} venueImages={venueImages} history={history} />
         <BottomBar
           position={position}
           progress={Math.random() * 100}
