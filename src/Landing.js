@@ -13,7 +13,8 @@ const imageStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '1.5em'
+  fontSize: '1.5em',
+  color: '#fff'
 };
 
 const Landing = ({ auth, history, onLogin }) => {
@@ -21,13 +22,13 @@ const Landing = ({ auth, history, onLogin }) => {
       <h1 className="structural">Monument Run</h1>
       <Carousel autoplay>
         <div style={{ ...imageStyle, backgroundImage: `url(https://images.unsplash.com/36/xIsiRLngSRWN02yA2BbK_submission-photo-7.jpg?dpr=1&auto=format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)` }}>
-          <h3>Explore</h3>
+          <h2>Explore</h2>
         </div>
         <div style={{ ...imageStyle, backgroundImage: `url(https://images.unsplash.com/photo-1482401204742-eb3c31c24722?dpr=1&auto=compress,format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)` }}>
-          <h3>Challenge</h3>
+          <h2>Challenge</h2>
         </div>
         <div style={{ ...imageStyle, backgroundImage: `url(https://images.unsplash.com/photo-1487956382158-bb926046304a?dpr=1&auto=compress,format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)` }}>
-          <h3>Exercise</h3>
+          <h2>Exercise</h2>
         </div>
       </Carousel>
       <div style={wrapperStyle}>
