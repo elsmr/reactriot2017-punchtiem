@@ -4,3 +4,5 @@ export const PAGE_TITLES = {
   leaderboard: 'Leaderboard',
   default: 'Monument Run',
 };
+
+export const PRIMARY_COLOR = '#C95442';
