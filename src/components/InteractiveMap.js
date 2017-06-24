@@ -6,14 +6,14 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
-const markerStyle = {
+const markerStyle = (isPlaceholder) => ({
   borderRadius: '50px',
   border: `2px solid ${PRIMARY_COLOR}`,
   width: '36px',
   height: '36px',
-  padding: '3px',
+  padding: isPlaceholder ? '3px' : '0px',
   backgroundColor: '#fff',
-};
+});
 
 /*eslint-disable react/style-prop-object*/
 const InteractiveMap = ({ here, venues, venueImages, history }) =>
@@ -21,7 +21,7 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
       height: 'calc(70vh - 64px)',
-      width: '100vw',
+      width: '100vw'
     }}
     zoom={[15]}
     center={here}
@@ -29,7 +29,7 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
     {venues.map(item =>
       <Marker coordinates={[item.location.lng, item.location.lat]}>
         <img
-          style={markerStyle}
+          style={markerStyle(!venueImages.hasOwnProperty(item.id))}
           src={
             venueImages[item.id] ||
             'http://simpleicon.com/wp-content/uploads/camera.svg'
@@ -50,12 +50,12 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
       id="history"
       layout={{
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       }}
       paint={{
         'line-color': PRIMARY_COLOR,
         'line-width': 8,
-        'line-opacity': 0.8,
+        'line-opacity': 0.8
       }}
     >
       <Feature coordinates={history} />

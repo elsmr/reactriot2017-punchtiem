@@ -44,8 +44,8 @@ class Foursquare extends Component {
             venues.forEach(venue => {
               if (!this.state.venueImages.hasOwnProperty(venue.id)) {
                 getVenuePhoto(venue.id).then(res => {
-                  if (res.response.photos.length > 0) {
-                     const { prefix, suffix } = res.response.photos[0];
+                  if (res.response.photos.count > 0) {
+                     const { prefix, suffix } = res.response.photos.items[0];
                      const url = `${prefix}36x36${suffix}`;
                      this.setState({
                         venueImages: Object.assign(
