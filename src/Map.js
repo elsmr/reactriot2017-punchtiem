@@ -62,7 +62,11 @@ class Foursquare extends Component {
 
     const loading = !position || venues === 0;
     if (loading) {
-      return <Loading />;
+      return (
+        <div style={{ height: 'calc(100vh - 64px)' }}>
+          <Loading />
+        </div>
+      );
     }
 
     const { coords: { latitude, longitude } } = position;
