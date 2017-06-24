@@ -55,7 +55,7 @@ class Foursquare extends Component {
   }
 
   renderMap(here) {
-    if (here[0] === 0 && here[1] === 0 && this.state.items.length === 0) {
+    if ((here[0] === 0 && here[1] === 0) || this.state.items.length === 0) {
       return <Loading />;
     } else {
       const items = this.state.items.map(item =>
