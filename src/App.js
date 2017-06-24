@@ -72,7 +72,10 @@ class App extends Component {
             <Menu
               mode="inline"
               defaultSelectedKeys={['1']}
-              onClick={({ item, key, keyPath }) => this.history.push(`/${key}`)}
+              onClick={({ item, key, keyPath }) => {
+                this.history.push(`/${key}`);
+                this.setState({ collapsed: true });
+              }}
             >
               <Menu.Item key="profile">
                 <Icon type="user" />
