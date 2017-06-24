@@ -38,7 +38,7 @@ class Foursquare extends Component {
             return {
               ...prev,
               position,
-              history: [...prev.history, [latitude, longitude]],
+              history: [...prev.history, [longitude, latitude]],
             };
           });
 
