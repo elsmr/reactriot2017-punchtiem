@@ -7,8 +7,9 @@ const wrapperStyle = {
   height: 'calc(100vh - 64px)',
   width: '100%',
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
 };
 
 export default class Login extends Component {
@@ -30,6 +31,7 @@ export default class Login extends Component {
   render() {
     const { loginError } = this.state;
     const { auth } = this.props;
+
     return auth
       ? <Redirect to="/" />
       : <div style={wrapperStyle}>
