@@ -1,47 +1,65 @@
 import React from 'react';
 import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
-// import { Icon } from 'antd';
+import { Icon } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
-const markerStyle = isPlaceholder => ({
+const markerStyle = {
   borderRadius: '50px',
   border: `2px solid ${PRIMARY_COLOR}`,
   width: '36px',
   height: '36px',
-  padding: isPlaceholder ? '3px' : '0px',
   backgroundColor: '#fff',
-});
+};
+
+const placeholderIconStyle = {
+  fontSize: '24px',
+  margin: '0 auto'
+};
+
+const placeholderMarkerStyle = {
+  ...markerStyle,
+  display: 'flex',
+  justifyCOntent: 'center',
+  alignItems: 'center'
+};
+
+const hereStyle = {
+  width: '56px',
+  height: '56px'
+};
 
 const Venues = ({ venues, venueImages }) =>
   <div>
-    {venues.map(({ id, name, location: { lat, lng } }) =>
-      <Marker coordinates={[lng, lat]} key={id}>
-        <img
-          style={markerStyle(!venueImages.hasOwnProperty(id))}
-          src={
-            venueImages[id] ||
-            'http://simpleicon.com/wp-content/uploads/camera.svg'
-          }
-          alt={name}
-        />
+    {venues.map(({ id, name, location: { lat, lng } }) => {
+      const isPlaceholder = !venueImages.hasOwnProperty(id);
+      return <Marker coordinates={[lng, lat]} key={id}>
+        { isPlaceholder ? (
+          <div style={placeholderMarkerStyle}>
+            <Icon style={placeholderIconStyle} type="camera" />
+          </div>
+        ) : (
+          <img
+            style={markerStyle}
+            src={venueImages[id]}
+            alt={name}
+          />
+        )}
       </Marker>
-    )}
+    })}
   </div>;
 
 const Here = ({ here }) =>
   here
     ? <Marker coordinates={here} anchor="bottom">
-        <span
-          role="img"
-          aria-label="running person"
-          style={{ fontSize: '6em', opacity: 1 }}
-        >
-          {'🏃🏽‍'}
-        </span>
+        <img
+          style={hereStyle}
+          src="https://emojipedia-us.s3.amazonaws.com:443/cache/e0/3a/e03a2808671f820654ce033557d25212.png"
+          alt="Woman running"
+        />
       </Marker>
     : null;
 
