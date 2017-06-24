@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 import PrivateRoute from './components/PrivateRoute';
 import Loading from './components/Loading';
 import { firebaseAuth } from './helpers/firebase';
@@ -52,6 +53,8 @@ class App extends Component {
     this.setState({ token, user });
   }
 
+  history = createHistory(this.props);
+
   render() {
     const { user, auth, loading } = this.state;
     return loading
@@ -65,22 +68,23 @@ class App extends Component {
             collapsed={this.state.collapsed}
           >
             <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-              <Menu.Item key="1">
+            <Menu
+              theme="dark"
+              mode="inline"
+              defaultSelectedKeys={['1']}
+              onClick={({ item, key, keyPath }) => this.history.push(`/${key}`)}
+            >
+              <Menu.Item key="profile">
                 <Icon type="user" />
-                <span className="nav-text">nav 1</span>
+                <span className="nav-text">Profile</span>
               </Menu.Item>
-              <Menu.Item key="2">
-                <Icon type="video-camera" />
-                <span className="nav-text">nav 2</span>
+              <Menu.Item key="fsq">
+                <Icon type="flag" />
+                <span className="nav-text">Game</span>
               </Menu.Item>
-              <Menu.Item key="3">
-                <Icon type="upload" />
-                <span className="nav-text">nav 3</span>
-              </Menu.Item>
-              <Menu.Item key="4">
-                <Icon type="user" />
-                <span className="nav-text">nav 4</span>
+              <Menu.Item key="leaderbord">
+                <Icon type="trophy" />
+                <span className="nav-text">Leaderboard</span>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -93,8 +97,8 @@ class App extends Component {
                 onClick={this.toggle}
               />
             </Header>
-            <Content style={{ marginTop: 64 }}>
-              <Router>
+            <Content style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
+              <Router history={this.history}>
                 <Switch>
                   <Route exact path="/" component={Landing} />
                   <Route
