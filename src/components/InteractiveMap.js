@@ -1,11 +1,16 @@
 import React from 'react';
+<<<<<<< HEAD
 import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
 import { PRIMARY_COLOR } from '../constants';
+=======
+import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+>>>>>>> 383648a53837cda04b1415f52641922f8de07268
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
+/*eslint-disable react/style-prop-object*/
 const InteractiveMap = ({ here, venues, history }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
@@ -40,5 +45,6 @@ const InteractiveMap = ({ here, venues, history }) =>
       <Feature coordinates={history} />
     </Layer>
   </Map>;
+/*eslint-enable react/style-prop-object */
 
 export default InteractiveMap;
