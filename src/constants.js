@@ -1,7 +1,7 @@
 export const PAGE_TITLES = {
   login: 'Login',
-  app: 'Game',
+  app: 'Run',
   profile: 'Profile',
   leaderboard: 'Leaderboard',
-  default: 'Monument Run'
+  default: 'Monument Run',
 };
