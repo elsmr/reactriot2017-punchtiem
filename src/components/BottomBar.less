@@ -9,6 +9,7 @@
 
   &--inner {
     flex-grow: 1;
+    display: flex;
 
     input {
       width: 0.1px;
@@ -18,5 +19,28 @@
       position: absolute;
       z-index: -1;
     }
+  }
+
+  &--photo {
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  &--main {
+    flex-grow: 1;
+  }
+}
+
+.Closest {
+  &--top {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em;
+  }
+  &--name {
+    font-size: 1.2em;
   }
 }
