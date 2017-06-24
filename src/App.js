@@ -49,7 +49,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Landing} />
-          <Route path="/login" component={Login} />
+          <Route path="/login" component={Login} onLogin={this.onLogin} />
           <Route path="/register" component={Register} />
           <Route exact path="/fsq" component={Foursquare} />
           <Route path="/leaderbord" component={Leaderboard} />
