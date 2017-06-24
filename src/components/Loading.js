@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spin } from 'antd';
 
 const Loading = () =>
   <div
@@ -7,9 +8,10 @@ const Loading = () =>
       justifyContent: 'center',
       alignItems: 'center',
       height: '100%',
+      margin: '2em',
     }}
   >
-    <strong>Loading</strong>
+    <Spin size="large"></Spin>
   </div>;
 
 export default Loading;
