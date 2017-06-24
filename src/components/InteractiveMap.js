@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
-import { Icon } from 'antd';
+import { Icon, Tooltip } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
 
 const Map = ReactMapboxGl({
@@ -37,17 +37,19 @@ const Venues = ({ venues, venueImages }) =>
     {venues.map(({ id, name, location: { lat, lng } }) => {
       const isPlaceholder = !venueImages.hasOwnProperty(id);
       return <Marker coordinates={[lng, lat]} key={id}>
+        <Tooltip title={name}>
         { isPlaceholder ? (
           <div style={placeholderMarkerStyle}>
             <Icon style={placeholderIconStyle} type="camera" />
           </div>
         ) : (
-          <img
-            style={markerStyle}
-            src={venueImages[id]}
-            alt={name}
-          />
+            <img
+              style={markerStyle}
+              src={venueImages[id]}
+              alt={name}
+            />
         )}
+        </Tooltip>
       </Marker>
     })}
   </div>;
