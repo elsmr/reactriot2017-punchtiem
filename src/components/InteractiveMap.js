@@ -7,11 +7,12 @@ const Map = ReactMapboxGl({
 
 const InteractiveMap = ({ here, items, position }) =>
   <Map
-    style="mapbox://styles/mapbox/streets-v8"
+    style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
       height: '80vh',
       width: '100vw',
     }}
+    zoom={[15]}
     center={here}
   >
     <Layer type="symbol" id="monuments" layout={{ 'icon-image': 'dot-11' }}>
