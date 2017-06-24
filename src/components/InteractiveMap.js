@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
@@ -9,7 +9,7 @@ const InteractiveMap = ({ here, venues, history }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
-      height: '70vh',
+      height: 'calc(70vh - 64px)',
       width: '100vw',
     }}
     zoom={[15]}

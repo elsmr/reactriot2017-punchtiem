@@ -1,0 +1,22 @@
+.ant-progress-bg, .ant-progress-inner {
+  border-radius: initial !important;
+}
+
+.BottomBar {
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+
+  &--inner {
+    flex-grow: 1;
+
+    input {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+  }
+}
