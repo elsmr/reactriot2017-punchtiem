@@ -20,19 +20,23 @@ const Landing = ({ auth, history, onLogin }) => {
   return (
     <div style={wrapperStyle}>
       <h1>Monument Run</h1>
-      <Carousel autoplay style={{}}>
+      <Carousel autoplay>
         <div style={imageStyle}><h3>Explore</h3></div>
         <div style={imageStyle}><h3>Challenge</h3></div>
         <div style={imageStyle}><h3>Exercise</h3></div>
       </Carousel>
-      <Timeline style={{ textAlign: 'left', margin: '2em auto', width: '40%' }}>
-        <Timeline.Item>Login using your Google account</Timeline.Item>
-        <Timeline.Item>Start your run</Timeline.Item>
-        <Timeline.Item>
-          Take pictures of the monuments you've visited
-        </Timeline.Item>
-        <Timeline.Item>Challenge everyone to beat your time!</Timeline.Item>
-      </Timeline>
+      <div
+        style={{ display: 'flex', justifyContent: 'center', margin: '2em 0' }}
+      >
+        <Timeline style={{ textAlign: 'left' }}>
+          <Timeline.Item>Login using your Google account</Timeline.Item>
+          <Timeline.Item>Start your run</Timeline.Item>
+          <Timeline.Item>
+            Take pictures of the monuments you've visited
+          </Timeline.Item>
+          <Timeline.Item>Challenge everyone to beat your time!</Timeline.Item>
+        </Timeline>
+      </div>
       {!auth
         ? <Button
             type="primary"
