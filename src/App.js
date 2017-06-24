@@ -23,12 +23,12 @@ class App extends Component {
     loading: true,
     token: null,
     user: null,
-    collapsed: true
+    collapsed: true,
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
@@ -39,12 +39,12 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken
+          token: user.accessToken,
         });
       } else {
         this.setState({
           auth: false,
-          loading: false
+          loading: false,
         });
       }
     });
@@ -106,7 +106,7 @@ class App extends Component {
               style={{
                 backgroundColor: '#FFF',
                 position: 'fixed',
-                width: '100%'
+                width: '100%',
               }}
             >
               <Icon
@@ -126,7 +126,12 @@ class App extends Component {
                   <PrivateRoute
                     auth={auth}
                     path="/profile"
-                    render={props => <Profile {...props} user={user} />}
+                    render={props =>
+                      <Profile
+                        {...props}
+                        user={user}
+                        runs={[{ id: 'k', score: 4 }] /* add runs */}
+                      />}
                   />
                 </Switch>
               </Router>
