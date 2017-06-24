@@ -6,7 +6,7 @@ import Loading from './components/Loading';
 
 const foursquare = foursquareApi({
   clientID: process.env.REACT_APP_FOURSQUARE_ID,
-  clientSecret: process.env.REACT_APP_FOURSQUARE_SECRET,
+  clientSecret: process.env.REACT_APP_FOURSQUARE_SECRET
 });
 
 const Item = ({ name, location: { lat, lng } }) =>
@@ -26,8 +26,8 @@ class Foursquare extends Component {
       items: [],
       query: {
         radius: 100,
-        categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY, // arts & entertainment
-      },
+        categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY // arts & entertainment
+      }
     };
   }
 
@@ -46,7 +46,7 @@ class Foursquare extends Component {
         console.warn,
         {
           enableHighAccuracy: true,
-          timeout: 1000,
+          timeout: 1000
         }
       );
     } else {
@@ -54,25 +54,36 @@ class Foursquare extends Component {
     }
   }
 
+  renderMap(here) {
+    if (here[0] === 0 && here[1] === 0 && this.state.items.length === 0) {
+      return <Loading />;
+    } else {
+      const items = this.state.items.map(item =>
+        <Item {...item} key={item.id} />
+      );
+      return (
+        <div>
+          <InteractiveMap
+            here={here}
+            items={this.state.items}
+            position={this.state.position}
+          />
+          {items}
+        </div>
+      );
+    }
+  }
+
   render() {
     const here = this.state.position
       ? [
           this.state.position.coords.longitude,
-          this.state.position.coords.latitude,
+          this.state.position.coords.latitude
         ]
       : [0, 0];
     return (
       <div>
-        {here[0] === 0 && here[1] === 0
-          ? <Loading />
-          : <InteractiveMap
-              here={here}
-              items={this.state.items}
-              position={this.state.position}
-            />}
-        {this.state.items.length === 0
-          ? <Loading />
-          : this.state.items.map(item => <Item {...item} key={item.id} />)}
+        {this.renderMap(here)}
       </div>
     );
   }
