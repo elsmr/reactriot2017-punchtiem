@@ -49,7 +49,9 @@ const data = [
 ];
 
 const Leaderboard = ({ history }) => {
-  return <Table columns={getColumns(history)} dataSource={data} />;
+  return (
+    <Table pagination={false} columns={getColumns(history)} dataSource={data} />
+  );
 };
 
 export default Leaderboard;
