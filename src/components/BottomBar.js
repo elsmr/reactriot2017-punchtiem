@@ -1,26 +1,7 @@
 import React from 'react';
-import { Progress, Button, Icon, Tag } from 'antd';
+import { Progress, Icon, Tag } from 'antd';
+import Camera from './Camera';
 import './BottomBar.css';
-
-const Camera = ({ isNear }) =>
-  <div className="BottomBar--photo">
-    {isNear ? 'take photo' : 'get closer'}
-    <input
-      type="file"
-      accept="image/*"
-      ref={input => {
-        this.cameraInput = input;
-      }}
-      disabled={!isNear}
-    />
-    <Button
-      shape="circle"
-      icon="camera"
-      size="large"
-      onClick={() => this.cameraInput.click()}
-      disabled={!isNear}
-    />
-  </div>;
 
 const Heading = ({ rotation }) => <Icon type="arrow-up" spin />;
 
@@ -37,12 +18,14 @@ const Closest = ({ name, score, distance, heading }) =>
   </div>;
 
 const BottomBar = ({
+  run = 'bla-bla-bla',
   progress = 0,
   isNear = false,
   speed = 0,
   visited = 0,
   total = 10,
   closest = {
+    id: 'qslmfjqslmfkjqsmlkfj',
     name: 'Trafalgar Square',
     score: 200,
     distance: 223,
@@ -62,7 +45,7 @@ const BottomBar = ({
           </div>
         </div>
       </div>
-      <Camera isNear={isNear} />
+      <Camera isNear={isNear} run={run} venue={closest} />
     </div>
     <Progress percent={progress} status="active" showInfo={false} />
   </footer>;
