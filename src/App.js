@@ -4,6 +4,7 @@ import createHistory from 'history/createBrowserHistory';
 import PrivateRoute from './components/PrivateRoute';
 import Loading from './components/Loading';
 import { firebaseAuth } from './helpers/firebase';
+import { logout } from './helpers/auth';
 import { Layout, Menu, Icon } from 'antd';
 
 import Profile from './Profile';
@@ -57,22 +58,21 @@ class App extends Component {
 
   render() {
     const { user, auth, loading } = this.state;
-    return loading
-      ? <Loading />
-      : <Layout>
-          <Sider
-            breakpoint="lg"
-            collapsedWidth="0"
-            trigger={null}
-            collapsible
-            collapsed={this.state.collapsed}
-          >
+    return loading ? <Loading /> : <Layout>
+          <Sider breakpoint="lg" collapsedWidth="0" trigger={null} collapsible collapsed={this.state.collapsed}>
             <div className="logo" />
             <Menu
               theme="dark"
               mode="inline"
               defaultSelectedKeys={['1']}
-              onClick={({ item, key, keyPath }) => this.history.push(`/${key}`)}
+              onClick={({ item, key, keyPath }) => {
+                if (key === 'logout') {
+                  logout();
+                  this.history.push('/login');
+                } else {
+                  this.history.push(`/${key}`);
+                }
+              }}
             >
               <Menu.Item key="profile">
                 <Icon type="user" />
@@ -84,36 +84,27 @@ class App extends Component {
               </Menu.Item>
               <Menu.Item key="leaderbord">
                 <Icon type="trophy" />
-                <span className="nav-text">Leaderboard</span>
+                <span className="nav-text">Leeterbort</span>
+              </Menu.Item>
+              <Menu.Item key="logout">
+                <Icon type="logout" />
+                <span className="nav-text">Logout</span>
               </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
             <Header style={{ position: 'fixed', width: '100%' }}>
-              <Icon
-                className="trigger"
-                style={{ color: '#FFF' }}
-                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                onClick={this.toggle}
-              />
+              <Icon className="trigger" style={{ color: '#FFF' }} type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} />
               Monument Run
             </Header>
             <Content style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
               <Router history={this.history}>
                 <Switch>
                   <Route exact path="/" component={Landing} />
-                  <Route
-                    path="/login"
-                    render={props =>
-                      <Login {...props} onLogin={this.onLogin.bind(this)} />}
-                  />
+                  <Route path="/login" render={props => <Login {...props} onLogin={this.onLogin.bind(this)} />} />
                   <Route exact path="/app" component={Map} />
                   <Route path="/leaderbord" component={Leaderboard} />
-                  <PrivateRoute
-                    auth={auth}
-                    path="/profile"
-                    render={props => <Profile {...props} user={user} />}
-                  />
+                  <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} />} />
                 </Switch>
               </Router>
             </Content>
