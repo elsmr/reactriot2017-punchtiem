@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
+import  { Icon } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
 
 const Map = ReactMapboxGl({
@@ -26,17 +27,13 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
     zoom={[18]}
     center={here}
   >
-    {venues.map(item =>
-      <Marker coordinates={[item.location.lng, item.location.lat]}>
-        <img
-          style={markerStyle(!venueImages.hasOwnProperty(item.id))}
-          src={
-            venueImages[item.id] ||
-            'http://simpleicon.com/wp-content/uploads/camera.svg'
-          }
-          alt={item.name}
-        />
-      </Marker>
+    {venues.map(item => {
+      const hasImage = venueImages.hasOwnProperty(item.id);
+      return <Marker coordinates={[item.location.lng, item.location.lat]}>
+          {hasImage ? <img style={markerStyle(!hasImage)} src={venueImages[item.id]} alt={item.name} /> : <Icon type="camera-o" />}
+        </Marker>;
+    }
+
     )}
 
     {here
