@@ -5939,9 +5939,9 @@ react-error-overlay@^1.0.7:
     settle-promise "1.0.0"
     source-map "0.5.6"
 
-"react-foursquare@https://github.com/kytwb/react-foursquare.git":
+"react-foursquare@https://github.com/haroenv/react-foursquare.git":
   version "1.0.0"
-  resolved "https://github.com/kytwb/react-foursquare.git#6f4139c086467bf0fec3b7ebbcacd3ec759821ff"
+  resolved "https://github.com/haroenv/react-foursquare.git#47cb6e03c2fbd81d2b9eaa40203eefe1c35764be"
 
 react-lazy-load@^3.0.10:
   version "3.0.12"

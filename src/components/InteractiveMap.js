@@ -12,7 +12,7 @@ const markerStyle = {
   width: '36px',
   height: '36px',
   padding: '3px',
-  backgroundColor: '#fff'
+  backgroundColor: '#fff',
 };
 
 /*eslint-disable react/style-prop-object*/
@@ -27,12 +27,23 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
     center={here}
   >
     {venues.map(item =>
-      <Marker key={item.id} coordinates={[item.location.lng, item.location.lat]}>
-        <img style={markerStyle} src={venueImages[item.id] || 'http://simpleicon.com/wp-content/uploads/camera.svg'} alt={item.name} />
+      <Marker coordinates={[item.location.lng, item.location.lat]}>
+        <img
+          style={markerStyle}
+          src={
+            venueImages[item.id] ||
+            'http://simpleicon.com/wp-content/uploads/camera.svg'
+          }
+          alt={item.name}
+        />
       </Marker>
     )}
     <Layer type="symbol" id="here" layout={{ 'icon-image': 'dot-11' }}>
-      {here ? <Feature coordinates={here} /> : null}
+      {here
+        ? <Marker coordinates={here}>
+            🏃
+          </Marker>
+        : null}
     </Layer>
     <Layer
       type="line"

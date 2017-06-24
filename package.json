@@ -11,7 +11,7 @@
     "mapbox-gl": "^0.38.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-foursquare": "https://github.com/kytwb/react-foursquare.git",
+    "react-foursquare": "https://github.com/haroenv/react-foursquare.git",
     "react-mapbox-gl": "^2.0.3",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1"
