@@ -7,7 +7,7 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
-const markerStyle = (isPlaceholder) => ({
+const markerStyle = isPlaceholder => ({
   borderRadius: '50px',
   border: `2px solid ${PRIMARY_COLOR}`,
   width: '36px',
@@ -16,54 +16,65 @@ const markerStyle = (isPlaceholder) => ({
   backgroundColor: '#fff',
 });
 
+const Venues = ({ venues, venueImages }) =>
+  venues.map(item =>
+    <Marker coordinates={[item.location.lng, item.location.lat]} key={item.id}>
+      <img
+        style={markerStyle(!venueImages.hasOwnProperty(item.id))}
+        src={
+          venueImages[item.id] ||
+          'http://simpleicon.com/wp-content/uploads/camera.svg'
+        }
+        alt={item.name}
+      />
+    </Marker>
+  );
+
+const Here = ({ here }) =>
+  here
+    ? <Marker coordinates={here}>
+        <span
+          role="image"
+          aria-label="running person"
+          anchor="bottom"
+          style={{ fontSize: '6em', opacity: 1 }}
+        >
+          {'🏃🏽‍♀️'}
+        </span>
+      </Marker>
+    : null;
+
+const History = ({ history }) =>
+  <Layer
+    type="line"
+    id="history"
+    layout={{
+      'line-cap': 'round',
+      'line-join': 'round',
+    }}
+    paint={{
+      'line-color': PRIMARY_COLOR,
+      'line-width': 8,
+      'line-opacity': 0.8,
+    }}
+  >
+    <Feature coordinates={history} />
+  </Layer>;
+
 /*eslint-disable react/style-prop-object*/
 const InteractiveMap = ({ here, venues, venueImages, history }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
       height: 'calc(70vh - 64px)',
-      width: '100vw'
+      width: '100vw',
     }}
     zoom={[18]}
     center={here}
   >
-    {venues.map(item => {
-      const hasImage = venueImages.hasOwnProperty(item.id);
-      return <Marker coordinates={[item.location.lng, item.location.lat]}>
-          {hasImage ? <img style={markerStyle(!hasImage)} src={venueImages[item.id]} alt={item.name} /> : <Icon type="camera-o" />}
-        </Marker>;
-    }
-
-    )}
-
-    {here
-      ? <Marker coordinates={here}>
-          <span
-            role="image"
-            aria-label="running person"
-            anchor="bottom"
-            style={{ fontSize: '6em', opacity: 1 }}
-          >
-            {'🏃'}
-          </span>
-        </Marker>
-      : null}
-
-    <Layer
-      type="line"
-      id="history"
-      layout={{
-        'line-cap': 'round',
-        'line-join': 'round'
-      }}
-      paint={{
-        'line-color': PRIMARY_COLOR,
-        'line-width': 8,
-        'line-opacity': 0.8
-      }}
-    >
-      <Feature coordinates={history} />
-    </Layer>
+    <Venues venues={venues} venueImages={venueImages} />
+    <Here here={here} />
+    <History history={history} />
   </Map>;
 /*eslint-enable react/style-prop-object */
 
