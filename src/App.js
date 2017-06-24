@@ -76,18 +76,16 @@ class App extends Component {
             <Navigation
               auth={auth}
               onClick={key => {
-                ({ item, key, keyPath }) => {
-                  if (key === 'logout') {
-                    logout();
-                    this.history.push('/login');
-                  } else {
-                    this.history.push(`/${key}`);
-                  }
-                  this.setState({
-                    collapsed: true,
-                    currentPage: key[0].toUpperCase() + key.slice(1)
-                  });
-                };
+                if (key === 'logout') {
+                  logout();
+                  this.history.push('/login');
+                } else {
+                  this.history.push(`/${key}`);
+                }
+                this.setState({
+                  collapsed: true,
+                  currentPage: key[0].toUpperCase() + key.slice(1)
+                });
               }}
             />
           </Sider>
