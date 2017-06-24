@@ -9,7 +9,7 @@ const InteractiveMap = ({ here, venues, history }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
-      height: '80vh',
+      height: '70vh',
       width: '100vw',
     }}
     zoom={[15]}

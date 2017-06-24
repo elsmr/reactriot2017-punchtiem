@@ -15,7 +15,7 @@ const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
 
 const BottomBar = ({ position }) =>
-  <footer style={{ height: '20vh' }}>BOTTOM</footer>;
+  <footer style={{ height: '30vh' }}>BOTTOM</footer>;
 
 class Foursquare extends Component {
   constructor(props) {

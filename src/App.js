@@ -121,7 +121,7 @@ class App extends Component {
                 position: 'fixed',
                 width: '100%',
                 display: 'flex',
-                'align-items': 'center',
+                alignItems: 'center',
               }}
             >
               <Icon
