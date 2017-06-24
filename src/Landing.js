@@ -58,7 +58,9 @@ const Landing = ({ auth, history, onLogin }) => {
           >
             Login with Google
           </Button>
-        : <Button type="primary">Start your Monument Run</Button>}
+        : <Button type="primary" onClick={() => history.push('/app')}>
+            Start your Monument Run
+          </Button>}
     </div>
   );
 };
