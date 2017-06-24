@@ -37,7 +37,7 @@ class Foursquare extends Component {
             return {
               ...prev,
               position,
-              history: [...prev.history, { latitude, longitude }],
+              history: [...prev.history, [latitude, longitude]],
             };
           });
 
@@ -56,7 +56,7 @@ class Foursquare extends Component {
   }
 
   render() {
-    const { position, venues } = this.state;
+    const { position, venues, history } = this.state;
 
     const loading = !position || venues === 0;
     if (loading) {
@@ -68,7 +68,7 @@ class Foursquare extends Component {
 
     return (
       <div>
-        <InteractiveMap here={here} venues={this.state.venues} />
+        <InteractiveMap here={here} venues={venues} history={history} />
         {this.state.venues.map(item => <Item {...item} key={item.id} />)}
       </div>
     );
