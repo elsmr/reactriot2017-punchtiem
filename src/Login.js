@@ -11,12 +11,7 @@ export default class Login extends Component {
         const { credential: { accessToken }, user } = result;
         onLogin(accessToken, user);
       })
-<<<<<<< HEAD
-      .catch((error) => {
-        console.log(error);
-=======
       .catch(error => {
->>>>>>> e287aaa169d1178fab1d9782c7535b2e0b8f147c
         this.setState({ loginError: 'Authentication with Google failed 😢' });
       });
   };
