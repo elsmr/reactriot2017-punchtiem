@@ -16,24 +16,6 @@ const Item = ({ name, location: { lat, lng } }) =>
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
 
-function distance(first, second) {
-  const p = 0.017453292519943295; // Math.PI / 180
-  const c = Math.cos;
-  const a =
-    0.5 -
-    c((second.latitude - first.latitude) * p) / 2 +
-    c(first.latitude * p) *
-      c(second.latitude * p) *
-      (1 - c((second.longitude - first.longitude) * p)) /
-      2;
-
-  return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
-}
-
-const byDistance = center => (a, b) =>
-  distance({ latitude: b.location.lat, longitude: b.location.lng }, center) -
-  distance({ latitude: a.location.lat, longitude: a.location.lng }, center);
-
 class Foursquare extends Component {
   constructor(props) {
     super(props);
@@ -44,6 +26,7 @@ class Foursquare extends Component {
         categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY, // arts & entertainment
       },
       history: [],
+      loaded: false,
     };
   }
 
@@ -58,6 +41,7 @@ class Foursquare extends Component {
               ...prev,
               position,
               history: [...prev.history, [longitude, latitude]],
+              loaded: true,
             };
           });
 
@@ -66,7 +50,7 @@ class Foursquare extends Component {
             longitude,
             ...this.state.query,
           }).then(({ response: { venues } }) => {
-            venues.sort(byDistance({ latitude, longitude }));
+            venues.sort((a, b) => a.location.distance - b.location.distance);
             this.setState(prev => ({ ...prev, venues: venues }));
           });
         },
@@ -82,10 +66,9 @@ class Foursquare extends Component {
   }
 
   render() {
-    const { position, venues, history } = this.state;
+    const { position, venues, history, loaded } = this.state;
 
-    const loading = !position || venues.length === 0;
-    if (loading) {
+    if (loaded === false) {
       return (
         <div style={{ height: 'calc(100vh - 64px)' }}>
           <Loading />
@@ -95,11 +78,15 @@ class Foursquare extends Component {
 
     const { coords: { latitude, longitude } } = position;
     const here = [longitude, latitude];
-    console.log(venues[0].stats, getScore(venues[0].stats));
-    const closest = {
-      ...venues[0],
-      score: getScore(venues[0].stats),
-    };
+
+    const closest = venues && venues[0]
+      ? {
+          name: venues[0].name,
+          distance: venues[0].location.distance,
+          score: getScore(venues[0].stats),
+          heading: 0, // calc direction to walk
+        }
+      : {};
 
     return (
       <div>
@@ -107,10 +94,9 @@ class Foursquare extends Component {
         <BottomBar
           position={position}
           progress={Math.random() * 100}
-          isNear={closest.location.distance < 20}
+          isNear={closest.distance < 20}
           closest={closest}
         />
-        {this.state.venues.map(item => <Item {...item} key={item.id} />)}
       </div>
     );
   }
