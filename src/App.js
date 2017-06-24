@@ -165,7 +165,11 @@ class App extends Component {
                         onLogin={this.onLogin.bind(this)}
                       />}
                   />
-                  <Route exact path="/app" component={Map} />
+                  <Route
+                    exact
+                    path="/app"
+                    render={() => <Map totalS={20 /*todo: make 15 min*/} />}
+                  />
                   <Route path="/leaderboard" component={Leaderboard} />
                   <Route path="/run/:id" component={Run} />
                   <PrivateRoute
