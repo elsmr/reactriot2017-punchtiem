@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Carousel, Timeline } from 'antd';
+import { Button, Carousel, Timeline, message } from 'antd';
 import { login } from './helpers/auth';
 
 const wrapperStyle = {
@@ -54,9 +54,8 @@ const Landing = ({ auth, history, onLogin }) => {
                     onLogin(accessToken, user);
                   })
                   .catch(error => {
-                    this.setState({
-                      loginError: 'Authentication with Google failed 😢'
-                    });
+                    console.warn(error);
+                    message.error(<span>Authentication with Google failed 😢, please try again</span>, 3);
                   });
               }}>
               Login with Google

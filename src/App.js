@@ -5,7 +5,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Loading from './components/Loading';
 import Navigation from './components/Navigation';
 import { firebaseAuth } from './helpers/firebase';
-import { Layout, Icon, Avatar, Tooltip } from 'antd';
+import { Layout, Icon, Avatar, Tooltip, message } from 'antd';
 
 import { logout } from './helpers/auth';
 import { PAGE_TITLES } from './constants';
@@ -102,6 +102,7 @@ class App extends Component {
               onClick={key => {
                 if (key === 'logout') {
                   logout();
+                  message.success(<span>Logged out successfully</span>, 3);
                   this.history.push('/');
                 } else if (key === 'home') {
                   this.history.push(`/`);
