@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
+import { firebaseAuth } from './helpers/firebase';
+import Profile from './Profile';
 
 import Landing from './Landing';
 import Login from './Login';
@@ -8,16 +11,49 @@ import Register from './Register';
 import './App.css';
 
 class App extends Component {
+  state = {
+    auth: false,
+    loading: true,
+    token: null,
+    user: null,
+  }
+
+  componentDidMount () {
+    firebaseAuth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          auth: true,
+          loading: false,
+          user,
+          token: user.accessToken
+        });
+      } else {
+        this.setState({
+          auth: false,
+          loading: false
+        });
+      }
+    })
+  }
+
+  onLogin(token, user) {
+    this.setState({ token, user });
+  }
+
   render() {
-    return (
-      <Router>
-        <div>
-          <Route exact path="/" component={Landing} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-        </div>
-      </Router>
-    );
+    const { user, auth, loading } = this.state;
+    return loading ?
+      <div>Loading...</div> :
+      (
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route path="/login" render={props => <Login {...props} onLogin={this.onLogin.bind(this)} />} />
+            <Route path="/register" component={Register} />
+            <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} />} />
+          </Switch>
+        </Router>
+      );
   }
 }
 
