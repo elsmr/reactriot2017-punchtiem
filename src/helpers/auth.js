@@ -5,5 +5,5 @@ export function logout() {
 }
 
 export function login() {
-  return firebaseAuth().signInWithPopup(googleAuthProvider);
+  return firebaseAuth().signInWithRedirect(googleAuthProvider);
 }

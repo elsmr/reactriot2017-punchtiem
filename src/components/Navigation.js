@@ -7,6 +7,10 @@ const Navigation = ({ auth, onClick }) =>
     defaultSelectedKeys={['1']}
     onClick={({ key }) => onClick(key)}
   >
+    <Menu.Item key="home">
+      <Icon type="home" />
+      <span className="nav-text">Home</span>
+    </Menu.Item>
     { auth &&
       <Menu.Item key="profile">
         <Icon type="user" />
@@ -23,12 +27,6 @@ const Navigation = ({ auth, onClick }) =>
         <Icon type="trophy" />
         <span className="nav-text">Leaderboard</span>
       </Menu.Item>
-    { !auth &&
-      <Menu.Item key="login">
-        <Icon type="login" />
-        <span className="nav-text">Login</span>
-      </Menu.Item>
-    }
     { auth &&
       <Menu.Item key="logout">
         <Icon type="logout" />

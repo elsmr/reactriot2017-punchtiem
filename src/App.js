@@ -12,7 +12,6 @@ import { PAGE_TITLES } from './constants';
 
 import Profile from './Profile';
 import Landing from './Landing';
-import Login from './Login';
 import Map from './Map';
 import Leaderboard from './Leaderboard';
 
@@ -56,7 +55,9 @@ class App extends Component {
       } else {
         this.setState({
           auth: false,
-          loading: false
+          loading: false,
+          user: null,
+          token: null
         });
       }
     });
@@ -68,47 +69,27 @@ class App extends Component {
 
   render() {
     const { user, auth, loading } = this.state;
-    return loading
-      ? <Loading />
-      : <Layout>
-          <Sider
-            breakpoint="lg"
-            collapsedWidth="0"
-            collapsible
-            trigger={null}
-            collapsed={this.state.collapsed}
-            style={{ backgroundColor: '#FFF' }}
-          >
+    return loading ? <Loading /> : <Layout>
+          <Sider breakpoint="lg" collapsedWidth="0" collapsible trigger={null} collapsed={this.state.collapsed} style={{ backgroundColor: '#FFF' }}>
             <div className="logo" />
-            <Navigation
-              auth={auth}
-              onClick={key => {
+            <Navigation auth={auth} onClick={key => {
                 if (key === 'logout') {
                   logout();
-                  this.history.push('/login');
+                  this.history.push('/');
+                } else if (key === 'home') {
+                  this.history.push(`/`);
                 } else {
                   this.history.push(`/${key}`);
                 }
                 this.setState({
                   collapsed: true,
-                  currentPage: PAGE_TITLES[key]
+                  currentPage: PAGE_TITLES[key] || PAGE_TITLES.default
                 });
-              }}
-            />
+              }} />
           </Sider>
           <Layout>
-            <Header
-              style={{
-                backgroundColor: '#FFF',
-                position: 'fixed',
-                width: '100%'
-              }}
-            >
-              <Icon
-                className="trigger"
-                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                onClick={this.toggle}
-              />
+            <Header style={{ backgroundColor: '#FFF', position: 'fixed', width: '100%' }}>
+              <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} />
               <span style={{ marginLeft: '2.5em' }}>
                 {this.state.currentPage}
               </span>
@@ -116,24 +97,10 @@ class App extends Component {
             <Content style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
               <Router history={this.history}>
                 <Switch>
-                  <Route exact path="/" component={Landing} />
-                  <Route
-                    path="/login"
-                    render={props =>
-                      <Login {...props} onLogin={this.onLogin.bind(this)} />}
-                  />
+                  <Route exact path="/" render={props => <Landing {...props} auth={auth} onLogin={this.onLogin.bind(this)} />} />
                   <Route exact path="/app" component={Map} />
                   <Route path="/leaderboard" component={Leaderboard} />
-                  <PrivateRoute
-                    auth={auth}
-                    path="/profile"
-                    render={props =>
-                      <Profile
-                        {...props}
-                        user={user}
-                        runs={[{ id: 'k', score: 4 }] /* add runs */}
-                      />}
-                  />
+                  <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} runs={[{ id: 'k', score: 4 }] /* add runs */} />} />
                 </Switch>
               </Router>
             </Content>
