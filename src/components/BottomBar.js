@@ -31,21 +31,28 @@ const Closest = ({ name, score, distance, heading }) =>
       <Tag color="red">{score}</Tag>
     </div>
     <div>
-      <div>{distance}</div>
+      <div>{distance}m</div>
       <Heading rotation={heading} />
     </div>
   </div>;
 
-const BottomBar = ({ progress, isNear, speed = 0, visited = 0, total = 10 }) =>
+const BottomBar = ({
+  progress = 0,
+  isNear = false,
+  speed = 0,
+  visited = 0,
+  total = 10,
+  closest = {
+    name: 'Trafalgar Square',
+    score: 200,
+    distance: 223,
+    heading: 20,
+  },
+}) =>
   <footer className="BottomBar">
     <div className="BottomBar--inner">
       <div className="BottomBar--main">
-        <Closest
-          name="Trafalgar Square"
-          score="200"
-          distance="200m"
-          heading={20}
-        />
+        <Closest {...closest} />
         <div>
           <div>
             {speed} km/h
