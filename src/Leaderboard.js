@@ -1,56 +1,56 @@
 import React from 'react';
-import { Table, Icon } from 'antd';
+import { Table, Button } from 'antd';
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a href="#">{text}</a>
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age'
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address'
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (text, record) =>
-      <span>
-        <a href="#">Action 一 {record.name}</a>
-      </span>
-  }
-];
+const getColumns = history => {
+  return [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: text => <a href="#">{text}</a>
+    },
+    {
+      title: 'Time',
+      dataIndex: 'time',
+      key: 'time'
+    },
+    {
+      title: 'Run',
+      key: 'run',
+      render: (text, record) =>
+        <span>
+          <Button
+            icon="right-circle"
+            onClick={() => history.push(`/run/${record.run_id}`)}
+          />
+        </span>
+    }
+  ];
+};
 
 const data = [
   {
     key: '1',
+    run_id: '69',
     name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park'
+    time: '15\'05"'
   },
   {
     key: '2',
+    run_id: '88',
     name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park'
+    time: '15\'05"'
   },
   {
     key: '3',
+    run_id: '96',
     name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park'
+    time: '15\'05"'
   }
 ];
 
-const Leaderboard = props => {
-  return <Table columns={columns} dataSource={data} />;
+const Leaderboard = ({ history }) => {
+  return <Table columns={getColumns(history)} dataSource={data} />;
 };
 
 export default Leaderboard;
