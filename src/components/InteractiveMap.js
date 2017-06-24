@@ -5,7 +5,7 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
 
-const InteractiveMap = ({ here, items, position }) =>
+const InteractiveMap = ({ here, venues }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
@@ -16,8 +16,8 @@ const InteractiveMap = ({ here, items, position }) =>
     center={here}
   >
     <Layer type="symbol" id="monuments" layout={{ 'icon-image': 'dot-11' }}>
-      {items
-        ? items.map(item =>
+      {venues
+        ? venues.map(item =>
             <Feature
               key={item.id}
               coordinates={[item.location.lng, item.location.lat]}
@@ -26,7 +26,7 @@ const InteractiveMap = ({ here, items, position }) =>
         : null}
     </Layer>
     <Layer type="symbol" id="here" layout={{ 'icon-image': 'marker-15' }}>
-      {position ? <Feature coordinates={here} /> : null}
+      {here ? <Feature coordinates={here} /> : null}
     </Layer>
   </Map>;
 

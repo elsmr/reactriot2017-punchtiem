@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import foursquareApi from 'react-foursquare';
 
+import { getVenues } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import Loading from './components/Loading';
-
-const foursquare = foursquareApi({
-  clientID: process.env.REACT_APP_FOURSQUARE_ID,
-  clientSecret: process.env.REACT_APP_FOURSQUARE_SECRET
-});
 
 const Item = ({ name, location: { lat, lng } }) =>
   <div style={{ border: '1px solid black' }}>
@@ -23,30 +18,36 @@ class Foursquare extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
+      venues: [],
       query: {
         radius: 100,
-        categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY // arts & entertainment
-      }
+        categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY, // arts & entertainment
+      },
+      history: [],
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if ('geolocation' in navigator) {
       navigator.geolocation.watchPosition(
         position => {
-          this.setState({ position });
           const { coords: { latitude, longitude } } = position;
-          foursquare.venues
-            .getVenues({ ...this.state.query, ll: `${latitude},${longitude}` })
-            .then(res => {
-              this.setState({ items: res.response.venues });
-            });
+
+          this.setState(prev => {
+            return {
+              ...prev,
+              position,
+              history: [...prev.history, { latitude, longitude }],
+            };
+          });
+
+          getVenues({ latitude, longitude, ...this.state.query }).then(res => {
+            this.setState(prev => ({ ...prev, venues: res.response.venues }));
+          });
         },
         console.warn,
         {
           enableHighAccuracy: true,
-          timeout: 1000
         }
       );
     } else {
@@ -54,36 +55,21 @@ class Foursquare extends Component {
     }
   }
 
-  renderMap(here) {
-    if ((here[0] === 0 && here[1] === 0) || this.state.items.length === 0) {
-      return <Loading />;
-    } else {
-      const items = this.state.items.map(item =>
-        <Item {...item} key={item.id} />
-      );
-      return (
-        <div>
-          <InteractiveMap
-            here={here}
-            items={this.state.items}
-            position={this.state.position}
-          />
-          {items}
-        </div>
-      );
-    }
-  }
-
   render() {
-    const here = this.state.position
-      ? [
-          this.state.position.coords.longitude,
-          this.state.position.coords.latitude
-        ]
-      : [0, 0];
+    const { position, venues } = this.state;
+
+    const loading = !position || venues === 0;
+    if (loading) {
+      return <Loading />;
+    }
+
+    const { coords: { latitude, longitude } } = position;
+    const here = [longitude, latitude];
+
     return (
       <div>
-        {this.renderMap(here)}
+        <InteractiveMap here={here} venues={this.state.venues} />
+        {this.state.venues.map(item => <Item {...item} key={item.id} />)}
       </div>
     );
   }
