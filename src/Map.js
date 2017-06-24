@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { getVenues } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import Loading from './components/Loading';
+import BottomBar from './components/BottomBar';
 
 const Item = ({ name, location: { lat, lng } }) =>
   <div style={{ border: '1px solid black' }}>
@@ -13,9 +14,6 @@ const Item = ({ name, location: { lat, lng } }) =>
 
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
-
-const BottomBar = ({ position }) =>
-  <footer style={{ height: '30vh' }}>BOTTOM</footer>;
 
 class Foursquare extends Component {
   constructor(props) {
@@ -73,7 +71,11 @@ class Foursquare extends Component {
     return (
       <div>
         <InteractiveMap here={here} venues={venues} history={history} />
-        <BottomBar position={position} />
+        <BottomBar
+          position={position}
+          progress={Math.random() * 100}
+          isNear={Math.random() > 0.5}
+        />
         {this.state.venues.map(item => <Item {...item} key={item.id} />)}
       </div>
     );
