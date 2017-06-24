@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
-import  { Icon } from 'antd';
+// import { Icon } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
 
 const Map = ReactMapboxGl({
@@ -17,29 +17,30 @@ const markerStyle = isPlaceholder => ({
 });
 
 const Venues = ({ venues, venueImages }) =>
-  venues.map(item =>
-    <Marker coordinates={[item.location.lng, item.location.lat]} key={item.id}>
-      <img
-        style={markerStyle(!venueImages.hasOwnProperty(item.id))}
-        src={
-          venueImages[item.id] ||
-          'http://simpleicon.com/wp-content/uploads/camera.svg'
-        }
-        alt={item.name}
-      />
-    </Marker>
-  );
+  <div>
+    {venues.map(({ id, name, location: { lat, lng } }) =>
+      <Marker coordinates={[lng, lat]} key={id}>
+        <img
+          style={markerStyle(!venueImages.hasOwnProperty(id))}
+          src={
+            venueImages[id] ||
+            'http://simpleicon.com/wp-content/uploads/camera.svg'
+          }
+          alt={name}
+        />
+      </Marker>
+    )}
+  </div>;
 
 const Here = ({ here }) =>
   here
-    ? <Marker coordinates={here}>
+    ? <Marker coordinates={here} anchor="bottom">
         <span
-          role="image"
+          role="img"
           aria-label="running person"
-          anchor="bottom"
           style={{ fontSize: '6em', opacity: 1 }}
         >
-          {'🏃🏽‍♀️'}
+          {'🏃🏽‍'}
         </span>
       </Marker>
     : null;

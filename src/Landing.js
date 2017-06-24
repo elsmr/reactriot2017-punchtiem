@@ -77,7 +77,9 @@ const Landing = ({ auth, history, onLogin }) =>
                   console.warn(error);
                   message.error(
                     <span>
-                      Authentication with Google failed 😢, please try again
+                      Authentication with Google failed{' '}
+                      <span role="img" aria-label="very very sad">😢</span>,
+                      please try again
                     </span>,
                     3
                   );
