@@ -5,6 +5,7 @@ import Landing from './Landing';
 import Login from './Login';
 import Register from './Register';
 import Leaderbord from './Leaderbord';
+import Foursquare from './Foursquare';
 
 import './App.css';
 
@@ -17,6 +18,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/leaderbord" component={Leaderbord} />
+          <Route exact path="/fsq" component={Foursquare} />
         </div>
       </Router>
     );
