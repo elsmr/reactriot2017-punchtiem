@@ -49,18 +49,19 @@ class Foursquare extends Component {
             const { response: { venues } } = res;
             venues.sort((a, b) => a.location.distance - b.location.distance);
             venues.forEach(venue => {
-              if (this.state.venueImages.hasOwnProperty(venue.id)) {
+              if (!this.state.venueImages.hasOwnProperty(venue.id)) {
                 getVenuePhoto(venue.id).then(res => {
-                  console.log(res);
-                  const { prefix, suffix } = res.response.photos[0];
-                  const url = `${prefix}36x36${suffix}`;
-                  this.setState(prevState => {
-                    return { venueImages: Object.assign(
-                        {},
-                        prevState.venueImages,
-                        { [venue.id]: url }
-                      ) };
-                  });
+                  if (res.response.photos.length > 0) {
+                     const { prefix, suffix } = res.response.photos[0];
+                     const url = `${prefix}36x36${suffix}`;
+                     this.setState({
+                        venueImages: Object.assign(
+                           {},
+                           this.state.venueImages,
+                           { [venue.id]: url }
+                         ) }
+                     );
+                  }
                 });
               }
 

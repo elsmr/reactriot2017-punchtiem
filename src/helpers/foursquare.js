@@ -13,7 +13,7 @@ export const getVenues = ({ latitude, longitude, ...query }) =>
 
 export const getVenuePhoto = id =>
   foursquare.venues.getVenuePhotos({
-    'VENUE_ID': id,
+    venue_id: id,
     limit: 1
   });
 

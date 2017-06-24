@@ -27,7 +27,7 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
     center={here}
   >
     {venues.map(item =>
-      <Marker coordinates={[item.location.lng, item.location.lat]}>
+      <Marker key={item.id} coordinates={[item.location.lng, item.location.lat]}>
         <img style={markerStyle} src={venueImages[item.id] || 'http://simpleicon.com/wp-content/uploads/camera.svg'} alt={item.name} />
       </Marker>
     )}
