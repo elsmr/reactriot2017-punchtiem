@@ -29,8 +29,11 @@ const Landing = ({ auth, history, onLogin }) => {
         style={{ display: 'flex', justifyContent: 'center', margin: '2em 0' }}
       >
         <Timeline style={{ textAlign: 'left' }}>
-          <Timeline.Item>Login using your Google account</Timeline.Item>
+          <Timeline.Item>Log in using your Google account</Timeline.Item>
           <Timeline.Item>Start your run</Timeline.Item>
+          <Timeline.Item>
+            Visit as many monuments as possible within the time limit
+          </Timeline.Item>
           <Timeline.Item>
             Take pictures of the monuments you've visited
           </Timeline.Item>
