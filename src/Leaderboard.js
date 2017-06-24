@@ -6,8 +6,7 @@ const getColumns = history => {
     {
       title: 'Name',
       dataIndex: 'name',
-      key: 'name',
-      render: text => <a href="#">{text}</a>
+      key: 'name'
     },
     {
       title: 'Time',
