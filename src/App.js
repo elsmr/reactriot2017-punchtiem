@@ -122,6 +122,7 @@ class App extends Component {
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
+                zIndex: 1,
               }}
             >
               <Icon
