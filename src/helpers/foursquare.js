@@ -10,3 +10,6 @@ export const getVenues = ({ latitude, longitude, ...query }) =>
     ll: `${latitude},${longitude}`,
     ...query,
   });
+
+export const getScore = ({ checkinsCount, usersCount, tipCount }) =>
+  checkinsCount + tipCount + usersCount;

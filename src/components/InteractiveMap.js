@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
+import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { PRIMARY_COLOR } from '../constants';
 
 const Map = ReactMapboxGl({
@@ -12,7 +12,7 @@ const InteractiveMap = ({ here, venues, history }) =>
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
       height: 'calc(70vh - 64px)',
-      width: '100vw'
+      width: '100vw',
     }}
     zoom={[15]}
     center={here}
@@ -30,12 +30,12 @@ const InteractiveMap = ({ here, venues, history }) =>
       id="history"
       layout={{
         'line-cap': 'round',
-        'line-join': 'round'
+        'line-join': 'round',
       }}
       paint={{
         'line-color': PRIMARY_COLOR,
         'line-width': 8,
-        'line-opacity': 0.8
+        'line-opacity': 0.8,
       }}
     >
       <Feature coordinates={history} />
