@@ -49,7 +49,10 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Landing} />
-          <Route path="/login" render={props => <Login {...props} onLogin={this.onLogin.bind(this)} />} />
+          <Route
+            path="/login"
+            render={props => <Login {...props} auth={auth} onLogin={this.onLogin.bind(this)} />}
+          />
           <Route path="/register" component={Register} />
           <Route exact path="/fsq" component={Foursquare} />
           <Route path="/leaderbord" component={Leaderboard} />
