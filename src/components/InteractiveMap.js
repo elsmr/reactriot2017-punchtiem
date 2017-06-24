@@ -23,7 +23,7 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
       height: 'calc(70vh - 64px)',
       width: '100vw'
     }}
-    zoom={[15]}
+    zoom={[18]}
     center={here}
   >
     {venues.map(item =>
@@ -38,13 +38,20 @@ const InteractiveMap = ({ here, venues, venueImages, history }) =>
         />
       </Marker>
     )}
-    <Layer type="symbol" id="here" layout={{ 'icon-image': 'dot-11' }}>
-      {here
-        ? <Marker coordinates={here}>
-            🏃
-          </Marker>
-        : null}
-    </Layer>
+
+    {here
+      ? <Marker coordinates={here}>
+          <span
+            role="image"
+            aria-label="running person"
+            anchor="bottom"
+            style={{ fontSize: '6em', opacity: 1 }}
+          >
+            {'🏃'}
+          </span>
+        </Marker>
+      : null}
+
     <Layer
       type="line"
       id="history"

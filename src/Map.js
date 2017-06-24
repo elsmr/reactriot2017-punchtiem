@@ -45,15 +45,15 @@ class Foursquare extends Component {
               if (!this.state.venueImages.hasOwnProperty(venue.id)) {
                 getVenuePhoto(venue.id).then(res => {
                   if (res.response.photos.count > 0) {
-                     const { prefix, suffix } = res.response.photos.items[0];
-                     const url = `${prefix}36x36${suffix}`;
-                     this.setState({
-                        venueImages: Object.assign(
-                           {},
-                           this.state.venueImages,
-                           { [venue.id]: url }
-                         ) }
-                     );
+                    const { prefix, suffix } = res.response.photos.items[0];
+                    const url = `${prefix}36x36${suffix}`;
+                    this.setState(state => ({
+                      ...state,
+                      venueImages: {
+                        ...state.venueImages,
+                        [venue.id]: url,
+                      },
+                    }));
                   }
                 });
               }
@@ -105,7 +105,7 @@ class Foursquare extends Component {
         />
         <BottomBar
           position={position}
-          progress={Math.random() * 100}
+          progress={40}
           isNear={closest.distance < 20}
           closest={closest}
         />
