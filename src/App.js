@@ -96,6 +96,7 @@ class App extends Component {
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
               />
+              Monument Run
             </Header>
             <Content style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
               <Router history={this.history}>
