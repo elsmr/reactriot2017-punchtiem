@@ -7,6 +7,8 @@ import Profile from './Profile';
 import Landing from './Landing';
 import Login from './Login';
 import Register from './Register';
+import Foursquare from './Foursquare';
+import Leaderboard from './Leaderboard';
 
 import './App.css';
 
@@ -43,17 +45,18 @@ class App extends Component {
   render() {
     const { user, auth, loading } = this.state;
     return loading ?
-      <div>Loading...</div> :
-      (
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route path="/login" render={props => <Login {...props} onLogin={this.onLogin.bind(this)} />} />
-            <Route path="/register" component={Register} />
-            <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} />} />
-          </Switch>
-        </Router>
-      );
+      <div>Loading...</div> : (
+      <Router>
+        <div>
+          <Route exact path="/" component={Landing} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route exact path="/fsq" component={Foursquare} />
+          <Route path="/leaderbord" component={Leaderboard} />
+          <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} />} />
+        </div>
+      </Router>
+    );
   }
 }
 
