@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
+import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
@@ -20,9 +20,7 @@ const InteractiveMap = ({ here, items, position }) =>
             <Feature
               key={item.id}
               coordinates={[item.location.lng, item.location.lat]}
-            >
-              test
-            </Feature>
+            />
           )
         : null}
     </Layer>

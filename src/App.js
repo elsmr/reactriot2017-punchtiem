@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import Loading from './components/Loading';
 import { firebaseAuth } from './helpers/firebase';
 import { Layout, Menu, Icon } from 'antd';
 
@@ -54,7 +55,7 @@ class App extends Component {
   render() {
     const { user, auth, loading } = this.state;
     return loading
-      ? <div>Loading...</div>
+      ? <Loading />
       : <Layout>
           <Sider
             breakpoint="lg"

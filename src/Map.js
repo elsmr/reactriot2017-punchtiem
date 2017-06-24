@@ -62,11 +62,13 @@ class Foursquare extends Component {
       : [0, 0];
     return (
       <div>
-        <InteractiveMap
-          here={here}
-          items={this.state.items}
-          position={this.state.position}
-        />
+        {here[0] === 0 && here[1] === 0
+          ? <Loading />
+          : <InteractiveMap
+              here={here}
+              items={this.state.items}
+              position={this.state.position}
+            />}
         {this.state.items.length === 0
           ? <Loading />
           : this.state.items.map(item => <Item {...item} key={item.id} />)}
