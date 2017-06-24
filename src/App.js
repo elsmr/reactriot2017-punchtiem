@@ -14,6 +14,7 @@ import Profile from './Profile';
 import Landing from './Landing';
 import Map from './Map';
 import Leaderboard from './Leaderboard';
+import Run from './components/Run';
 
 import './App.css';
 
@@ -23,13 +24,13 @@ const topBarStyle = {
   display: 'inline-flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  width: '100%',
+  width: '100%'
 };
 
 const profileStyle = {
   display: 'flex',
   alignItems: 'center',
-  cursor: 'pointer',
+  cursor: 'pointer'
 };
 
 class App extends Component {
@@ -39,14 +40,14 @@ class App extends Component {
     token: null,
     user: null,
     collapsed: true,
-    currentPage: PAGE_TITLES.default,
+    currentPage: PAGE_TITLES.default
   };
 
   history = createHistory(this.props);
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !this.state.collapsed
     });
   };
 
@@ -54,7 +55,7 @@ class App extends Component {
     this.setState({
       currentPage:
         PAGE_TITLES[window.location.pathname.split('/')[1]] ||
-          PAGE_TITLES.default,
+          PAGE_TITLES.default
     });
   }
 
@@ -65,14 +66,14 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken,
+          token: user.accessToken
         });
       } else {
         this.setState({
           auth: false,
           loading: false,
           user: null,
-          token: null,
+          token: null
         });
       }
     });
@@ -109,7 +110,7 @@ class App extends Component {
                 }
                 this.setState({
                   collapsed: true,
-                  currentPage: PAGE_TITLES[key] || PAGE_TITLES.default,
+                  currentPage: PAGE_TITLES[key] || PAGE_TITLES.default
                 });
               }}
             />
@@ -122,7 +123,7 @@ class App extends Component {
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
-                zIndex: 1,
+                zIndex: 1
               }}
             >
               <Icon
@@ -165,6 +166,7 @@ class App extends Component {
                   />
                   <Route exact path="/app" component={Map} />
                   <Route path="/leaderboard" component={Leaderboard} />
+                  <Route path="/run/:id" component={Run} />
                   <PrivateRoute
                     auth={auth}
                     path="/profile"
