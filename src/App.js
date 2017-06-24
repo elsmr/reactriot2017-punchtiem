@@ -7,7 +7,7 @@ import Navigation from './components/Navigation';
 import { firebaseAuth } from './helpers/firebase';
 import { Layout, Icon } from 'antd';
 
-import { logout } from '../helpers/auth';
+import { logout } from './helpers/auth';
 
 import Profile from './Profile';
 import Landing from './Landing';
@@ -83,7 +83,10 @@ class App extends Component {
                   } else {
                     this.history.push(`/${key}`);
                   }
-                  this.setState({ collapsed: true });
+                  this.setState({
+                    collapsed: true,
+                    currentPage: key[0].toUpperCase() + key.slice(1)
+                  });
                 };
               }}
             />
