@@ -11,14 +11,6 @@ const Navigation = ({ auth, onClick }) =>
       <Icon type="home" />
       <span className="nav-text">Home</span>
     </Menu.Item>
-<<<<<<< HEAD
-=======
-    {auth &&
-      <Menu.Item key="profile">
-        <Icon type="user" />
-        <span className="nav-text">Profile</span>
-      </Menu.Item>}
->>>>>>> 2a0a5f305f7f3b942d99375cf73041d8ca2d4b8e
     {auth &&
       <Menu.Item key="app">
         <Icon type="flag" />
