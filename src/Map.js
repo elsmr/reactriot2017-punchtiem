@@ -56,15 +56,22 @@ class Foursquare extends Component {
   }
 
   render() {
-    const { position: here, venues } = this.state;
-    const loading = here && venues === 0;
+    const { position, venues } = this.state;
 
-    return loading
-      ? <Loading />
-      : <div>
-          <InteractiveMap here={here} venues={this.state.venues} />
-          {this.state.venues.map(item => <Item {...item} key={item.id} />)}
-        </div>;
+    const loading = !position || venues === 0;
+    if (loading) {
+      return <Loading />;
+    }
+
+    const { coords: { latitude, longitude } } = position;
+    const here = [longitude, latitude];
+
+    return (
+      <div>
+        <InteractiveMap here={here} venues={this.state.venues} />
+        {this.state.venues.map(item => <Item {...item} key={item.id} />)}
+      </div>
+    );
   }
 }
 
