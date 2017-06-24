@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
+import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl';
 import foursquareApi from 'react-foursquare';
 
 const foursquare = foursquareApi({
@@ -43,7 +43,7 @@ class Foursquare extends Component {
 
   componentDidMount() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
+      navigator.geolocation.watchPosition(position => {
         this.setState({ position });
         const { coords: { latitude, longitude } } = position;
         foursquare.venues
@@ -76,10 +76,22 @@ class Foursquare extends Component {
         >
           <Layer
             type="symbol"
-            id="marker"
-            layout={{ 'icon-image': 'marker-15' }}
+            id="monuments"
+            layout={{ 'icon-image': 'marker-10' }}
           >
-            <Feature coordinates={here} />
+            {this.state.items
+              ? this.state.items.map(item =>
+                  <Popup
+                    key={item.id}
+                    coordinates={[item.location.lng, item.location.lat]}
+                  >
+                    test
+                  </Popup>
+                )
+              : null}
+          </Layer>
+          <Layer type="symbol" id="here" layout={{ 'icon-image': 'marker-15' }}>
+            {this.state.position ? <Feature coordinates={here} /> : null}
           </Layer>
         </Map>
         {this.state.items.length === 0
