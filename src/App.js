@@ -93,11 +93,11 @@ class App extends Component {
               </Menu.Item>
               <Menu.Item key="leaderboard">
                 <Icon type="trophy" />
-                <span className="nav-text">Leeterbort</span>
+                <span className="nav-text">Leaderboard</span>
               </Menu.Item>
               <Menu.Item key="logout">
                 <Icon type="logout" />
-                <span className="nav-text">Logout</span>
+                <span className="nav-text">Log out</span>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -120,7 +120,11 @@ class App extends Component {
               <Router history={this.history}>
                 <Switch>
                   <Route exact path="/" component={Landing} />
-                  <Route path="/login" render={props => <Login {...props} onLogin={this.onLogin.bind(this)} />} />
+                  <Route
+                    path="/login"
+                    render={props =>
+                      <Login {...props} onLogin={this.onLogin.bind(this)} />}
+                  />
                   <Route exact path="/app" component={Map} />
                   <Route path="/leaderboard" component={Leaderboard} />
                   <PrivateRoute
