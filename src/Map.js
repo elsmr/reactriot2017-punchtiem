@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Layer, Feature, Popup } from 'react-mapbox-gl';
 import foursquareApi from 'react-foursquare';
+
+import InteractiveMap from './components/InteractiveMap';
+import Loading from './components/Loading';
 
 const foursquare = foursquareApi({
   clientID: process.env.REACT_APP_FOURSQUARE_ID,
@@ -13,48 +15,6 @@ const Item = ({ name, location: { lat, lng } }) =>
     <p>{lat}</p>
     <p>{lng}</p>
   </div>;
-
-const Loading = () =>
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100%',
-    }}
-  >
-    <strong>Loading</strong>
-  </div>;
-
-const Map = ReactMapboxGl({
-  accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
-});
-
-const InteractiveMap = ({ here, items, position }) =>
-  <Map
-    style="mapbox://styles/mapbox/streets-v8"
-    containerStyle={{
-      height: '80vh',
-      width: '100vw',
-    }}
-    center={here}
-  >
-    <Layer type="symbol" id="monuments" layout={{ 'icon-image': 'marker-10' }}>
-      {items
-        ? items.map(item =>
-            <Popup
-              key={item.id}
-              coordinates={[item.location.lng, item.location.lat]}
-            >
-              test
-            </Popup>
-          )
-        : null}
-    </Layer>
-    <Layer type="symbol" id="here" layout={{ 'icon-image': 'marker-15' }}>
-      {position ? <Feature coordinates={here} /> : null}
-    </Layer>
-  </Map>;
 
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);

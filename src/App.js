@@ -7,7 +7,7 @@ import { Layout, Menu, Icon } from 'antd';
 import Profile from './Profile';
 import Landing from './Landing';
 import Login from './Login';
-import Foursquare from './Foursquare';
+import Map from './Map';
 import Leaderboard from './Leaderboard';
 
 import './App.css';
@@ -20,12 +20,12 @@ class App extends Component {
     loading: true,
     token: null,
     user: null,
-    collapsed: true
+    collapsed: true,
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
@@ -36,12 +36,12 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken
+          token: user.accessToken,
         });
       } else {
         this.setState({
           auth: false,
-          loading: false
+          loading: false,
         });
       }
     });
@@ -101,7 +101,7 @@ class App extends Component {
                     render={props =>
                       <Login {...props} onLogin={this.onLogin.bind(this)} />}
                   />
-                  <Route exact path="/fsq" component={Foursquare} />
+                  <Route exact path="/app" component={Map} />
                   <Route path="/leaderbord" component={Leaderboard} />
                   <PrivateRoute
                     auth={auth}
