@@ -1,11 +1,9 @@
 import React from 'react';
 import { Button } from 'antd';
 
-const ButtonGroup = Button.Group;
-
 const wrapperStyle = {
   height: 'calc(100vh - 64px)',
-  width: '100vw',
+  width: '100%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
