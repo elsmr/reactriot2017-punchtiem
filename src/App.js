@@ -44,12 +44,12 @@ class App extends Component {
 
   render() {
     const { user, auth, loading } = this.state;
-    return loading ?
-      <div>Loading...</div> : (
+    return loading ? <div>Loading...</div> :
+    (
       <Router>
         <Switch>
           <Route exact path="/" component={Landing} />
-          <Route path="/login" component={Login} onLogin={this.onLogin} />
+          <Route path="/login" render={props => <Login {...props} onLogin={this.onLogin.bind(this)} />} />
           <Route path="/register" component={Register} />
           <Route exact path="/fsq" component={Foursquare} />
           <Route path="/leaderbord" component={Leaderboard} />
