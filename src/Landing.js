@@ -1,13 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Button from 'antd/lib/button';
 
-const buttonStyle = {};
+const ButtonGroup = Button.Group;
 
-const Landing = ({ match }) => {
+const wrapperStyle = {
+  height: '100vh',
+  width: '100vw',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+};
+
+const Landing = ({ history }) => {
   return (
-    <div>
-      <Link to="/login" style={buttonStyle}>Login</Link>
-      <Link to="register" style={buttonStyle}>Register</Link>
+    <div style={wrapperStyle}>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => history.push('/login')}>
+          Login
+        </Button>
+        <Button type="secondary" onClick={() => history.push('/register')}>
+          Register
+        </Button>
+      </ButtonGroup>
     </div>
   );
 };
