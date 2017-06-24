@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import foursquareApi from 'react-foursquare';
 
 const foursquare = foursquareApi({
@@ -25,6 +25,10 @@ const Loading = () =>
   >
     <strong>Loading</strong>
   </div>;
+
+const Map = ReactMapboxGl({
+  accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+});
 
 class Foursquare extends Component {
   constructor(props) {
@@ -54,8 +58,30 @@ class Foursquare extends Component {
   }
 
   render() {
+    const here = this.state.position
+      ? [
+          this.state.position.coords.longitude,
+          this.state.position.coords.latitude,
+        ]
+      : [0, 0];
     return (
       <div>
+        <Map
+          style="mapbox://styles/mapbox/streets-v8"
+          containerStyle={{
+            height: '80vh',
+            width: '100vw',
+          }}
+          center={here}
+        >
+          <Layer
+            type="symbol"
+            id="marker"
+            layout={{ 'icon-image': 'marker-15' }}
+          >
+            <Feature coordinates={here} />
+          </Layer>
+        </Map>
         {this.state.items.length === 0
           ? <Loading />
           : this.state.items.map(item => <Item {...item} key={item.id} />)}
