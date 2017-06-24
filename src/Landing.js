@@ -1,50 +1,57 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Carousel, Timeline } from 'antd';
 import { login } from './helpers/auth';
 
 const wrapperStyle = {
-  height: 'calc(100vh - 64px)',
+  margin: '2em',
+  textAlign: 'center'
+};
+
+const imageStyle = {
   width: '100%',
+  height: 300,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-};
-
-const trophyStyle = {
-  position: 'relative',
-  top: 0,
-  right: 0,
-  margin: '1.5em',
+  fontSize: '1.5em'
 };
 
 const Landing = ({ auth, history, onLogin }) => {
   return (
     <div style={wrapperStyle}>
-      {!auth &&
-        <Button
-          type="primary"
-          onClick={e => {
-            login()
-              .then(result => {
-                const { credential: { accessToken }, user } = result;
-                onLogin(accessToken, user);
-              })
-              .catch(error => {
-                this.setState({
-                  loginError: 'Authentication with Google failed 😢',
+      <h1>Monument Run</h1>
+      <Carousel autoplay style={{}}>
+        <div style={imageStyle}><h3>Explore</h3></div>
+        <div style={imageStyle}><h3>Challenge</h3></div>
+        <div style={imageStyle}><h3>Exercise</h3></div>
+      </Carousel>
+      <Timeline style={{ textAlign: 'left', margin: '2em auto', width: '40%' }}>
+        <Timeline.Item>Login using your Google account</Timeline.Item>
+        <Timeline.Item>Start your run</Timeline.Item>
+        <Timeline.Item>
+          Take pictures of the monuments you've visited
+        </Timeline.Item>
+        <Timeline.Item>Challenge everyone to beat your time!</Timeline.Item>
+      </Timeline>
+      {!auth
+        ? <Button
+            type="primary"
+            onClick={e => {
+              login()
+                .then(result => {
+                  const { credential: { accessToken }, user } = result;
+                  onLogin(accessToken, user);
+                })
+                .catch(error => {
+                  this.setState({
+                    loginError: 'Authentication with Google failed 😢'
+                  });
                 });
-              });
-          }}
-        >
-          Login with Google
-        </Button>}
-
-      <Button
-        size="large"
-        icon="trophy"
-        style={trophyStyle}
-        onClick={() => history.push('/leaderbord')}
-      />
+            }}
+          >
+            Login with Google
+          </Button>
+        : <Button type="primary">Start your Monument Run</Button>}
     </div>
   );
 };
