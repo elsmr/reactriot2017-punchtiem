@@ -40,7 +40,7 @@ class App extends Component {
 
   componentWillMount() {
     this.setState({
-      currentPage: PAGE_TITLES[window.location.pathname.split('/')[1]]
+      currentPage: PAGE_TITLES[window.location.pathname.split('/')[1]] || PAGE_TITLES.default
     });
   }
 
