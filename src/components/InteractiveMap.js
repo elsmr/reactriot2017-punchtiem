@@ -38,7 +38,7 @@ const Here = ({ here }) =>
           anchor="bottom"
           style={{ fontSize: '6em', opacity: 1 }}
         >
-          {'🏃'}
+          {'🏃🏽‍♀️'}
         </span>
       </Marker>
     : null;
