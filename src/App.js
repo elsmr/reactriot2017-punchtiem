@@ -7,6 +7,8 @@ import Navigation from './components/Navigation';
 import { firebaseAuth } from './helpers/firebase';
 import { Layout, Icon } from 'antd';
 
+import { logout } from '../helpers/auth';
+
 import Profile from './Profile';
 import Landing from './Landing';
 import Login from './Login';
@@ -24,11 +26,12 @@ class App extends Component {
     token: null,
     user: null,
     collapsed: true,
+    currentPage: 'Login'
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !this.state.collapsed
     });
   };
 
@@ -39,12 +42,12 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken,
+          token: user.accessToken
         });
       } else {
         this.setState({
           auth: false,
-          loading: false,
+          loading: false
         });
       }
     });
@@ -58,18 +61,46 @@ class App extends Component {
 
   render() {
     const { user, auth, loading } = this.state;
-    return loading ? <Loading /> : <Layout>
-          <Sider breakpoint="lg" collapsedWidth="0" collapsible trigger={null} collapsed={this.state.collapsed} style={{ backgroundColor: '#FFF' }}>
+    return loading
+      ? <Loading />
+      : <Layout>
+          <Sider
+            breakpoint="lg"
+            collapsedWidth="0"
+            collapsible
+            trigger={null}
+            collapsed={this.state.collapsed}
+            style={{ backgroundColor: '#FFF' }}
+          >
             <div className="logo" />
             <Navigation
               auth={auth}
-              navigate={this.history.push}
-              collapse={() => this.setState({ collapsed: true })}
+              onClick={key => {
+                ({ item, key, keyPath }) => {
+                  if (key === 'logout') {
+                    logout();
+                    this.history.push('/login');
+                  } else {
+                    this.history.push(`/${key}`);
+                  }
+                  this.setState({ collapsed: true });
+                };
+              }}
             />
           </Sider>
           <Layout>
-            <Header style={{ backgroundColor: '#FFF', position: 'fixed', width: '100%' }}>
-              <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} />
+            <Header
+              style={{
+                backgroundColor: '#FFF',
+                position: 'fixed',
+                width: '100%'
+              }}
+            >
+              <Icon
+                className="trigger"
+                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                onClick={this.toggle}
+              />
               Monument Run
             </Header>
             <Content style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>

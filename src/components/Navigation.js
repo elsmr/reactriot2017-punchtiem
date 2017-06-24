@@ -1,20 +1,11 @@
 import React from 'react';
-import { logout } from '../helpers/auth';
 import { Icon, Menu } from 'antd';
 
-const Navigation = ({ auth, navigate, collapse }) => (
+const Navigation = ({ auth, navigate, onClick }) =>
   <Menu
     mode="inline"
     defaultSelectedKeys={['1']}
-    onClick={({ item, key, keyPath }) => {
-      if (key === 'logout') {
-        logout();
-        navigate('/login');
-      } else {
-        navigate(`/${key}`);
-      }
-      collapse();
-    }}
+    onClick={({ item, key }) => onClick(key)}
   >
     <Menu.Item key="profile">
       <Icon type="user" />
@@ -36,7 +27,6 @@ const Navigation = ({ auth, navigate, collapse }) => (
       <Icon type="logout" />
       <span className="nav-text">Logout</span>
     </Menu.Item>
-  </Menu>
-);
+  </Menu>;
 
 export default Navigation;
