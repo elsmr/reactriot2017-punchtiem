@@ -14,6 +14,9 @@ const Item = ({ name, location: { lat, lng } }) =>
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
 
+const BottomBar = ({ position }) =>
+  <footer style={{ height: '20vh' }}>BOTTOM</footer>;
+
 class Foursquare extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +72,7 @@ class Foursquare extends Component {
     return (
       <div>
         <InteractiveMap here={here} venues={venues} history={history} />
+        <BottomBar position={position} />
         {this.state.venues.map(item => <Item {...item} key={item.id} />)}
       </div>
     );

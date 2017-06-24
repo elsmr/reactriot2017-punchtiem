@@ -23,13 +23,13 @@ const topBarStyle = {
   display: 'inline-flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  width: '97%'
-}
+  width: '100%',
+};
 
 const profileStyle = {
   display: 'flex',
   alignItems: 'center',
-  cursor: 'pointer'
+  cursor: 'pointer',
 };
 
 class App extends Component {
@@ -39,20 +39,22 @@ class App extends Component {
     token: null,
     user: null,
     collapsed: true,
-    currentPage: PAGE_TITLES.default
+    currentPage: PAGE_TITLES.default,
   };
 
   history = createHistory(this.props);
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
   componentWillMount() {
     this.setState({
-      currentPage: PAGE_TITLES[window.location.pathname.split('/')[1]] || PAGE_TITLES.default
+      currentPage:
+        PAGE_TITLES[window.location.pathname.split('/')[1]] ||
+          PAGE_TITLES.default,
     });
   }
 
@@ -63,14 +65,14 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken
+          token: user.accessToken,
         });
       } else {
         this.setState({
           auth: false,
           loading: false,
           user: null,
-          token: null
+          token: null,
         });
       }
     });
@@ -82,10 +84,21 @@ class App extends Component {
 
   render() {
     const { user, auth, loading } = this.state;
-    return loading ? <Loading /> : <Layout>
-          <Sider breakpoint="lg" collapsedWidth="0" collapsible trigger={null} collapsed={this.state.collapsed} style={{ backgroundColor: '#FFF' }}>
+    return loading
+      ? <Loading />
+      : <Layout>
+          <Sider
+            breakpoint="lg"
+            collapsedWidth="0"
+            collapsible
+            trigger={null}
+            collapsed={this.state.collapsed}
+            style={{ backgroundColor: '#FFF' }}
+          >
             <div className="logo" />
-            <Navigation auth={auth} onClick={key => {
+            <Navigation
+              auth={auth}
+              onClick={key => {
                 if (key === 'logout') {
                   logout();
                   this.history.push('/');
@@ -96,38 +109,71 @@ class App extends Component {
                 }
                 this.setState({
                   collapsed: true,
-                  currentPage: PAGE_TITLES[key] || PAGE_TITLES.default
+                  currentPage: PAGE_TITLES[key] || PAGE_TITLES.default,
                 });
-              }} />
+              }}
+            />
           </Sider>
           <Layout>
-            <Header style={{ backgroundColor: '#FFF', position: 'fixed', width: '100%' }}>
-              <Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} />
+            <Header
+              style={{
+                backgroundColor: '#FFF',
+                position: 'fixed',
+                width: '100%',
+                display: 'flex',
+                'align-items': 'center',
+              }}
+            >
+              <Icon
+                className="trigger"
+                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                onClick={this.toggle}
+              />
               <div style={topBarStyle}>
                 <span style={{ marginLeft: '2.5em' }}>
                   {this.state.currentPage}
                 </span>
-                {auth && user &&
-                  <Tooltip
-                    title="Show your profile"
-                    placement="bottomRight"
-                  >
-                    <div style={profileStyle} onClick={() => this.history.push('/profile')}>
-                      <Avatar style={{ marginRight: '.5em' }} src={user.photoURL} />
+                {auth &&
+                  user &&
+                  <Tooltip title="Show your profile" placement="bottomRight">
+                    <div
+                      style={profileStyle}
+                      onClick={() => this.history.push('/profile')}
+                    >
+                      <Avatar
+                        style={{ marginRight: '.5em' }}
+                        src={user.photoURL}
+                      />
                       <span>{user.displayName}</span>
                     </div>
-                  </Tooltip>
-
-                }
+                  </Tooltip>}
               </div>
             </Header>
             <Content style={{ marginTop: 64, minHeight: 'calc(100vh - 64px)' }}>
               <Router history={this.history}>
                 <Switch>
-                  <Route exact path="/" render={props => <Landing {...props} auth={auth} onLogin={this.onLogin.bind(this)} />} />
+                  <Route
+                    exact
+                    path="/"
+                    render={props =>
+                      <Landing
+                        {...props}
+                        auth={auth}
+                        onLogin={this.onLogin.bind(this)}
+                      />}
+                  />
                   <Route exact path="/app" component={Map} />
                   <Route path="/leaderboard" component={Leaderboard} />
-                  <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} runs={[{ id: 'k', score: 4 }] /* add runs */} />} />
+                  <PrivateRoute
+                    auth={auth}
+                    path="/profile"
+                    render={props =>
+                      <Profile
+                        {...props}
+                        user={user}
+                        runs={[{ id: 'k', score: 4 }] /* add runs */}
+                      />}
+                  />
                 </Switch>
               </Router>
             </Content>
