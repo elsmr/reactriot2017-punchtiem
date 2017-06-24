@@ -11,9 +11,22 @@ const wrapperStyle = {
   justifyContent: 'center'
 };
 
+const tropyStyle = {
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  margin: '1.5em'
+};
+
 const Landing = ({ history }) => {
   return (
     <div style={wrapperStyle}>
+      <Button
+        size="large"
+        icon="trophy"
+        style={tropyStyle}
+        onClick={() => history.push('/leaderbord')}
+      />
       <ButtonGroup>
         <Button type="primary" onClick={() => history.push('/login')}>
           Login
