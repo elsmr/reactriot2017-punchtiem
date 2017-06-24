@@ -1,57 +1,57 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Table, Button } from 'antd';
+import Loading from './components/Loading';
+import { ref } from './helpers/firebase';
 
-const getColumns = history => {
-  return [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name'
-    },
-    {
-      title: 'Time',
-      dataIndex: 'time',
-      key: 'time'
-    },
-    {
-      title: 'Run',
-      key: 'run',
-      render: (text, record) =>
-        <span>
-          <Button
-            icon="right-circle"
-            onClick={() => history.push(`/run/${record.run_id}`)}
-          />
-        </span>
-    }
-  ];
-};
-
-const data = [
-  {
-    key: '1',
-    run_id: '69',
-    name: 'John Brown',
-    time: '15\'05"'
-  },
-  {
-    key: '2',
-    run_id: '88',
-    name: 'Jim Green',
-    time: '15\'05"'
-  },
-  {
-    key: '3',
-    run_id: '96',
-    name: 'Joe Black',
-    time: '15\'05"'
+class Leaderboard extends Component {
+  state = {
+    leaderboard: null
   }
-];
 
-const Leaderboard = ({ history }) => {
-  return (
-    <Table pagination={false} columns={getColumns(history)} dataSource={data} />
-  );
-};
+  componentDidMount() {
+    ref.child('runs')
+      .orderByChild('score')
+      .limitToFirst(20)
+      .once('value')
+      .then(snapshot => {
+        this.setState({ leaderboard: snapshot });
+      });
+  }
+
+  getColumns() {
+    const { history } = this.props;
+    return [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: 'Score',
+        dataIndex: 'score',
+        key: 'score'
+      },
+      {
+        title: 'Run',
+        key: 'run',
+        render: (text, record) =>
+          <span>
+            <Button
+              icon="right-circle"
+              onClick={() => history.push(`/run/${record.run_id}`)}
+            />
+          </span>
+      }
+    ];
+  }
+
+  render() {
+    const { leaderboard } = this.state;
+
+    return !leaderboard ? <Loading /> : (
+      <Table pagination={false} columns={this.getColumns()} dataSource={leaderboard} />
+    );
+  }
+}
 
 export default Leaderboard;
