@@ -8,6 +8,7 @@ import { firebaseAuth } from './helpers/firebase';
 import { Layout, Icon } from 'antd';
 
 import { logout } from './helpers/auth';
+import { PAGE_TITLES } from './constants';
 
 import Profile from './Profile';
 import Landing from './Landing';
@@ -26,14 +27,22 @@ class App extends Component {
     token: null,
     user: null,
     collapsed: true,
-    currentPage: 'Login'
+    currentPage: PAGE_TITLES.default
   };
+
+  history = createHistory(this.props);
 
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed
     });
   };
+
+  componentWillMount() {
+    this.setState({
+      currentPage: PAGE_TITLES[window.location.pathname.split('/')[1]]
+    });
+  }
 
   componentDidMount() {
     firebaseAuth().onAuthStateChanged(user => {
@@ -56,8 +65,6 @@ class App extends Component {
   onLogin(token, user) {
     this.setState({ token, user });
   }
-
-  history = createHistory(this.props);
 
   render() {
     const { user, auth, loading } = this.state;
@@ -84,7 +91,7 @@ class App extends Component {
                 }
                 this.setState({
                   collapsed: true,
-                  currentPage: key[0].toUpperCase() + key.slice(1)
+                  currentPage: PAGE_TITLES[key]
                 });
               }}
             />
