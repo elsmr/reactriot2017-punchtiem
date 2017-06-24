@@ -25,6 +25,7 @@ class Foursquare extends Component {
     this.state = {
       items: [],
       query: {
+        radius: 100,
         categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY, // arts & entertainment
       },
     };
