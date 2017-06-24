@@ -63,13 +63,13 @@ class App extends Component {
           <Sider
             breakpoint="lg"
             collapsedWidth="0"
-            trigger={null}
             collapsible
+            trigger={null}
             collapsed={this.state.collapsed}
+            style={{ backgroundColor: '#FFF' }}
           >
             <div className="logo" />
             <Menu
-              theme="dark"
               mode="inline"
               defaultSelectedKeys={['1']}
               onClick={({ item, key, keyPath }) => this.history.push(`/${key}`)}
@@ -82,17 +82,22 @@ class App extends Component {
                 <Icon type="flag" />
                 <span className="nav-text">Game</span>
               </Menu.Item>
-              <Menu.Item key="leaderbord">
+              <Menu.Item key="leaderboard">
                 <Icon type="trophy" />
                 <span className="nav-text">Leaderboard</span>
               </Menu.Item>
             </Menu>
           </Sider>
           <Layout>
-            <Header style={{ position: 'fixed', width: '100%' }}>
+            <Header
+              style={{
+                backgroundColor: '#FFF',
+                position: 'fixed',
+                width: '100%'
+              }}
+            >
               <Icon
                 className="trigger"
-                style={{ color: '#FFF' }}
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
               />
@@ -108,7 +113,7 @@ class App extends Component {
                       <Login {...props} onLogin={this.onLogin.bind(this)} />}
                   />
                   <Route exact path="/app" component={Map} />
-                  <Route path="/leaderbord" component={Leaderboard} />
+                  <Route path="/leaderboard" component={Leaderboard} />
                   <PrivateRoute
                     auth={auth}
                     path="/profile"
