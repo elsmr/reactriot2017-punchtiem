@@ -26,8 +26,8 @@
     "react-scripts": "1.0.7"
   },
   "scripts": {
-    "build-css": "concurrently --kill-others 'lessc-each src/ src/' 'lessc-each src/components src/components'",
-    "watch-css": "npm run build-css && concurrently --kill-others 'less-watch-compiler src/ src/' 'less-watch-compiler src/components src/components'",
+    "build-css": "concurrently 'lessc-each src/ src/' 'lessc-each src/components src/components'",
+    "watch-css": "npm run build-css && concurrently 'less-watch-compiler src/ src/' 'less-watch-compiler src/components src/components'",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
