@@ -51,6 +51,7 @@ class Foursquare extends Component {
         console.warn,
         {
           enableHighAccuracy: true,
+          maximumAge: 500,
         }
       );
     } else {

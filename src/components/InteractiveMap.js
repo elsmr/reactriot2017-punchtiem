@@ -10,7 +10,7 @@ const InteractiveMap = ({ here, venues, history }) =>
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
       height: '70vh',
-      width: '100vw',
+      width: '100vw'
     }}
     zoom={[15]}
     center={here}
@@ -23,18 +23,19 @@ const InteractiveMap = ({ here, venues, history }) =>
     <Layer type="symbol" id="here" layout={{ 'icon-image': 'marker-15' }}>
       {here ? <Feature coordinates={here} /> : null}
     </Layer>
-    <Layer type="line" id="history">
-      <Feature
-        coordinates={history}
-        layout={{
-          'line-cap': 'round',
-          'line-join': 'round',
-        }}
-        paint={{
-          'line-color': '#4790E5',
-          'line-width': 12,
-        }}
-      />
+    <Layer
+      type="line"
+      id="history"
+      layout={{
+        'line-cap': 'round',
+        'line-join': 'round'
+      }}
+      paint={{
+        'line-color': '#4790E5',
+        'line-width': 12
+      }}
+    >
+      <Feature coordinates={history} />
     </Layer>
   </Map>;
 
