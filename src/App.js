@@ -23,12 +23,12 @@ class App extends Component {
     loading: true,
     token: null,
     user: null,
-    collapsed: true
+    collapsed: true,
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
@@ -39,12 +39,12 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken
+          token: user.accessToken,
         });
       } else {
         this.setState({
           auth: false,
-          loading: false
+          loading: false,
         });
       }
     });
@@ -76,10 +76,23 @@ class App extends Component {
               <Router history={this.history}>
                 <Switch>
                   <Route exact path="/" component={Landing} />
-                  <Route path="/login" render={props => <Login {...props} onLogin={this.onLogin.bind(this)} />} />
+                  <Route
+                    path="/login"
+                    render={props =>
+                      <Login {...props} onLogin={this.onLogin.bind(this)} />}
+                  />
                   <Route exact path="/app" component={Map} />
                   <Route path="/leaderboard" component={Leaderboard} />
-                  <PrivateRoute auth={auth} path="/profile" render={props => <Profile {...props} user={user} />} />
+                  <PrivateRoute
+                    auth={auth}
+                    path="/profile"
+                    render={props =>
+                      <Profile
+                        {...props}
+                        user={user}
+                        runs={[{ id: 'k', score: 4 }] /* add runs */}
+                      />}
+                  />
                 </Switch>
               </Router>
             </Content>
