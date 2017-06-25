@@ -23,6 +23,7 @@ export default class Camera extends Component {
       .then(() => {
         this.setState({ uploading: false });
       });
+    this.cameraInput.value = '';
   };
 
   _upload = () => {
