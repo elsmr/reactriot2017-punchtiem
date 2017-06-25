@@ -20,25 +20,35 @@ class ConnectedApp extends Component {
     stopped: false,
     progressedS: 0,
     watchPositionId: 0,
-  }
+    userHeading: 0,
+  };
 
   startTracking() {
     if ('geolocation' in navigator) {
       const watchPositionId = navigator.geolocation.watchPosition(
         this.onPosition,
         console.warn,
-        {
-          enableHighAccuracy: true
-        }
+        { enableHighAccuracy: true }
       );
-      this.setState(prevState => ({ ...prevState, watchPositionId }))
+      this.watchPositionId = watchPositionId;
     } else {
       navigationError();
     }
+
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', this._setHeading);
+    }
   }
 
+  _setHeading = e =>
+    this.setState(s => ({
+      ...s,
+      userHeading: e.alpha || e.webkitCompassHeading,
+    }));
+
   stopTracking() {
-    navigator.geolocation.clearWatch(this.state.watchPositionId);
+    navigator.geolocation.clearWatch(this.watchPositionId);
+    window.removeEventListener('deviceorientation', this._setHeading);
   }
 
   onPosition = position => {
@@ -98,13 +108,15 @@ class ConnectedApp extends Component {
   };
 
   render() {
-    return <App
-      startTracking={this.startTracking.bind(this)}
-      stopTracking={this.stopTracking.bind(this)}
-      startTimer={this.startTimer.bind(this)}
-      stopTimer={this.stopTimer.bind(this)}
-      runState={this.state}
-    />
+    return (
+      <App
+        startTracking={this.startTracking.bind(this)}
+        stopTracking={this.stopTracking.bind(this)}
+        startTimer={this.startTimer.bind(this)}
+        stopTimer={this.stopTimer.bind(this)}
+        runState={this.state}
+      />
+    );
   }
 }
 

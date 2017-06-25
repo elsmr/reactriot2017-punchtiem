@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getScore } from './helpers/foursquare';
+import { getScore, calculateHeading } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import Loading from './components/Loading';
 import BottomBar, { BeforeRun, AfterRun } from './components/BottomBar';
@@ -16,15 +16,9 @@ class Foursquare extends Component {
 
   render() {
     const {
-      runState: {
-        position,
-        venues,
-        venueImages,
-        history,
-        loaded
-      },
+      runState: { position, userHeading, venues, venueImages, history, loaded },
       showBottom,
-      progress
+      progress,
     } = this.props;
 
     if (loaded === false) {
@@ -43,7 +37,14 @@ class Foursquare extends Component {
           name: venues[0].name,
           distance: venues[0].location.distance,
           score: getScore(venues[0].stats),
-          heading: 0, // calc direction to walk
+          heading: calculateHeading({
+            from: { latitude, longitude },
+            to: {
+              latitude: venues[0].location.lat,
+              longitude: venues[0].location.lng,
+            },
+            userHeading,
+          }),
         }
       : {};
 
@@ -69,24 +70,23 @@ class Foursquare extends Component {
 }
 
 const Wrapper = ({
-      runState,
-      startTimer,
-      stopTimer,
-      startTracking,
-      stopTracking
-    }) => (
-      <div>
-        <Foursquare
-          runState={runState}
-          startTracking={startTracking}
-          stopTracking={stopTracking}
-          showBottom={runState.started}
-          progress={100 * runState.progressedS / RUN_DURATION_SECONDS}
-        />
-        {runState.stopped
-          ? <AfterRun onStart={startTimer} />
-          : !runState.started && <BeforeRun onStart={startTimer} />}
-      </div>
-);
+  runState,
+  startTimer,
+  stopTimer,
+  startTracking,
+  stopTracking,
+}) =>
+  <div>
+    <Foursquare
+      runState={runState}
+      startTracking={startTracking}
+      stopTracking={stopTracking}
+      showBottom={runState.started}
+      progress={100 * runState.progressedS / RUN_DURATION_SECONDS}
+    />
+    {runState.stopped
+      ? <AfterRun onStart={startTimer} />
+      : !runState.started && <BeforeRun onStart={startTimer} />}
+  </div>;
 
 export default Wrapper;

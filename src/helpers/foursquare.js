@@ -36,5 +36,5 @@ export function calculateHeading({ from, to, userHeading }) {
 
   const d = R * c;
 
-  return d - userHeading;
+  return d - toRadians(userHeading);
 }
