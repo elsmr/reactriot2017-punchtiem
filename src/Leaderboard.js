@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'antd';
-import Loading from './components/Loading';
+import LoadingPage from './components/Loading';
 import { ref } from './helpers/firebase';
 
 class Leaderboard extends Component {
@@ -11,7 +11,7 @@ class Leaderboard extends Component {
   componentDidMount() {
     ref.child('runs')
       .orderByChild('points')
-      .limitToLast(20)
+      .limitToLast(50)
       .once('value')
       .then(snapshot => {
         const leaderboard = [];
@@ -53,7 +53,7 @@ class Leaderboard extends Component {
   render() {
     const { leaderboard } = this.state;
 
-    return !leaderboard ? <Loading /> : (
+    return !leaderboard ? <LoadingPage /> : (
       <Table pagination={false} columns={this.getColumns()} dataSource={leaderboard} />
     );
   }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import PrivateRoute from './components/PrivateRoute';
-import Loading from './components/Loading';
+import LoadingPage from './components/Loading';
 import Navigation from './components/Navigation';
 import { firebaseAuth } from './helpers/firebase';
 import { Layout, Icon, Avatar, Tooltip, message } from 'antd';
@@ -87,7 +87,7 @@ class App extends Component {
     const { startTracking, stopTracking, startTimer, stopTimer, runState } = this.props;
     const { user, auth, loading } = this.state;
     return loading
-      ? <Loading />
+      ? <LoadingPage />
       : <Layout>
           <Sider
             breakpoint="lg"
