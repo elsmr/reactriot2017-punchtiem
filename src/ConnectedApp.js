@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getVenues, getVenuePhoto } from './helpers/foursquare';
+import { getVenues, getVenuePhoto, getScore } from './helpers/foursquare';
 import { RUN_DURATION_SECONDS } from './constants';
 import App from './App';
 
@@ -65,7 +65,12 @@ class ConnectedApp extends Component {
 
     getVenues({ latitude, longitude, ...this.state.query }).then(res => {
       const { response: { venues } } = res;
-      venues.sort((a, b) => a.location.distance - b.location.distance);
+      const _venues = venues
+        .slice()
+        .sort((a, b) => a.location.distance - b.location.distance)
+        .filter(({ stats }) => getScore(stats) > 0);
+      this.setState(prev => ({ ...prev, venues: _venues }));
+
       venues.forEach(venue => {
         if (!this.state.venueImages.hasOwnProperty(venue.id)) {
           getVenuePhoto(venue.id).then(res => {
@@ -83,7 +88,6 @@ class ConnectedApp extends Component {
           });
         }
       });
-      this.setState(prev => ({ ...prev, venues: res.response.venues }));
     });
   };
 
