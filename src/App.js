@@ -4,7 +4,7 @@ import createHistory from 'history/createBrowserHistory';
 import PrivateRoute from './components/PrivateRoute';
 import LoadingPage from './components/Loading';
 import Navigation from './components/Navigation';
-import { firebaseAuth } from './helpers/firebase';
+import { firebaseAuth, ref } from './helpers/firebase';
 import { Layout, Icon, Avatar, Tooltip, message } from 'antd';
 
 import { logout } from './helpers/auth';
@@ -73,6 +73,12 @@ class App extends Component {
   componentDidMount() {
     firebaseAuth().onAuthStateChanged(user => {
       if (user) {
+        const path = `users/${user.uid}`;
+        ref.child(path).once('value', snapshot => {
+          const record = snapshot.val();
+          ref.child(path).set(Object.assign({}, record, user.providerData[0]));
+        });
+
         this.setState({
           auth: true,
           loading: false,
