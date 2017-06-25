@@ -118,10 +118,11 @@ class ConnectedApp extends Component {
       }
     }, 1000);
 
+    const date = new Date().toString();
     const { uid, displayName: name } = firebaseAuth().currentUser;
     const runId = ref
       .child('runs')
-      .push({ name, score: 0, history: [], venues: [] }).key;
+      .push({ name, score: 0, history: [], venues: [], date }).key;
 
     ref
       .child(`users/${uid}`)
@@ -130,7 +131,7 @@ class ConnectedApp extends Component {
       .then(s =>
         ref
           .child(`users/${uid}`)
-          .set({ ...s, name, runs: { ...s.runs, [runId]: 0 } })
+          .set({ ...s, name, runs: { ...s.runs, [runId]: { score: 0, date } } })
       );
 
     this.setState(s => ({ ...s, runId }));
@@ -162,24 +163,30 @@ class ConnectedApp extends Component {
 
     ref.child(path).once('value').then(sn => sn.val()).then(snapshot => {
       if (final) {
+        const date = new Date().toString();
         ref.child(path).set({
           ...snapshot,
           history,
+          date,
         });
 
         const { uid, displayName: name } = firebaseAuth().currentUser;
 
-        ref
-          .child(`users/${uid}`)
-          .once('value')
-          .then(s => s.val())
-          .then(s =>
-            ref
-              .child(`users/${uid}`)
-              .set({ ...s, name, runs: { ...s.runs, [runId]: snapshot.score } })
-          );
+        ref.child(`users/${uid}`).once('value').then(s => s.val()).then(s =>
+          ref.child(`users/${uid}`).set({
+            ...s,
+            name,
+            runs: {
+              ...s.runs,
+              [runId]: {
+                date,
+                score: snapshot.score,
+              },
+            },
+          })
+        );
 
-        this.setState(initialState);
+        this.reset();
       } else {
         const score = (snapshot.score ? snapshot.score : 0) + closest.score;
         const newRun = {
@@ -197,6 +204,10 @@ class ConnectedApp extends Component {
         this.onPosition(this.state.position);
       }
     });
+  }
+
+  reset() {
+    this.setState({ ...initialState, loaded: true });
   }
 
   render() {

@@ -22,6 +22,8 @@ const getColumns = (history, showName) => {
   ];
   if (showName) {
     columns.unshift({ title: 'Name', dataIndex: 'name', key: 'name' });
+  } else {
+    columns.unshift({ title: 'Date', dataIndex: 'date', key: 'date' });
   }
   return columns;
 };

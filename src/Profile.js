@@ -19,9 +19,10 @@ class Profile extends Component {
       const runs = Object.keys(data).map(runId => ({
         key: runId,
         run_id: runId,
-        score: data[runId],
+        score: data[runId].score,
+        date: new Date(data[runId].date).toDateString(),
       }));
-      this.setState({ runs, loading: false });
+      this.setState({ runs: runs.reverse(), loading: false });
     });
   }
 

@@ -4,7 +4,7 @@ import InteractiveMap from './components/InteractiveMap';
 import LoadingPage from './components/LoadingPage';
 import { PRIMARY_COLOR } from './constants';
 import { getVenuePhoto } from './helpers/foursquare';
-import { ref } from './helpers/firebase';
+import { ref, firebaseImages } from './helpers/firebase';
 
 const RunNotFound = () =>
   <div
@@ -20,6 +20,32 @@ const RunNotFound = () =>
       <span role="img" aria-label="that's actually quite sad">😢</span>
     </h1>
   </div>;
+
+class PhotoPreview extends Component {
+  state = {
+    url: '',
+  };
+
+  componentWillMount() {
+    const { venue, run } = this.props;
+    firebaseImages({ run, venue }).getDownloadURL().then(url => {
+      this.setState({ url });
+    });
+  }
+
+  render() {
+    const { url } = this.state;
+    const { venueName } = this.props;
+
+    return (
+      <a href={url}>
+        <div>
+          {url && <img src={url} alt={venueName} />}
+        </div>
+      </a>
+    );
+  }
+}
 
 class Run extends Component {
   state = {
@@ -105,14 +131,25 @@ class Run extends Component {
               </Tag>
             </h1>
             <Timeline>
-              {venues.map(({ id, name, score }) =>
-                <Timeline.Item key={id}>
-                  {name}{' '}
-                  <Tag color={PRIMARY_COLOR}>
-                    {score}p
-                  </Tag>
-                </Timeline.Item>
-              )}
+              {venues.map(({ id, name, score }) => {
+                return (
+                  <Timeline.Item
+                    dot={
+                      <PhotoPreview
+                        run={this.props.match.params.id}
+                        venue={id}
+                        venueName={name}
+                      />
+                    }
+                    key={id}
+                  >
+                    {name}{' '}
+                    <Tag color={PRIMARY_COLOR}>
+                      {score}p
+                    </Tag>
+                  </Timeline.Item>
+                );
+              })}
             </Timeline>
           </div>
         </div>;
