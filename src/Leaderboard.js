@@ -5,11 +5,12 @@ import { ref } from './helpers/firebase';
 
 class Leaderboard extends Component {
   state = {
-    leaderboard: null
-  }
+    leaderboard: null,
+  };
 
   componentDidMount() {
-    ref.child('runs')
+    ref
+      .child('runs')
       .orderByChild('points')
       .limitToLast(50)
       .once('value')
@@ -29,12 +30,12 @@ class Leaderboard extends Component {
       {
         title: 'Name',
         dataIndex: 'name',
-        key: 'name'
+        key: 'name',
       },
       {
         title: 'Points',
         dataIndex: 'points',
-        key: 'points'
+        key: 'points',
       },
       {
         title: 'Run',
@@ -45,17 +46,21 @@ class Leaderboard extends Component {
               icon="right-circle"
               onClick={() => history.push(`/run/${record.run_id}`)}
             />
-          </span>
-      }
+          </span>,
+      },
     ];
   }
 
   render() {
     const { leaderboard } = this.state;
 
-    return !leaderboard ? <LoadingPage /> : (
-      <Table pagination={false} columns={this.getColumns()} dataSource={leaderboard} />
-    );
+    return !leaderboard
+      ? <LoadingPage />
+      : <Table
+          pagination={false}
+          columns={this.getColumns()}
+          dataSource={leaderboard}
+        />;
   }
 }
 
