@@ -17,7 +17,7 @@ class Leaderboard extends Component {
         const leaderboard = [];
         snapshot.forEach(record => {
           const { points, name } = record.val();
-          leaderboard.push({ run_id: record.key, points, name });
+          leaderboard.push({ key: record.key, run_id: record.key, points, name });
         });
         this.setState({ leaderboard: leaderboard.reverse() });
       });

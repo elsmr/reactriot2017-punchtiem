@@ -9,21 +9,30 @@ const Heading = ({ rotation }) =>
   <div
     style={{
       display: 'inline-block',
+      fontSize: '16px',
       transform: `rotate(${Math.round(rotation)}rad)`,
     }}
   >
     <Icon type="arrow-up" />
   </div>;
 
-const Closest = ({ name, score, distance, heading }) =>
+const Closest = ({ name, categories, score, distance, heading }) =>
   <div className="Closest">
     <div className="Closest--top">
-      <strong className="Closest--name">{name}</strong>
-      <Tag color={PRIMARY_COLOR}>{score}</Tag>
+      <Tag color={PRIMARY_COLOR}>{score || 0}p</Tag>
+      <h2 className="Closest--name">
+        {name || 'No nearby places found 😢'}
+      </h2>
+
     </div>
-    <div>
-      <div>{distance}m</div>
+    <div className="Closest--details">
       <Heading rotation={heading} />
+      <span className="seperator">&middot;</span>
+      <div>{distance || 0}m from you</div>
+      { categories && <span className="seperator">&middot;</span> }
+      { categories &&
+        <div>{categories[0].name}</div>
+      }
     </div>
   </div>;
 
@@ -31,27 +40,23 @@ const BottomBar = ({
   run = 'bla-bla-bla',
   progress = 0,
   isNear = false,
-  speed = 0,
+  speed = null,
   visited = 0,
   total = 10,
-  closest = {
-    id: 'qslmfjqslmfkjqsmlkfj',
-    name: 'Trafalgar Square',
-    score: 200,
-    distance: 223,
-    heading: 10,
-  },
+  closest = null
 }) =>
   <footer className="BottomBar">
     <div className="BottomBar--inner">
       <div className="BottomBar--main">
         <Closest {...closest} />
-        <div>
+        <div className="BottomBar--details">
+          {speed &&
+            <div>
+              <Icon type="double-right" />
+              <span>{speed} m/s</span>
+            </div>}
           <div>
-            {speed ? `${speed} m/s ` : null}
-          </div>
-          <div>
-            {visited}/{total}
+            {visited} Monuments visited
           </div>
         </div>
       </div>

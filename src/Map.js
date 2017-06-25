@@ -33,6 +33,7 @@ class Foursquare extends Component {
           name: venues[0].name,
           distance: venues[0].location.distance,
           score: getScore(venues[0].stats),
+          categories: venues[0].categories,
           heading: calculateHeading({
             from: { latitude, longitude },
             to: {
