@@ -214,7 +214,7 @@ class App extends Component {
                       <Profile
                         {...props}
                         user={user}
-                        runs={[{ id: 'k', score: 4 }] /* add runs */}
+                        onLogout={() => logout()}
                       />}
                   />
                 </Switch>

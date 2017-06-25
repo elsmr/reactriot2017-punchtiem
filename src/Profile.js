@@ -1,59 +1,47 @@
-import React from 'react';
-import { Table, Button } from 'antd';
+import React, { Component } from 'react';
+import { ref } from './helpers/firebase';
+import RunsTable from './components/RunsTable';
+import LoadingPage from './components/LoadingPage';
 
 import User from './components/User';
 
-const getColumns = history => {
-  return [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name'
-    },
-    {
-      title: 'Time',
-      dataIndex: 'time',
-      key: 'time'
-    },
-    {
-      title: 'Run',
-      key: 'run',
-      render: (text, record) =>
-        <span>
-          <Button
-            icon="right-circle"
-            onClick={() => history.push(`/run/${record.run_id}`)}
-          />
-        </span>
-    }
-  ];
-};
-
-const data = [
-  {
-    key: '6969',
-    run_id: '69',
-    name: 'John 69',
-    time: '15\'69"'
-  },
-  {
-    key: '96',
-    run_id: '88',
-    name: 'Jim 69',
-    time: '15\'69"'
-  },
-  {
-    key: '69',
-    run_id: '96',
-    name: 'Joe 60',
-    time: '15\'69"'
+class Profile extends Component {
+  state = {
+    runs: null,
+    loading: true
   }
-];
 
-const Profile = ({ user, history }) =>
-  <div>
-    <User {...user} />
-    <Table pagination={false} columns={getColumns(history)} dataSource={data} />
-  </div>;
+  componentDidMount() {
+    const { user } = this.props;
+
+    ref.child(`users/${user.uid}/runs`)
+      .once('value')
+      .then(snapshot => {
+        const runs = snapshot.val();
+        this.setState({ runs, loading: false });
+      });
+  }
+
+  render() {
+    const { user, history, onLogout } = this.props;
+    const { runs, loading } = this.state;
+
+    return loading ? <LoadingPage /> : <div>
+          <User {...user} onLogout={onLogout} />
+          {runs && <h2 style={{ margin: '1em' }}>
+              {user.displayName}'s Runs
+            </h2>}
+          {runs && <RunsTable history={history} dataSource={runs} showName={false} />}
+          {!runs && <div style={{ display: 'flex', height: 'calc(100vh - 200px)', justifyContent: 'center', alignItems: 'center' }}>
+              <div>
+                You have not made any runs yet{' '}
+                <span role="img" aria-label="that's actually quite sad">
+                  😢
+                </span>
+              </div>
+            </div>}
+        </div>;
+  }
+}
 
 export default Profile;

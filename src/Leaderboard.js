@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'antd';
 import LoadingPage from './components/Loading';
+import RunsTable from './components/RunsTable';
 import { ref } from './helpers/firebase';
 
 class Leaderboard extends Component {
@@ -23,38 +23,12 @@ class Leaderboard extends Component {
       });
   }
 
-  getColumns() {
-    const { history } = this.props;
-    return [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: 'Points',
-        dataIndex: 'points',
-        key: 'points'
-      },
-      {
-        title: 'Run',
-        key: 'run',
-        render: (text, record) =>
-          <span>
-            <Button
-              icon="right-circle"
-              onClick={() => history.push(`/run/${record.run_id}`)}
-            />
-          </span>
-      }
-    ];
-  }
-
   render() {
     const { leaderboard } = this.state;
+    const { history } = this.props;
 
     return !leaderboard ? <LoadingPage /> : (
-      <Table pagination={false} columns={this.getColumns()} dataSource={leaderboard} />
+      <RunsTable history={history} dataSource={leaderboard} />
     );
   }
 }
