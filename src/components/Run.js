@@ -6,7 +6,20 @@ import { PRIMARY_COLOR } from '../constants';
 import { getScore, getVenuePhoto } from '../helpers/foursquare';
 import { ref } from '../helpers/firebase';
 
-const RunNotFound = () => <div style={{ display: 'flex', height: 'calc(100vh - 64px)', justifyContent: 'center', alignItems: 'center' }}><h1>Run not found 😢</h1></div>;
+const RunNotFound = () =>
+  <div
+    style={{
+      display: 'flex',
+      height: 'calc(100vh - 64px)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <h1>
+      Run not found{' '}
+      <span role="img" aria-label="that's actually quite sad">😢</span>
+    </h1>
+  </div>;
 
 class Run extends Component {
   state = {
@@ -16,12 +29,14 @@ class Run extends Component {
     name: null,
     loading: true,
     notFound: false,
-    points: 0
-  }
+    points: 0,
+  };
 
   componentWillMount() {
     const { match } = this.props;
-    ref.child(`runs/${match.params.id}`).once('value', this.receiveRun.bind(this), this.runNotFound.bind(this))
+    ref
+      .child(`runs/${match.params.id}`)
+      .once('value', this.receiveRun.bind(this), this.runNotFound.bind(this));
   }
 
   receiveRun(snapshot) {
@@ -43,8 +58,8 @@ class Run extends Component {
               ...state,
               venueImages: {
                 ...state.venueImages,
-                [venue.id]: url
-              }
+                [venue.id]: url,
+              },
             }));
           }
         });
@@ -57,24 +72,46 @@ class Run extends Component {
   }
 
   render() {
-    const { notFound, loading, name, venues, venueImages, history, points } = this.state;
+    const {
+      notFound,
+      loading,
+      name,
+      venues,
+      venueImages,
+      history,
+      points,
+    } = this.state;
     if (notFound) {
       return <RunNotFound />;
     }
 
-    return loading ? <LoadingPage /> : <div>
-          <InteractiveMap venueImages={venueImages} venues={venues} history={history} zoom={16} />
+    return loading
+      ? <LoadingPage />
+      : <div>
+          <InteractiveMap
+            venueImages={venueImages}
+            venues={venues}
+            history={history}
+            zoom={16}
+          />
           <div style={{ margin: '2em' }}>
-            <h1 style={{ margin: '2em 0', display: 'flex', alignItems: 'center' }}>
+            <h1
+              style={{ margin: '2em 0', display: 'flex', alignItems: 'center' }}
+            >
               <span>Run by {name}{' '}</span>
-              <Tag style={{marginLeft: '.5em'}}color={PRIMARY_COLOR}>{points}p</Tag>
+              <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
+                {points}p
+              </Tag>
             </h1>
             <Timeline>
-              {venues.map(venue => <Timeline.Item key={venue.id}>
-                  {venue.name} <Tag color={PRIMARY_COLOR}>
+              {venues.map(venue =>
+                <Timeline.Item key={venue.id}>
+                  {venue.name}{' '}
+                  <Tag color={PRIMARY_COLOR}>
                     {getScore(venue.stats)}p
                   </Tag>
-                </Timeline.Item>)}
+                </Timeline.Item>
+              )}
             </Timeline>
           </div>
         </div>;

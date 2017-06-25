@@ -69,7 +69,10 @@ const beforeRunStyle = {
 
 export const BeforeRun = ({ onStart }) =>
   <footer className="BottomBar" style={beforeRunStyle}>
-    <p>Get ready to start your monument run 🏃🏽‍</p>
+    <p>
+      Get ready to start your monument run{' '}
+      <span role="img" aria-label="running dood">🏃🏽‍</span>
+    </p>
     <p>You have 15 minutes to spot monuments</p>
     <p>Take a picture at each monument you're close to</p>
     <p>You get more points for more popular monuments</p>
@@ -78,8 +81,13 @@ export const BeforeRun = ({ onStart }) =>
 
 export const AfterRun = ({ onStart, totalPoints, runId }) =>
   <footer className="BottomBar" style={beforeRunStyle}>
-    <p>Congratulations 🎉</p>
-    <p>You won a whole {totalPoints} points 😏🍆</p>
+    <p>
+      Congratulations <span role="img" aria-label="woo fucking hoo!">🎉</span>
+    </p>
+    <p>
+      You won a whole {totalPoints} points{' '}
+      <span role="img" aria-label="if you know what i mean">😏🍆</span>
+    </p>
     <p>View the <Link to={`/run/${runId}`}>Run</Link> again</p>
     <Button onClick={onStart} style={{ margin: '1em' }}>Try again</Button>
   </footer>;
