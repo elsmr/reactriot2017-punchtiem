@@ -92,7 +92,7 @@ const InteractiveMap = ({
   venueImages,
   history,
   bearing,
-  zoom = 16,
+  zoom = 16.5,
 }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
