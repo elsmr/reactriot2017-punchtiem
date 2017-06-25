@@ -102,7 +102,7 @@ class Foursquare extends Component {
         />
         {showBottom
           ? <BottomBar
-              position={position}
+              speed={position.speed}
               progress={progress}
               isNear={closest.distance < 20}
               closest={closest}

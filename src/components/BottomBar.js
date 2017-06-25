@@ -38,7 +38,7 @@ const BottomBar = ({
         <Closest {...closest} />
         <div>
           <div>
-            {speed} km/h
+            {speed ? `${speed} m/s ` : null}
           </div>
           <div>
             {visited}/{total}
