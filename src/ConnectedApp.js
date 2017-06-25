@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ref, firebaseAuth } from './helpers/firebase';
 import { getVenues, getVenuePhoto, getScore } from './helpers/foursquare';
 import { RUN_DURATION_SECONDS } from './constants';
 import App from './App';
@@ -106,6 +107,10 @@ class ConnectedApp extends Component {
         this.stopTimer();
       }
     }, 1000);
+
+    const { uid, displayName: name } = firebaseAuth().currentUser;
+    const runId = ref.child('runs').push({ uid, name }).key;
+    this.setState(s => ({ ...s, runId }));
   };
 
   stopTimer = () => {

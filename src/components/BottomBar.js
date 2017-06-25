@@ -43,7 +43,8 @@ const BottomBar = ({
   speed = null,
   visited = 0,
   total = 10,
-  closest = null
+  closest = null,
+  onUploaded
 }) =>
   <footer className="BottomBar">
     <div className="BottomBar--inner">
@@ -60,7 +61,12 @@ const BottomBar = ({
           </div>
         </div>
       </div>
-      <Camera isNear={isNear} run={run} venue={closest} />
+      <Camera
+        isNear={isNear}
+        run={run}
+        venue={closest}
+        onUploaded={onUploaded}
+      />
     </div>
     <Progress percent={progress} status="active" showInfo={false} />
   </footer>;
@@ -91,7 +97,7 @@ export const AfterRun = ({ onStart, totalPoints, runId }) =>
     </p>
     <p>
       You won a whole {totalPoints} points{' '}
-      <span role="img" aria-label="if you know what i mean">😏🍆</span>
+      <span role="img" aria-label="if you know what i mean"> 😏 🍆 </span>
     </p>
     <p>View the <Link to={`/run/${runId}`}>Run</Link> again</p>
     <Button onClick={onStart} style={{ margin: '1em' }}>Try again</Button>

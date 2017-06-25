@@ -8,7 +8,7 @@ import { firebaseAuth, ref } from './helpers/firebase';
 import { Layout, Icon, Avatar, Tooltip, message } from 'antd';
 
 import { logout } from './helpers/auth';
-import { PAGE_TITLES } from './constants';
+import { PAGE_TITLES, CLOUDINARY } from './constants';
 
 import Profile from './Profile';
 import Landing from './Landing';
@@ -74,10 +74,12 @@ class App extends Component {
     firebaseAuth().onAuthStateChanged(user => {
       if (user) {
         const path = `users/${user.uid}`;
-        ref.child(path).once('value', snapshot => {
-          const record = snapshot.val();
-          ref.child(path).set(Object.assign({}, record, user.providerData[0]));
-        });
+        const userData = user.providerData[0];
+        ref
+          .child(path)
+          .once('value')
+          .then(sn => sn.val())
+          .then(snapshot => ref.child(path).set({ ...snapshot, ...userData }));
 
         this.setState({
           auth: true,
@@ -169,7 +171,7 @@ class App extends Component {
                     >
                       <Avatar
                         style={{ marginRight: '.5em' }}
-                        src={user.photoURL}
+                        src={`${CLOUDINARY}${user.photoURL}`}
                       />
                       <span>{user.displayName}</span>
                     </div>
