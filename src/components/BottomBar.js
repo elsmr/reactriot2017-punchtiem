@@ -84,7 +84,7 @@ export const BeforeRun = ({ onStart }) =>
     </p>
     <p>You have 15 minutes to spot monuments</p>
     <p>Take a picture at each monument you're close to</p>
-    <p>You get more a bigger score for more popular monuments</p>
+    <p>Some monuments score more than others!</p>
     <Button onClick={onStart} style={{ margin: '1em' }}>Start</Button>
   </footer>;
 
