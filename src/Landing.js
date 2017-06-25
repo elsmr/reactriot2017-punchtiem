@@ -15,6 +15,7 @@ const imageStyle = {
   justifyContent: 'center',
   fontSize: '1.5em',
   color: '#fff',
+  objectFit: 'cover'
 };
 
 const Landing = ({ auth, history, onLogin }) =>
