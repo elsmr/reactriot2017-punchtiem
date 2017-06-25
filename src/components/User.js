@@ -4,7 +4,8 @@ import { CLOUDINARY } from '../constants';
 import './User.css';
 
 const User = ({ displayName, email, photoURL, onLogout }) => {
-  return <div className="User">
+  return (
+    <div className="User">
       <div className="User__details">
         <Avatar src={`${CLOUDINARY}${photoURL}`} />
         <div className="User__info">
@@ -15,7 +16,8 @@ const User = ({ displayName, email, photoURL, onLogout }) => {
       <Button type="primary" onClick={onLogout}>
         Logout
       </Button>
-    </div>;
+    </div>
+  );
 };
 
 export default User;

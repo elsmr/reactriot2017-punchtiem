@@ -18,7 +18,12 @@ class Leaderboard extends Component {
         const leaderboard = [];
         snapshot.forEach(record => {
           const { points, name } = record.val();
-          leaderboard.push({ key: record.key, run_id: record.key, points, name });
+          leaderboard.push({
+            key: record.key,
+            run_id: record.key,
+            points,
+            name,
+          });
         });
         this.setState({ leaderboard: leaderboard.reverse() });
       });
@@ -28,9 +33,9 @@ class Leaderboard extends Component {
     const { leaderboard } = this.state;
     const { history } = this.props;
 
-    return !leaderboard ? <LoadingPage /> : (
-      <RunsTable history={history} dataSource={leaderboard} />
-    );
+    return !leaderboard
+      ? <LoadingPage />
+      : <RunsTable history={history} dataSource={leaderboard} />;
   }
 }
 

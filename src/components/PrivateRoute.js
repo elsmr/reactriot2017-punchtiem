@@ -5,12 +5,9 @@ const PrivateRoute = ({ render, auth, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={
-        auth === true
-          ? render
-          : props => <Redirect to="/" />}
+      render={auth === true ? render : props => <Redirect to="/" />}
     />
   );
-}
+};
 
 export default PrivateRoute;

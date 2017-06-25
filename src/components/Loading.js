@@ -11,7 +11,7 @@ const Loading = () =>
       margin: '2em',
     }}
   >
-    <Spin size="large"></Spin>
+    <Spin size="large" />
   </div>;
 
 export default Loading;
