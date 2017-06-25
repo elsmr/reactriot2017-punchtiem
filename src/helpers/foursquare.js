@@ -17,15 +17,14 @@ export const getVenuePhoto = id =>
     limit: 1,
   });
 
-export const getScore = ({ checkinsCount, usersCount, tipCount }) => {
+export function getScore({ checkinsCount, usersCount, tipCount }) {
   const weightedCheckins = checkinsCount / 400000.0;
-  const weightedTips = (tipCount / 2000.0) * 3;
+  const weightedTips = tipCount / 2000.0 * 3;
   const weightedUsers = usersCount / 400000.0;
 
   const weightedScore = weightedCheckins + weightedTips + weightedUsers;
   return Math.max(1, Math.ceil(Math.pow(weightedScore * 1000000, 0.2)));
 }
-
 
 const toRadians = degrees => degrees * Math.PI / 180;
 
