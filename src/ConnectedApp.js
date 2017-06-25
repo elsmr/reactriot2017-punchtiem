@@ -131,7 +131,7 @@ class ConnectedApp extends Component {
 
   stopTimer = () => {
     clearInterval(this.timer);
-    this.pushData();
+    this.pushData({ final: true });
     this.setState(s => ({ ...s, started: false, stopped: true }));
   };
 
@@ -139,7 +139,7 @@ class ConnectedApp extends Component {
     this.setState(prevState => Object.assign({}, prevState, state));
   }
 
-  pushData() {
+  pushData({ final = false }) {
     const { runId, history, venues } = this.state;
     const path = `runs/${runId}`;
 
@@ -153,8 +153,13 @@ class ConnectedApp extends Component {
         }
       : false;
 
-    if (closest) {
-      ref.child(path).once('value').then(sn => sn.val()).then(snapshot => {
+    ref.child(path).once('value').then(sn => sn.val()).then(snapshot => {
+      if (final) {
+        ref.child(path).set({
+          ...snapshot,
+          history,
+        });
+      } else {
         const score = (snapshot.score ? snapshot.score : 0) + closest.score;
         const newRun = {
           ...snapshot,
@@ -168,8 +173,8 @@ class ConnectedApp extends Component {
         newRun.visitedVenues = newRun.venues;
         delete newRun.venues;
         this.updateRunState(newRun);
-      });
-    }
+      }
+    });
   }
 
   render() {
