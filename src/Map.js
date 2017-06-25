@@ -23,7 +23,7 @@ class Foursquare extends Component {
     const closest = venues && venues[0]
       ? {
           name: venues[0].name,
-          distance: venues[0].location.distance,
+          location: venues[0].location,
           score: getScore(venues[0].stats),
           categories: venues[0].categories,
           id: venues[0].id,
@@ -133,7 +133,7 @@ const Wrapper = ({
       progress={100 * runState.progressedS / RUN_DURATION_SECONDS}
     />
     {runState.stopped
-      ? <AfterRun onStart={startTimer} />
+      ? <AfterRun onStart={startTimer} runId={runState.runId} />
       : !runState.started && <BeforeRun onStart={startTimer} />}
   </div>;
 

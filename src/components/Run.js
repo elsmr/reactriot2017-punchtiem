@@ -3,7 +3,7 @@ import { Timeline, Tag } from 'antd';
 import InteractiveMap from './InteractiveMap';
 import LoadingPage from './LoadingPage';
 import { PRIMARY_COLOR } from '../constants';
-import { getScore, getVenuePhoto } from '../helpers/foursquare';
+import { getVenuePhoto } from '../helpers/foursquare';
 import { ref } from '../helpers/firebase';
 
 const RunNotFound = () =>
@@ -105,11 +105,11 @@ class Run extends Component {
               </Tag>
             </h1>
             <Timeline>
-              {venues.map(venue =>
-                <Timeline.Item key={venue.id}>
-                  {venue.name}{' '}
+              {venues.map(({ id, name, score }) =>
+                <Timeline.Item key={id}>
+                  {name}{' '}
                   <Tag color={PRIMARY_COLOR}>
-                    {getScore(venue.stats)}p
+                    {score}p
                   </Tag>
                 </Timeline.Item>
               )}
