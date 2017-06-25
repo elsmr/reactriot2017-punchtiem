@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { ref } from './helpers/firebase';
 import { getScore, calculateHeading } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import LoadingPage from './components/LoadingPage';
