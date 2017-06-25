@@ -56,6 +56,7 @@ export const BeforeRun = ({ onStart }) =>
   <footer className="BottomBar">
     <Button onClick={onStart}>Start</Button>
   </footer>;
+
 export const AfterRun = ({ onStart }) =>
   <footer className="BottomBar">
     <Button onClick={onStart}>Restart</Button>
