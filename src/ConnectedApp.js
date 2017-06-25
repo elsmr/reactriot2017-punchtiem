@@ -3,6 +3,7 @@ import { ref, firebaseAuth } from './helpers/firebase';
 import { getVenues, getVenuePhoto, getScore } from './helpers/foursquare';
 import { RUN_DURATION_SECONDS, FOURSQUARE_CATEGORIES } from './constants';
 import App from './App';
+import { message } from 'antd';
 
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
@@ -130,11 +131,45 @@ class ConnectedApp extends Component {
 
   stopTimer = () => {
     clearInterval(this.timer);
+    this.pushData();
     this.setState(s => ({ ...s, started: false, stopped: true }));
   };
 
   updateRunState(state) {
     this.setState(prevState => Object.assign({}, prevState, state));
+  }
+
+  pushData() {
+    const { runId, history, venues } = this.state;
+    const path = `runs/${runId}`;
+
+    const closest = venues && venues[0]
+      ? {
+          name: venues[0].name,
+          location: venues[0].location,
+          score: getScore(venues[0].stats),
+          categories: venues[0].categories,
+          id: venues[0].id,
+        }
+      : false;
+
+    if (closest) {
+      ref.child(path).once('value').then(sn => sn.val()).then(snapshot => {
+        const score = (snapshot.score ? snapshot.score : 0) + closest.score;
+        const newRun = {
+          ...snapshot,
+          history,
+          venues: snapshot.venues ? [...snapshot.venues, closest] : [closest],
+          score,
+        };
+        ref.child(path).set(newRun).then(() => {
+          message.success(<span>Image uploaded successfully</span>, 3);
+        });
+        newRun.visitedVenues = newRun.venues;
+        delete newRun.venues;
+        this.updateRunState(newRun);
+      });
+    }
   }
 
   render() {
@@ -145,6 +180,7 @@ class ConnectedApp extends Component {
         stopTracking={this.stopTracking.bind(this)}
         startTimer={this.startTimer.bind(this)}
         stopTimer={this.stopTimer.bind(this)}
+        pushData={this.pushData.bind(this)}
         runState={this.state}
       />
     );

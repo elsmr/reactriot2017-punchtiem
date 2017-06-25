@@ -46,7 +46,7 @@ class Run extends Component {
       return;
     }
 
-    const { history, name, score, venues } = record;
+    const { history, name, score, venues = [] } = record;
     this.setState({ venues, history, name, score, loading: false });
     venues.forEach(venue => {
       if (!this.state.venueImages.hasOwnProperty(venue.id)) {
@@ -77,7 +77,7 @@ class Run extends Component {
       notFound,
       loading,
       name,
-      venues,
+      venues = [],
       venueImages,
       history,
       score,

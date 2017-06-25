@@ -87,6 +87,19 @@ const History = ({ history }) =>
     <Feature coordinates={history} />
   </Layer>;
 
+function getCenter({ here, venues, history }) {
+  if (here) {
+    return here;
+  }
+  if (venues.length > 0) {
+    return [venues[0].location.lng, venues[0].location.lat];
+  }
+  if (history && history.length > 0) {
+    return history[0];
+  }
+  return undefined;
+}
+
 /*eslint-disable react/style-prop-object*/
 const InteractiveMap = ({
   here,
@@ -104,7 +117,7 @@ const InteractiveMap = ({
     }}
     zoom={[zoom]}
     pitch={60}
-    center={here ? here : [venues[0].location.lng, venues[0].location.lat]}
+    center={getCenter({ here, venues, history })}
     bearing={bearing}
   >
     <ZoomControl />

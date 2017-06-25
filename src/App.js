@@ -104,7 +104,7 @@ class App extends Component {
 
   render() {
     const {
-      updateRunState,
+      pushData,
       startTracking,
       stopTracking,
       startTimer,
@@ -200,7 +200,7 @@ class App extends Component {
                     path="/app"
                     render={() =>
                       <Map
-                        updateRunState={updateRunState}
+                        pushData={pushData}
                         startTracking={startTracking}
                         stopTracking={stopTracking}
                         startTimer={startTimer}
