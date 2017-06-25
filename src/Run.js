@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Timeline, Tag } from 'antd';
+import { Timeline, Tag, Modal } from 'antd';
 import InteractiveMap from './components/InteractiveMap';
 import LoadingPage from './components/LoadingPage';
 import { PRIMARY_COLOR } from './constants';
@@ -35,7 +35,7 @@ class PhotoPreview extends Component {
 
   render() {
     const { url } = this.state;
-    const { venueName } = this.props;
+    const { venueName, style, onClick } = this.props;
 
     return url
       ? <img
@@ -43,12 +43,15 @@ class PhotoPreview extends Component {
             objectFit: 'cover',
             border: `${PRIMARY_COLOR} 2px solid`,
             width: '100%',
+            maxWidth: '600px',
             maxHeight: '25vh',
             background: '#fff',
             marginTop: '.5em',
+            ...style,
           }}
           src={url}
           alt={venueName}
+          onClick={onClick}
         />
       : null;
   }
@@ -105,6 +108,10 @@ class Run extends Component {
     this.setState({ loading: false, notFound: true });
   }
 
+  dismiss = () => this.setState(s => ({ ...s, modal: false }));
+
+  selectModal = modal => this.setState(s => ({ ...s, modal }));
+
   render() {
     const {
       notFound,
@@ -114,6 +121,7 @@ class Run extends Component {
       venueImages,
       history,
       score,
+      modal,
     } = this.state;
     if (notFound) {
       return <RunNotFound />;
@@ -163,20 +171,42 @@ class Run extends Component {
             <Timeline>
               {venues.map(({ id, name, score }) => {
                 return (
-                  <Timeline.Item key={id}>
-                    {name}{' '}
-                    <Tag color={PRIMARY_COLOR}>
-                      {score}p
-                    </Tag>
+                  <Timeline.Item
+                    key={id}
+                    style={{ display: 'flex', flexDirection: 'column' }}
+                  >
+                    <div>
+                      {name}{' '}
+                      <Tag color={PRIMARY_COLOR}>
+                        {score}p
+                      </Tag>
+                    </div>
                     <PhotoPreview
                       run={this.props.match.params.id}
                       venue={id}
                       venueName={name}
+                      onClick={() => this.selectModal({ id, name })}
                     />
                   </Timeline.Item>
                 );
               })}
             </Timeline>
+
+            <Modal
+              title={modal && modal.name}
+              visible={modal}
+              footer={null}
+              onCancel={this.dismiss}
+            >
+              {modal &&
+                <PhotoPreview
+                  run={this.props.match.params.id}
+                  venue={modal.id}
+                  venueName={modal.name}
+                  style={{ maxWidth: 'initial', maxHeight: 'initial' }}
+                />}
+            </Modal>
+
           </div>
 
         </div>;
