@@ -55,7 +55,7 @@ const BottomBar = ({
               <span>{speed} m/s</span>
             </div>}
           <div>
-            {visited} Monuments visited
+            {visited} {visited === 1 ? 'Monument' : 'Monuments'} visited
           </div>
         </div>
       </div>

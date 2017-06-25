@@ -100,7 +100,11 @@ const Wrapper = ({
       pushData={pushData}
     />
     {runState.stopped
-      ? <AfterRun onStart={startTimer} runId={runState.runId} />
+      ? <AfterRun
+          totalPoints={runState.score}
+          onStart={startTimer}
+          runId={runState.runId}
+        />
       : !runState.started && <BeforeRun onStart={startTimer} />}
   </div>;
 
