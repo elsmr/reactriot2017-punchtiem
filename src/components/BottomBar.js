@@ -92,7 +92,7 @@ export const AfterRun = ({ onStart, totalPoints, runId }) =>
     </p>
     <p>
       You won a whole {totalPoints} points{' '}
-      <span role="img" aria-label="if you know what i mean">😏🍆</span>
+      <span role="img" aria-label="if you know what i mean"> 😏 🍆 </span>
     </p>
     <p>View the <Link to={`/run/${runId}`}>Run</Link> again</p>
     <Button onClick={onStart} style={{ margin: '1em' }}>Try again</Button>
