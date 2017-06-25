@@ -15,8 +15,9 @@ class Profile extends Component {
     const { user } = this.props;
 
     ref.child(`users/${user.uid}/runs`).once('value').then(snapshot => {
-      const data = snapshot.val();
+      const data = snapshot.val() || {};
       const runs = Object.keys(data).map(runId => ({
+        key: runId,
         run_id: runId,
         score: data[runId],
       }));
@@ -32,13 +33,13 @@ class Profile extends Component {
       ? <LoadingPage />
       : <div>
           <User {...user} onLogout={onLogout} />
-          {runs &&
+          {runs.length > 0 &&
             <h2 style={{ margin: '1em' }}>
               {user.displayName}'s Runs
             </h2>}
-          {runs &&
+          {runs.length > 0 &&
             <RunsTable history={history} dataSource={runs} showName={false} />}
-          {!runs &&
+          {!runs.length &&
             <div
               style={{
                 display: 'flex',
