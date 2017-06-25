@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Progress, Icon, Tag, Button } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
 import Camera from './Camera';
@@ -61,12 +62,32 @@ const BottomBar = ({
 
 export default BottomBar;
 
+const beforeRunStyle = {
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 export const BeforeRun = ({ onStart }) =>
-  <footer className="BottomBar">
-    <Button onClick={onStart}>Start</Button>
+  <footer className="BottomBar" style={beforeRunStyle}>
+    <p>
+      Get ready to start your monument run{' '}
+      <span role="img" aria-label="running dood">🏃🏽‍</span>
+    </p>
+    <p>You have 15 minutes to spot monuments</p>
+    <p>Take a picture at each monument you're close to</p>
+    <p>You get more points for more popular monuments</p>
+    <Button onClick={onStart} style={{ margin: '1em' }}>Start</Button>
   </footer>;
 
-export const AfterRun = ({ onStart }) =>
-  <footer className="BottomBar">
-    <Button onClick={onStart}>Restart</Button>
+export const AfterRun = ({ onStart, totalPoints, runId }) =>
+  <footer className="BottomBar" style={beforeRunStyle}>
+    <p>
+      Congratulations <span role="img" aria-label="woo fucking hoo!">🎉</span>
+    </p>
+    <p>
+      You won a whole {totalPoints} points{' '}
+      <span role="img" aria-label="if you know what i mean">😏🍆</span>
+    </p>
+    <p>View the <Link to={`/run/${runId}`}>Run</Link> again</p>
+    <Button onClick={onStart} style={{ margin: '1em' }}>Try again</Button>
   </footer>;
