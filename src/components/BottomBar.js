@@ -1,5 +1,6 @@
 import React from 'react';
 import { Progress, Icon, Tag, Button } from 'antd';
+import { PRIMARY_COLOR } from '../constants';
 import Camera from './Camera';
 import './BottomBar.css';
 
@@ -9,7 +10,7 @@ const Closest = ({ name, score, distance, heading }) =>
   <div className="Closest">
     <div className="Closest--top">
       <strong className="Closest--name">{name}</strong>
-      <Tag color="red">{score}</Tag>
+      <Tag color={PRIMARY_COLOR}>{score}</Tag>
     </div>
     <div>
       <div>{distance}m</div>

@@ -1,25 +1,37 @@
-import React from 'react';
-import { Timeline } from 'antd';
+import React, { Component } from 'react';
+import { Timeline, Tag } from 'antd';
+import InteractiveMap from './InteractiveMap';
+import Loading from './Loading';
+import { PRIMARY_COLOR } from '../constants';
+import { getScore } from '../helpers/foursquare';
 
-const data = [
-  { location: 'Memexd' },
-  { location: 'nog een meme xd' },
-  { location: 'oops nog één!!!!' }
-];
+class Run extends Component {
+  state = {
+    venues: null,
+    name: null,
+    loading: true
+  }
 
-const Run = ({ match }) => {
-  return (
-    <div>
-      <div style={{ backgroundColor: 'grey', height: '60vh' }}>Map</div>
-      <div style={{ margin: '2em' }}>
-        <Timeline>
-          {data.map(item =>
-            <Timeline.Item key={item.location}>{item.location}</Timeline.Item>
-          )}
-        </Timeline>
-      </div>
-    </div>
-  );
-};
+  componentWillMount() {
+    const { match } = this.props;
+  }
+
+  render() {
+    const { loading, name, venues } = this.state;
+    return loading ? <Loading /> : <div>
+          <InteractiveMap />
+          <div style={{ margin: '2em' }}>
+            <h1>Run by {name}</h1>
+            <Timeline>
+              {venues.map(venue =>
+                <Timeline.Item key={venue.id}>
+                  {venue.name} <Tag color={PRIMARY_COLOR}>{getScore(venue)}</Tag>
+                </Timeline.Item>
+              )}
+            </Timeline>
+          </div>
+        </div>;
+  }
+}
 
 export default Run;
