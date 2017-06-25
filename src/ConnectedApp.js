@@ -8,24 +8,26 @@ import { message } from 'antd';
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
 
+const initialState = {
+  venues: [],
+  venueImages: {},
+  query: {
+    radius: 500,
+    categoryId: FOURSQUARE_CATEGORIES.join(','), // arts & entertainment
+  },
+  history: [],
+  loaded: false,
+  started: false,
+  stopped: false,
+  progressedS: 0,
+  watchPositionId: 0,
+  userHeading: 0,
+  score: 0,
+  visitedVenues: [],
+};
+
 class ConnectedApp extends Component {
-  state = {
-    venues: [],
-    venueImages: {},
-    query: {
-      radius: 500,
-      categoryId: FOURSQUARE_CATEGORIES.join(','), // arts & entertainment
-    },
-    history: [],
-    loaded: false,
-    started: false,
-    stopped: false,
-    progressedS: 0,
-    watchPositionId: 0,
-    userHeading: 0,
-    score: 0,
-    visitedVenues: [],
-  };
+  state = initialState;
 
   startTracking() {
     if ('geolocation' in navigator) {
@@ -171,6 +173,8 @@ class ConnectedApp extends Component {
               .child(`users/${uid}`)
               .set({ ...s, name, runs: { ...s.runs, [runId]: snapshot.score } })
           );
+
+        this.setState(initialState);
       } else {
         const score = (snapshot.score ? snapshot.score : 0) + closest.score;
         const newRun = {
