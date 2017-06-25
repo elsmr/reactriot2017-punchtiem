@@ -5,11 +5,12 @@ import { ref } from './helpers/firebase';
 
 class Leaderboard extends Component {
   state = {
-    leaderboard: null
-  }
+    leaderboard: null,
+  };
 
   componentDidMount() {
-    ref.child('runs')
+    ref
+      .child('runs')
       .orderByChild('points')
       .limitToLast(50)
       .once('value')
