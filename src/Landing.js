@@ -4,7 +4,11 @@ import { login } from './helpers/auth';
 
 const wrapperStyle = {
   margin: '2em',
-  textAlign: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  minHeight: '60vh',
 };
 
 const imageStyle = {
@@ -55,6 +59,17 @@ const Login = ({ onLogin }) =>
   </div>;
 
 export default class Landing extends Component {
+  componentDidMount() {
+    const script = document.createElement('script');
+    script.addEventListener('load', () =>
+      window.HACKBIT_VOTING_WIDGET.render(this.widget)
+    );
+    script.src =
+      'https://www.reactriot.com/entries/3-punchtiem/vote.js?manual=true';
+    script.async = true;
+    document.body.appendChild(script);
+  }
+
   componentDidUpdate() {
     // idk why we need a timeout but we do wtf kill me now
     // ant fixes the carousel when resize event is fired
@@ -97,9 +112,11 @@ export default class Landing extends Component {
         <div style={wrapperStyle}>
           <div
             style={{
+              flex: 1,
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
-              margin: '2em 0',
+              alignItems: 'center',
             }}
           >
             <Timeline style={{ textAlign: 'left' }}>
@@ -117,32 +134,46 @@ export default class Landing extends Component {
                 Challenge everyone to beat your time!
               </Timeline.Item>
             </Timeline>
+            {!auth
+              ? <Login onLogin={onLogin} />
+              : <Button type="primary" onClick={() => history.push('/app')}>
+                  Start your Monument Run
+                </Button>}
           </div>
-          {!auth
-            ? <Login onLogin={onLogin} />
-            : <Button type="primary" onClick={() => history.push('/app')}>
-                Start your Monument Run
-              </Button>}
+          <section className="Landing-info">
+            <h3>Info</h3>
+            <p>
+              This app is made by{' '}
+              <a href="https://eliasmei.re">
+                Elias Meire
+              </a>,{' '}
+              <a href="https://haroen.me">Haroen Viaene</a> and{' '}
+              <a href="https://weyts.xyz">
+                Arnaud Weyts
+              </a>. It's part of{' '}
+              <a href="reactriot.com">React Riot</a> 2017.
+            </p>
+            <p>
+              The monument data is available on the{' '}
+              <a href="https://developer.foursquare.com/">
+                Foursquare
+              </a>{' '}
+              API.
+            </p>
+            <p>
+              This is an open source project,{' '}
+              <a href="https://github.com/Hackbit/reactriot2017-punchtiem">
+                source code
+              </a>
+            </p>
+          </section>
         </div>
-        <section className="Landing-info">
-          <h3>Info</h3>
-          <p>
-            This app is made by <a href="https://eliasmei.re">Elias Meire</a>,{' '}
-            <a href="https://haroen.me">Haroen Viaene</a> and{' '}
-            <a href="https://weyts.xyz">Arnaud Weyts</a>. It's part of{' '}
-            <a href="reactriot.com">React Riot</a> 2017.
-          </p>
-          <p>
-            The monument data is available on the{' '}
-            <a href="https://developer.foursquare.com/">Foursquare</a> API.
-          </p>
-          <p>
-            This is an open source project,{' '}
-            <a href="https://github.com/Hackbit/reactriot2017-punchtiem">
-              source code
-            </a>
-          </p>
-        </section>
+        <div
+          className="voting-widget"
+          ref={widget => {
+            this.widget = widget;
+          }}
+        />
       </div>
     );
   }
