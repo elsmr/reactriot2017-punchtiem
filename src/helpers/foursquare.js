@@ -48,3 +48,17 @@ export function calculateHeading({ from, to, userHeading }) {
 
   return d - toRadians(userHeading);
 }
+
+export function distance(first, second) {
+  const R = 6371e3; // metres
+  const p = Math.PI / 180;
+  const a =
+    0.5 -
+    Math.cos((second.latitude - first.latitude) * p) / 2 +
+    Math.cos(first.latitude * p) *
+      Math.cos(second.latitude * p) *
+      (1 - Math.cos((second.longitude - first.longitude) * p)) /
+      2;
+
+  return R * Math.asin(Math.sqrt(a));
+}

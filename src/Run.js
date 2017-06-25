@@ -3,7 +3,7 @@ import { Timeline, Tag } from 'antd';
 import InteractiveMap from './components/InteractiveMap';
 import LoadingPage from './components/LoadingPage';
 import { PRIMARY_COLOR } from './constants';
-import { getVenuePhoto } from './helpers/foursquare';
+import { getVenuePhoto, distance } from './helpers/foursquare';
 import { ref } from './helpers/firebase';
 
 const RunNotFound = () =>
@@ -86,6 +86,19 @@ class Run extends Component {
       return <RunNotFound />;
     }
 
+    const totalDistance = (history || [])
+      .reduce(
+        (acc, val, index, arr) =>
+          index === 0
+            ? 0
+            : acc +
+                distance(
+                  { latitude: val[0], longitude: val[1] },
+                  { latitude: arr[index - 1][0], longitude: arr[index - 1][1] }
+                ),
+        0
+      );
+
     return loading
       ? <LoadingPage />
       : <div>
@@ -97,13 +110,22 @@ class Run extends Component {
           />
           <div style={{ margin: '2em' }}>
             <h1
-              style={{ margin: '2em 0', display: 'flex', alignItems: 'center' }}
+              style={{
+                margin: '2em 0',
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+              }}
             >
               <span>Run by {name}{' '}</span>
               <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
                 {score}p
               </Tag>
+              <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
+                {totalDistance.toLocaleString()}m
+              </Tag>
             </h1>
+
             <Timeline>
               {venues.map(({ id, name, score }) =>
                 <Timeline.Item key={id}>
@@ -115,6 +137,7 @@ class Run extends Component {
               )}
             </Timeline>
           </div>
+
         </div>;
   }
 }
