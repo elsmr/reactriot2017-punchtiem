@@ -4,7 +4,15 @@ import { PRIMARY_COLOR } from '../constants';
 import Camera from './Camera';
 import './BottomBar.css';
 
-const Heading = ({ rotation }) => <Icon type="arrow-up" spin />;
+const Heading = ({ rotation }) =>
+  <div
+    style={{
+      display: 'inline-block',
+      transform: `rotate(${Math.round(rotation)}rad)`,
+    }}
+  >
+    <Icon type="arrow-up" />
+  </div>;
 
 const Closest = ({ name, score, distance, heading }) =>
   <div className="Closest">

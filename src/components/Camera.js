@@ -9,12 +9,16 @@ export default class Camera extends Component {
   }
 
   componentDidMount() {
-    const { run, venue } = this.props;
-
-    this.cameraInput.addEventListener('change', e =>
-      uploadFile({ file: this.cameraInput.files[0], run, venue })
-    );
+    this.cameraInput.addEventListener('change', this._willUpload);
   }
+
+  _willUpload = e => {
+    const { run, venue, onUploaded } = this.props;
+
+    uploadFile({ file: this.cameraInput.files[0], run, venue }).then(
+      onUploaded
+    );
+  };
 
   _upload = () => {
     this.cameraInput.click();

@@ -18,40 +18,36 @@ const markerStyle = {
 
 const placeholderIconStyle = {
   fontSize: '24px',
-  margin: '0 auto'
+  margin: '0 auto',
 };
 
 const placeholderMarkerStyle = {
   ...markerStyle,
   display: 'flex',
   justifyCOntent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
 };
 
 const hereStyle = {
   width: '56px',
-  height: '56px'
+  height: '56px',
 };
 
 const Venues = ({ venues, venueImages }) =>
   <div>
     {venues.map(({ id, name, location: { lat, lng }, stats }) => {
       const isPlaceholder = !venueImages.hasOwnProperty(id);
-      return <Marker coordinates={[lng, lat]} key={id}>
-        <Tooltip title={`${name} (${getScore(stats)}p)`}>
-        { isPlaceholder ? (
-          <div style={placeholderMarkerStyle}>
-            <Icon style={placeholderIconStyle} type="camera" />
-          </div>
-        ) : (
-            <img
-              style={markerStyle}
-              src={venueImages[id]}
-              alt={name}
-            />
-        )}
-        </Tooltip>
-      </Marker>
+      return (
+        <Marker coordinates={[lng, lat]} key={id}>
+          <Tooltip title={`${name} (${getScore(stats)}p)`}>
+            {isPlaceholder
+              ? <div style={placeholderMarkerStyle}>
+                  <Icon style={placeholderIconStyle} type="camera" />
+                </div>
+              : <img style={markerStyle} src={venueImages[id]} alt={name} />}
+          </Tooltip>
+        </Marker>
+      );
     })}
   </div>;
 
@@ -84,12 +80,7 @@ const History = ({ history }) =>
   </Layer>;
 
 /*eslint-disable react/style-prop-object*/
-const InteractiveMap = ({
-  here,
-  venues,
-  venueImages,
-  history
-}) =>
+const InteractiveMap = ({ here, venues, venueImages, history, bearing }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
@@ -98,6 +89,7 @@ const InteractiveMap = ({
     }}
     zoom={[18]}
     center={here ? here : [venues[0].location.lng, venues[0].location.lat]}
+    bearing={bearing}
   >
     <Venues venues={venues} venueImages={venueImages} />
     { here &&
