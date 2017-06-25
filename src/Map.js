@@ -128,7 +128,7 @@ class Wrapper extends Component {
 
   _startTimer = () => {
     const { totalS } = this.props;
-    this.setState({ started: true });
+    this.setState({ started: true, progressedS: 0 });
 
     this.timer = setInterval(() => {
       if (totalS > this.state.progressedS) {
@@ -159,7 +159,7 @@ class Wrapper extends Component {
         />
         {stopped
           ? <AfterRun onStart={this._startTimer} />
-          : <BeforeRun onStart={this._startTimer} />}
+          : !started && <BeforeRun onStart={this._startTimer} />}
       </div>
     );
   }
