@@ -74,10 +74,12 @@ class App extends Component {
     firebaseAuth().onAuthStateChanged(user => {
       if (user) {
         const path = `users/${user.uid}`;
-        ref.child(path).once('value', snapshot => {
-          const record = snapshot.val();
-          ref.child(path).set(Object.assign({}, record, user.providerData[0]));
-        });
+        const userData = user.providerData[0];
+        ref
+          .child(path)
+          .once('value')
+          .then(sn => sn.val())
+          .then(snapshot => ref.child(path).set({ ...snapshot, ...userData }));
 
         this.setState({
           auth: true,
