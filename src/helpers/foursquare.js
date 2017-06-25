@@ -11,7 +11,9 @@ export const getVenues = ({ latitude, longitude, ...query, blacklist = [] }) =>
       ll: `${latitude},${longitude}`,
       ...query,
     })
-    .filter(({ id }) => blacklist.indexOf(id) > -1);
+    .then(({ response: { venues } }) =>
+      venues.filter(({ id }) => blacklist.indexOf(id) === -1)
+    );
 
 export const getVenuePhoto = id =>
   foursquare.venues.getVenuePhotos({

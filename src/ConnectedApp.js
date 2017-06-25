@@ -76,8 +76,7 @@ class ConnectedApp extends Component {
       longitude,
       ...this.state.query,
       blacklist: this.state.visitedVenues.map(({ id }) => id),
-    }).then(res => {
-      const { response: { venues } } = res;
+    }).then(venues => {
       const _venues = venues
         .slice()
         .sort((a, b) => a.location.distance - b.location.distance)
@@ -194,6 +193,7 @@ class ConnectedApp extends Component {
         newRun.visitedVenues = newRun.venues;
         delete newRun.venues;
         this.updateRunState(newRun);
+        this.onPosition(this.state.position);
       }
     });
   }
