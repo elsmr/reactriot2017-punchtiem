@@ -122,7 +122,7 @@ class Run extends Component {
                 {score}p
               </Tag>
               <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
-                {totalDistance.toLocaleString()}m
+                {Math.round(totalDistance).toLocaleString()}m
               </Tag>
             </h1>
 
