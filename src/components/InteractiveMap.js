@@ -1,5 +1,11 @@
 import React from 'react';
-import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
+import ReactMapboxGl, {
+  Layer,
+  Feature,
+  Marker,
+  ZoomControl,
+  RotationControl,
+} from 'react-mapbox-gl';
 import { Icon, Tooltip } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
 import { getScore } from '../helpers/foursquare';
@@ -85,17 +91,40 @@ const InteractiveMap = ({ here, venues, venueImages, history, bearing, zoom = 18
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
       height: 'calc(70vh - 64px)',
-      width: '100vw'
+      width: '100vw',
     }}
     zoom={[zoom]}
+    pitch={60}
     center={here ? here : [venues[0].location.lng, venues[0].location.lat]}
     bearing={bearing}
   >
+    <ZoomControl />
+    <RotationControl />
     <Venues venues={venues} venueImages={venueImages} />
-    { here &&
-      <Here here={here} />
-    }
+    {here && <Here here={here} />}
     <History history={history} />
+    <Layer
+      id="3d-buildings"
+      sourceId="composite"
+      layerOptions={{
+        'source-layer': 'building',
+        filter: ['==', 'extrude', 'true'],
+        type: 'fill-extrusion',
+        minzoom: 14,
+      }}
+      paint={{
+        'fill-extrusion-color': '#aaa',
+        'fill-extrusion-height': {
+          type: 'identity',
+          property: 'height',
+        },
+        'fill-extrusion-base': {
+          type: 'identity',
+          property: 'min_height',
+        },
+        'fill-extrusion-opacity': 0.6,
+      }}
+    />
   </Map>;
 /*eslint-enable react/style-prop-object */
 

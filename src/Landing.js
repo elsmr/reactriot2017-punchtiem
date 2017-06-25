@@ -4,7 +4,7 @@ import { login } from './helpers/auth';
 
 const wrapperStyle = {
   margin: '2em',
-  textAlign: 'center'
+  textAlign: 'center',
 };
 
 const imageStyle = {
@@ -15,7 +15,11 @@ const imageStyle = {
   justifyContent: 'center',
   fontSize: '1.5em',
   color: '#fff',
-  objectFit: 'cover'
+  objectFit: 'cover',
+};
+
+const headerStyle = {
+  textShadow: '2px 2px rgba(0,0,20,100)',
 };
 
 export default class Landing extends Component {
@@ -36,26 +40,26 @@ export default class Landing extends Component {
           <div
             style={{
               ...imageStyle,
-              backgroundImage: `url(https://images.unsplash.com/36/xIsiRLngSRWN02yA2BbK_submission-photo-7.jpg?dpr=1&auto=format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)`
+              backgroundImage: `url(https://images.unsplash.com/36/xIsiRLngSRWN02yA2BbK_submission-photo-7.jpg?dpr=1&auto=format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)`,
             }}
           >
-            <h2>Explore</h2>
+            <h2 style={headerStyle}>Explore</h2>
           </div>
           <div
             style={{
               ...imageStyle,
-              backgroundImage: `url(https://images.unsplash.com/photo-1482401204742-eb3c31c24722?dpr=1&auto=compress,format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)`
+              backgroundImage: `url(https://images.unsplash.com/photo-1482401204742-eb3c31c24722?dpr=1&auto=compress,format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)`,
             }}
           >
-            <h2>Challenge</h2>
+            <h2 style={headerStyle}>Challenge</h2>
           </div>
           <div
             style={{
               ...imageStyle,
-              backgroundImage: `url(https://images.unsplash.com/photo-1487956382158-bb926046304a?dpr=1&auto=compress,format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)`
+              backgroundImage: `url(https://images.unsplash.com/photo-1487956382158-bb926046304a?dpr=1&auto=compress,format&fit=crop&w=${window.innerWidth}&q=80&cs=tinysrgb&crop=&bg=)`,
             }}
           >
-            <h2>Exercise</h2>
+            <h2 style={headerStyle}>Exercise</h2>
           </div>
         </Carousel>
         <div style={wrapperStyle}>
@@ -63,7 +67,7 @@ export default class Landing extends Component {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              margin: '2em 0'
+              margin: '2em 0',
             }}
           >
             <Timeline style={{ textAlign: 'left' }}>
