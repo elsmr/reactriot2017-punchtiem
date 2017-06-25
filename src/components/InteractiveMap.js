@@ -80,14 +80,14 @@ const History = ({ history }) =>
   </Layer>;
 
 /*eslint-disable react/style-prop-object*/
-const InteractiveMap = ({ here, venues, venueImages, history, bearing }) =>
+const InteractiveMap = ({ here, venues, venueImages, history, bearing, zoom = 18 }) =>
   <Map
     style="mapbox://styles/mapbox/light-v9"
     containerStyle={{
       height: 'calc(70vh - 64px)',
       width: '100vw'
     }}
-    zoom={[18]}
+    zoom={[zoom]}
     center={here ? here : [venues[0].location.lng, venues[0].location.lat]}
     bearing={bearing}
   >
