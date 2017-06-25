@@ -35,7 +35,7 @@ const Closest = ({ name, categories, score, distance, heading }) =>
   </div>;
 
 const BottomBar = ({
-  run = 'bla-bla-bla',
+  runId = null,
   progress = 0,
   isNear = false,
   speed = null,
@@ -61,7 +61,7 @@ const BottomBar = ({
       </div>
       <Camera
         isNear={isNear}
-        run={run}
+        run={runId}
         venue={closest}
         onUploaded={onUploaded}
       />

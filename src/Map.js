@@ -34,7 +34,15 @@ class Foursquare extends Component {
 
   render() {
     const {
-      runState: { position, userHeading, venues, venueImages, history, loaded },
+      runState: {
+        position,
+        userHeading,
+        venues,
+        venueImages,
+        history,
+        loaded,
+        runId,
+      },
       showBottom,
       progress,
     } = this.props;
@@ -48,6 +56,7 @@ class Foursquare extends Component {
 
     const closest = venues && venues[0]
       ? {
+          id: venues[0].id,
           name: venues[0].name,
           distance: venues[0].location.distance,
           score: getScore(venues[0].stats),
@@ -74,6 +83,7 @@ class Foursquare extends Component {
         />
         {showBottom
           ? <BottomBar
+              runId={runId}
               speed={position.speed}
               progress={progress}
               isNear={closest.distance < 20}
@@ -92,11 +102,9 @@ const Wrapper = ({
   stopTimer,
   startTracking,
   stopTracking,
-  runId,
 }) =>
   <div>
     <Foursquare
-      runId={runId}
       runState={runState}
       startTracking={startTracking}
       stopTracking={stopTracking}
