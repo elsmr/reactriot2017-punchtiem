@@ -139,7 +139,7 @@ class ConnectedApp extends Component {
     this.setState(prevState => Object.assign({}, prevState, state));
   }
 
-  pushData({ final = false }) {
+  pushData({ final } = { final: false }) {
     const { runId, history, venues } = this.state;
     const path = `runs/${runId}`;
 
@@ -159,6 +159,18 @@ class ConnectedApp extends Component {
           ...snapshot,
           history,
         });
+
+        const { uid, displayName: name } = firebaseAuth().currentUser;
+
+        ref
+          .child(`users/${uid}`)
+          .once('value')
+          .then(s => s.val())
+          .then(s =>
+            ref
+              .child(`users/${uid}`)
+              .set({ ...s, name, runs: { ...s.runs, [runId]: snapshot.score } })
+          );
       } else {
         const score = (snapshot.score ? snapshot.score : 0) + closest.score;
         const newRun = {
