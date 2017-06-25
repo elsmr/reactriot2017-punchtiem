@@ -24,52 +24,49 @@ class Foursquare extends Component {
 
   componentWillMount() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.watchPosition(
-        position => {
-          const { coords: { latitude, longitude } } = position;
-
-          this.setState(prev => {
-            return {
-              ...prev,
-              position,
-              history: [...prev.history, [longitude, latitude]],
-              loaded: true,
-            };
-          });
-
-          getVenues({ latitude, longitude, ...this.state.query }).then(res => {
-            const { response: { venues } } = res;
-            venues.sort((a, b) => a.location.distance - b.location.distance);
-            venues.forEach(venue => {
-              if (!this.state.venueImages.hasOwnProperty(venue.id)) {
-                getVenuePhoto(venue.id).then(res => {
-                  if (res.response.photos.count > 0) {
-                    const { prefix, suffix } = res.response.photos.items[0];
-                    const url = `${prefix}36x36${suffix}`;
-                    this.setState(state => ({
-                      ...state,
-                      venueImages: {
-                        ...state.venueImages,
-                        [venue.id]: url,
-                      },
-                    }));
-                  }
-                });
-              }
-            });
-            this.setState(prev => ({ ...prev, venues: res.response.venues }));
-          });
-        },
-        console.warn,
-        {
-          enableHighAccuracy: true,
-          maximumAge: 500,
-        }
-      );
+      navigator.geolocation.watchPosition(this._onPosition, console.warn, {
+        enableHighAccuracy: true,
+      });
     } else {
       navigationError();
     }
   }
+
+  _onPosition = position => {
+    const { coords: { latitude, longitude } } = position;
+
+    this.setState(prev => {
+      return {
+        ...prev,
+        position,
+        history: [...prev.history, [longitude, latitude]],
+        loaded: true,
+      };
+    });
+
+    getVenues({ latitude, longitude, ...this.state.query }).then(res => {
+      const { response: { venues } } = res;
+      venues.sort((a, b) => a.location.distance - b.location.distance);
+      venues.forEach(venue => {
+        if (!this.state.venueImages.hasOwnProperty(venue.id)) {
+          getVenuePhoto(venue.id).then(res => {
+            if (res.response.photos.count > 0) {
+              const { prefix, suffix } = res.response.photos.items[0];
+              const url = `${prefix}36x36${suffix}`;
+              this.setState(state => ({
+                ...state,
+                venueImages: {
+                  ...state.venueImages,
+                  [venue.id]: url,
+                },
+              }));
+            }
+          });
+        }
+      });
+      this.setState(prev => ({ ...prev, venues: res.response.venues }));
+    });
+  };
 
   render() {
     const { position, venues, venueImages, history, loaded } = this.state;
