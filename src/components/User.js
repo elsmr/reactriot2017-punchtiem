@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar } from 'antd';
+import { CLOUDINARY } from '../constants';
 import './User.css';
 
 const User = ({ displayName, email, photoURL }) => {
@@ -8,7 +9,7 @@ const User = ({ displayName, email, photoURL }) => {
       <div>
         {`${displayName} (${email})`}
       </div>
-      <Avatar src={photoURL} />
+      <Avatar src={`${CLOUDINARY}${photoURL}`} />
     </div>
   );
 };

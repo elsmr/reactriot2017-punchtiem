@@ -8,7 +8,7 @@ import { firebaseAuth, ref } from './helpers/firebase';
 import { Layout, Icon, Avatar, Tooltip, message } from 'antd';
 
 import { logout } from './helpers/auth';
-import { PAGE_TITLES } from './constants';
+import { PAGE_TITLES, CLOUDINARY } from './constants';
 
 import Profile from './Profile';
 import Landing from './Landing';
@@ -171,7 +171,7 @@ class App extends Component {
                     >
                       <Avatar
                         style={{ marginRight: '.5em' }}
-                        src={user.photoURL}
+                        src={`${CLOUDINARY}${user.photoURL}`}
                       />
                       <span>{user.displayName}</span>
                     </div>

@@ -54,6 +54,7 @@ class Run extends Component {
           if (res.response.photos.count > 0) {
             const { prefix, suffix } = res.response.photos.items[0];
             const url = `${prefix}36x36${suffix}`;
+
             this.setState(state => ({
               ...state,
               venueImages: {
