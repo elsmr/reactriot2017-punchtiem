@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getScore, calculateHeading } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
-import Loading from './components/Loading';
+import LoadingPage from './components/LoadingPage';
 import BottomBar, { BeforeRun, AfterRun } from './components/BottomBar';
 import { RUN_DURATION_SECONDS } from './constants';
 
@@ -22,11 +22,7 @@ class Foursquare extends Component {
     } = this.props;
 
     if (loaded === false) {
-      return (
-        <div style={{ height: 'calc(100vh - 64px)' }}>
-          <Loading />
-        </div>
-      );
+      return <LoadingPage />;
     }
 
     const { coords: { latitude, longitude } } = position;
