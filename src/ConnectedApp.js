@@ -109,7 +109,20 @@ class ConnectedApp extends Component {
     }, 1000);
 
     const { uid, displayName: name } = firebaseAuth().currentUser;
-    const runId = ref.child('runs').push({ uid, name }).key;
+    const runId = ref
+      .child('runs')
+      .push({ name, points: 0, history: [], venues: [] }).key;
+
+    ref
+      .child(`users/${uid}`)
+      .once('value')
+      .then(s => s.val())
+      .then(s =>
+        ref
+          .child(`users/${uid}`)
+          .set({ ...s, name, runs: { ...s.runs, [runId]: true } })
+      );
+
     this.setState(s => ({ ...s, runId }));
   };
 
