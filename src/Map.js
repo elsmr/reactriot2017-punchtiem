@@ -122,7 +122,7 @@ const Wrapper = ({
       progress={100 * runState.progressedS / RUN_DURATION_SECONDS}
     />
     {runState.stopped
-      ? <AfterRun onStart={startTimer} />
+      ? <AfterRun onStart={startTimer} runId={runState.runId} />
       : !runState.started && <BeforeRun onStart={startTimer} />}
   </div>;
 
