@@ -24,6 +24,7 @@ const initialState = {
   userHeading: 0,
   score: 0,
   visitedVenues: [],
+  position: null,
 };
 
 class ConnectedApp extends Component {
