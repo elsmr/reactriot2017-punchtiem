@@ -7,4 +7,4 @@ export const PAGE_TITLES = {
 
 export const PRIMARY_COLOR = '#C95442';
 
-export const RUN_DURATION_SECONDS = 20;
+export const RUN_DURATION_SECONDS = 60 * 5;
