@@ -19,11 +19,11 @@ export const getVenuePhoto = id =>
 
 export const getScore = ({ checkinsCount, usersCount, tipCount }) => {
   const weightedCheckins = checkinsCount / 400000.0;
-  const weightedTips = (tipCount / 2000.0) * 3;
+  const weightedTips = (tipCount / 2000.0) * 1.5;
   const weightedUsers = usersCount / 400000.0;
 
   const weightedScore = weightedCheckins + weightedTips + weightedUsers;
-  return Math.max(1, Math.ceil(Math.pow(weightedScore * 1000000, 0.2)));
+  return Math.max(1, Math.ceil(Math.pow(weightedScore * 50000000, 0.2)));
 }
 
 
