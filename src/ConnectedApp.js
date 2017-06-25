@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ref, firebaseAuth } from './helpers/firebase';
 import { getVenues, getVenuePhoto, getScore } from './helpers/foursquare';
-import { RUN_DURATION_SECONDS } from './constants';
+import { RUN_DURATION_SECONDS, FOURSQUARE_CATEGORIES } from './constants';
 import App from './App';
 
 const navigationError = () =>
@@ -13,7 +13,7 @@ class ConnectedApp extends Component {
     venueImages: {},
     query: {
       radius: 100,
-      categoryId: process.env.REACT_APP_FOURSQUARE_CATEGORY, // arts & entertainment
+      categoryId: FOURSQUARE_CATEGORIES.join(','), // arts & entertainment
     },
     history: [],
     loaded: false,
