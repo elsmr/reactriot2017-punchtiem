@@ -120,7 +120,7 @@ class ConnectedApp extends Component {
       .then(s =>
         ref
           .child(`users/${uid}`)
-          .set({ ...s, name, runs: { ...s.runs, [runId]: true } })
+          .set({ ...s, name, runs: { ...s.runs, [runId]: 0 } })
       );
 
     this.setState(s => ({ ...s, runId }));
