@@ -1,13 +1,8 @@
 import React from 'react';
 import { Table, Button } from 'antd';
 
-const getColumns = history => {
-  return [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name'
-    },
+const getColumns = (history, showName) => {
+  const columns = [
     {
       title: 'Points',
       dataIndex: 'points',
@@ -25,10 +20,14 @@ const getColumns = history => {
         </span>
     }
   ];
+  if (showName) {
+    columns.unshift({ title: 'Name', dataIndex: 'name', key: 'name' });
+  }
+  return columns;
 }
 
 const RunsTable = ({ history, dataSource, showName = true }) => (
-  <Table pagination={false} columns={getColumns(history)} dataSource={dataSource} />
+  <Table pagination={false} columns={getColumns(history, showName)} dataSource={dataSource} />
 );
 
 export default RunsTable;

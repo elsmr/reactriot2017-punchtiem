@@ -17,7 +17,8 @@ class Profile extends Component {
     ref.child(`users/${user.uid}/runs`)
       .once('value')
       .then(snapshot => {
-        const runs = snapshot.val();
+        const data = snapshot.val();
+        const runs = Object.keys(data).map(runId => ({ run_id: runId, points: data[runId] }))
         this.setState({ runs, loading: false });
       });
   }
