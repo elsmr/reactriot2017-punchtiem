@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ref } from './helpers/firebase';
+import { message } from 'antd';
 import { getScore, calculateHeading } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import LoadingPage from './components/LoadingPage';
@@ -16,7 +17,7 @@ class Foursquare extends Component {
   }
 
   _pushData = () => {
-    const { runState: { runId, history, venues } } = this.props;
+    const { runState: { runId, history, venues }, updateRunState } = this.props;
     const path = `runs/${runId}`;
 
     const closest = venues && venues[0]
@@ -32,12 +33,18 @@ class Foursquare extends Component {
     if (closest) {
       ref.child(path).once('value').then(sn => sn.val()).then(snapshot => {
         const score = (snapshot.score ? snapshot.score : 0) + closest.score;
-        ref.child(path).set({
+        const newRun = {
           ...snapshot,
           history,
           venues: snapshot.venues ? [...snapshot.venues, closest] : [closest],
           score,
+        };
+        ref.child(path).set(newRun).then(() => {
+          message.success(<span>Image uploaded successfully</span>, 3);
         });
+        newRun.visitedVenues = newRun.venues;
+        delete newRun.venues;
+        updateRunState(newRun);
       });
     }
   };
@@ -52,6 +59,7 @@ class Foursquare extends Component {
         history,
         loaded,
         runId,
+        visitedVenues,
       },
       showBottom,
       progress,
@@ -98,6 +106,7 @@ class Foursquare extends Component {
               progress={progress}
               isNear={closest.distance < 20}
               closest={closest}
+              visited={visitedVenues.length}
               onUploaded={this._pushData}
             />
           : null}
@@ -112,10 +121,12 @@ const Wrapper = ({
   stopTimer,
   startTracking,
   stopTracking,
+  updateRunState,
 }) =>
   <div>
     <Foursquare
       runState={runState}
+      updateRunState={updateRunState}
       startTracking={startTracking}
       stopTracking={stopTracking}
       showBottom={runState.started}

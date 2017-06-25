@@ -22,6 +22,8 @@ class ConnectedApp extends Component {
     progressedS: 0,
     watchPositionId: 0,
     userHeading: 0,
+    score: 0,
+    visitedVenues: [],
   };
 
   startTracking() {
@@ -131,9 +133,14 @@ class ConnectedApp extends Component {
     this.setState(s => ({ ...s, started: false, stopped: true }));
   };
 
+  updateRunState(state) {
+    this.setState(prevState => Object.assign({}, prevState, state));
+  }
+
   render() {
     return (
       <App
+        updateRunState={this.updateRunState.bind(this)}
         startTracking={this.startTracking.bind(this)}
         stopTracking={this.stopTracking.bind(this)}
         startTimer={this.startTimer.bind(this)}

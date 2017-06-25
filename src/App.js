@@ -104,6 +104,7 @@ class App extends Component {
 
   render() {
     const {
+      updateRunState,
       startTracking,
       stopTracking,
       startTimer,
@@ -199,6 +200,7 @@ class App extends Component {
                     path="/app"
                     render={() =>
                       <Map
+                        updateRunState={updateRunState}
                         startTracking={startTracking}
                         stopTracking={stopTracking}
                         startTimer={startTimer}
