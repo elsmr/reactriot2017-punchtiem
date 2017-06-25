@@ -25,16 +25,15 @@ class Foursquare extends Component {
           distance: venues[0].location.distance,
           score: getScore(venues[0].stats),
           categories: venues[0].categories,
+          id: venues[0].id,
         }
       : false;
 
     if (closest) {
       ref.child(path).once('value').then(sn => sn.val()).then(snapshot => {
         const score = (snapshot.score ? snapshot.score : 0) + closest.score;
-        debugger;
         ref.child(path).set({
           ...snapshot,
-          runId,
           history,
           venues: snapshot.venues ? [...snapshot.venues, closest] : [closest],
           score,
