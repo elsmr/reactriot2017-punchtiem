@@ -11,8 +11,11 @@ export const getVenues = ({ latitude, longitude, ...query, blacklist = [] }) =>
       ll: `${latitude},${longitude}`,
       ...query,
     })
-    .then(({ response: { venues } }) =>
-      venues.filter(({ id }) => blacklist.indexOf(id) === -1)
+    .then(
+      ({ response: { venues } }) =>
+        venues
+          ? venues.filter(({ id }) => blacklist.indexOf(id) === -1)
+          : venues
     );
 
 export const getVenuePhoto = id =>
