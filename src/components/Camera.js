@@ -5,7 +5,9 @@ import { Button, Alert } from 'antd';
 export default class Camera extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      uploading: false,
+    };
   }
 
   componentDidMount() {
@@ -14,10 +16,13 @@ export default class Camera extends Component {
 
   _willUpload = e => {
     const { run, venue, onUploaded } = this.props;
+    this.setState({ uploading: true });
 
-    uploadFile({ file: this.cameraInput.files[0], run, venue }).then(
-      onUploaded
-    );
+    uploadFile({ file: this.cameraInput.files[0], run, venue })
+      .then(onUploaded)
+      .then(() => {
+        this.setState({ uploading: false });
+      });
   };
 
   _upload = () => {
@@ -26,6 +31,11 @@ export default class Camera extends Component {
 
   render() {
     const { isNear } = this.props;
+    const { uploading } = this.state;
+    let alertMessage = `Get closer!`;
+    if (isNear) alertMessage = `Take a photo!  📸`;
+    if (uploading) alertMessage = `Uploading...`;
+
     return (
       <div className="BottomBar--photo">
         <input
@@ -41,13 +51,13 @@ export default class Camera extends Component {
           icon="camera"
           size="large"
           onClick={this._upload}
-          loading={!isNear}
-          disabled={!isNear}
+          loading={!isNear || uploading}
+          disabled={!isNear || uploading}
         />
         <Alert
           style={{ textAlign: 'center', marginTop: '1em' }}
           type={isNear ? 'error' : 'info'}
-          message={isNear ? `Take a photo!  📸` : `Get closer!`}
+          message={alertMessage}
         />
       </div>
     );
