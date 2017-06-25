@@ -4,7 +4,6 @@ import ReactMapboxGl, {
   Feature,
   Marker,
   ZoomControl,
-  RotationControl,
 } from 'react-mapbox-gl';
 import { Icon, Tooltip } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
@@ -121,7 +120,6 @@ const InteractiveMap = ({
     bearing={bearing}
   >
     <ZoomControl />
-    <RotationControl />
     <Venues venues={venues} venueImages={venueImages} />
     {here && <Here here={here} />}
     <History history={history} />
