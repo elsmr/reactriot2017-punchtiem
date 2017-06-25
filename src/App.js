@@ -84,6 +84,7 @@ class App extends Component {
   }
 
   render() {
+    const { startTracking, stopTracking, startTimer, stopTimer, runState } = this.props;
     const { user, auth, loading } = this.state;
     return loading
       ? <Loading />
@@ -168,7 +169,15 @@ class App extends Component {
                   <Route
                     exact
                     path="/app"
-                    render={() => <Map totalS={20 /*todo: make 15 min*/} />}
+                    render={() =>
+                      <Map
+                        startTracking={startTracking}
+                        stopTracking={stopTracking}
+                        startTimer={startTimer}
+                        stopTimer={stopTimer}
+                        runState={runState}
+                        totalS={20 /*todo: make 15 min*/}
+                      />}
                   />
                   <Route path="/leaderboard" component={Leaderboard} />
                   <Route path="/run/:id" component={Run} />
