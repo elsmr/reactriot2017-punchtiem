@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
+
+import NotFound from './components/NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import LoadingPage from './components/Loading';
 import Navigation from './components/Navigation';
+
 import { firebaseAuth, ref } from './helpers/firebase';
 import { Layout, Icon, Avatar, Tooltip, message } from 'antd';
 
@@ -221,6 +224,7 @@ class App extends Component {
                         onLogout={() => logout()}
                       />}
                   />
+                  <Route path="*" component={NotFound} />
                 </Switch>
               </Router>
             </Content>
