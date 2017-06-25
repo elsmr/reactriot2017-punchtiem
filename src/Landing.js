@@ -22,6 +22,38 @@ const headerStyle = {
   textShadow: '2px 2px rgba(0,0,20,100)',
 };
 
+const LoginButton = ({ provider, onLogin }) =>
+  <Button
+    type="primary"
+    style={{ margin: '1em' }}
+    onClick={e => {
+      login(provider)
+        .then(result => {
+          const { credential: { accessToken }, user } = result;
+          onLogin(accessToken, user);
+        })
+        .catch(error => {
+          console.warn(error);
+          message.error(
+            <span>
+              Authentication with {provider} failed{' '}
+              <span role="img" aria-label="very very sad">😢</span>,
+              please try again
+            </span>,
+            3
+          );
+        });
+    }}
+  >
+    Login with {provider}
+  </Button>;
+
+const Login = ({ onLogin }) =>
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <LoginButton provider="Google" onLogin={onLogin} />
+    <LoginButton provider="GitHub" onLogin={onLogin} />
+  </div>;
+
 export default class Landing extends Component {
   componentDidUpdate() {
     // idk why we need a timeout but we do wtf kill me now
@@ -71,7 +103,9 @@ export default class Landing extends Component {
             }}
           >
             <Timeline style={{ textAlign: 'left' }}>
-              <Timeline.Item>Log in using your Google account</Timeline.Item>
+              <Timeline.Item>
+                Log in using your Google or GitHub account
+              </Timeline.Item>
               <Timeline.Item>Start your run</Timeline.Item>
               <Timeline.Item>
                 Visit as many monuments as possible within the time limit
@@ -85,29 +119,7 @@ export default class Landing extends Component {
             </Timeline>
           </div>
           {!auth
-            ? <Button
-                type="primary"
-                onClick={e => {
-                  login()
-                    .then(result => {
-                      const { credential: { accessToken }, user } = result;
-                      onLogin(accessToken, user);
-                    })
-                    .catch(error => {
-                      console.warn(error);
-                      message.error(
-                        <span>
-                          Authentication with Google failed{' '}
-                          <span role="img" aria-label="very very sad">😢</span>,
-                          please try again
-                        </span>,
-                        3
-                      );
-                    });
-                }}
-              >
-                Login with Google
-              </Button>
+            ? <Login onLogin={onLogin} />
             : <Button type="primary" onClick={() => history.push('/app')}>
                 Start your Monument Run
               </Button>}
