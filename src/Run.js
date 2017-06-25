@@ -86,7 +86,7 @@ class Run extends Component {
       return <RunNotFound />;
     }
 
-    const totalDistance = (history || [])
+    const _totalDistance = (history || [])
       .reduce(
         (acc, val, index, arr) =>
           index === 0
@@ -98,6 +98,7 @@ class Run extends Component {
                 ),
         0
       );
+    const totalDistance = Math.round(_totalDistance).toLocaleString();
 
     return loading
       ? <LoadingPage />
@@ -122,7 +123,7 @@ class Run extends Component {
                 {score}p
               </Tag>
               <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
-                {Math.round(totalDistance).toLocaleString()}m
+                {totalDistance}m
               </Tag>
             </h1>
 
