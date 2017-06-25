@@ -55,6 +55,7 @@ class Foursquare extends Component {
           venues={venues}
           venueImages={venueImages}
           history={history}
+          bearing={closest.heading}
         />
         {showBottom
           ? <BottomBar
