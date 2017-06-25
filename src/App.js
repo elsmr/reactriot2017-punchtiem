@@ -113,6 +113,7 @@ class App extends Component {
       startTimer,
       stopTimer,
       runState,
+      reset,
     } = this.props;
     const { user, auth, loading } = this.state;
     return loading
@@ -210,6 +211,7 @@ class App extends Component {
                         startTimer={startTimer}
                         stopTimer={stopTimer}
                         runState={runState}
+                        reset={reset}
                         totalS={20 /*todo: make 15 min*/}
                       />}
                   />

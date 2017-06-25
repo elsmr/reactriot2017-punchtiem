@@ -185,8 +185,6 @@ class ConnectedApp extends Component {
             },
           })
         );
-
-        this.reset();
       } else {
         const score = (snapshot.score ? snapshot.score : 0) + closest.score;
         const newRun = {
@@ -207,7 +205,12 @@ class ConnectedApp extends Component {
   }
 
   reset() {
-    this.setState({ ...initialState, loaded: true });
+    this.setState(prevState => ({
+      ...initialState,
+      loaded: true,
+      position: prevState.position,
+    }));
+    this.onPosition(this.state.position);
   }
 
   render() {
@@ -220,6 +223,7 @@ class ConnectedApp extends Component {
         stopTimer={this.stopTimer.bind(this)}
         pushData={this.pushData.bind(this)}
         runState={this.state}
+        reset={this.reset.bind(this)}
       />
     );
   }

@@ -12,6 +12,7 @@ class Foursquare extends Component {
 
   componentWillUnmount() {
     this.props.stopTracking();
+    this.props.reset();
   }
 
   render() {
@@ -88,6 +89,7 @@ const Wrapper = ({
   startTracking,
   stopTracking,
   pushData,
+  reset,
 }) =>
   <div>
     <Foursquare
@@ -97,11 +99,15 @@ const Wrapper = ({
       showBottom={runState.started}
       progress={100 * runState.progressedS / RUN_DURATION_SECONDS}
       pushData={pushData}
+      reset={reset}
     />
     {runState.stopped
       ? <AfterRun
           totalPoints={runState.score}
-          onStart={startTimer}
+          onStart={() => {
+            reset();
+            startTimer();
+          }}
           runId={runState.runId}
         />
       : !runState.started && <BeforeRun onStart={startTimer} />}
