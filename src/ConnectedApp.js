@@ -58,7 +58,9 @@ class ConnectedApp extends Component {
       return {
         ...prev,
         position,
-        history: [...prev.history, [longitude, latitude]],
+        history: prev.started
+          ? [...prev.history, [longitude, latitude]]
+          : prev.history,
         loaded: true,
       };
     });
