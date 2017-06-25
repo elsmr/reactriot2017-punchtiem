@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-
 import { getVenues, getVenuePhoto, getScore } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import Loading from './components/Loading';
-import BottomBar from './components/BottomBar';
+import BottomBar, { BeforeRun, AfterRun } from './components/BottomBar';
 
 const navigationError = () =>
   alert(`oops, your device doesn't have geolocation capabilities`);
@@ -74,6 +73,7 @@ class Foursquare extends Component {
 
   render() {
     const { position, venues, venueImages, history, loaded } = this.state;
+    const { showBottom, progress } = this.props;
 
     if (loaded === false) {
       return (
@@ -103,15 +103,66 @@ class Foursquare extends Component {
           venueImages={venueImages}
           history={history}
         />
-        <BottomBar
-          position={position}
-          progress={40}
-          isNear={closest.distance < 20}
-          closest={closest}
-        />
+        {showBottom
+          ? <BottomBar
+              position={position}
+              progress={progress}
+              isNear={closest.distance < 20}
+              closest={closest}
+            />
+          : null}
       </div>
     );
   }
 }
 
-export default Foursquare;
+class Wrapper extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      started: false,
+      stopped: false,
+      progressedS: 0,
+    };
+  }
+
+  _startTimer = () => {
+    const { totalS } = this.props;
+    this.setState({ started: true, progressedS: 0 });
+
+    this.timer = setInterval(() => {
+      if (totalS > this.state.progressedS) {
+        this.setState(state => ({
+          ...state,
+          progressedS: state.progressedS + 1,
+        }));
+      } else {
+        this._stopTimer();
+      }
+    }, 1000);
+  };
+
+  _stopTimer = () => {
+    clearInterval(this.timer);
+    this.setState(s => ({ ...s, started: false, stopped: true }));
+  };
+
+  render() {
+    const { totalS } = this.props;
+    const { started, stopped, progressedS } = this.state;
+
+    return (
+      <div>
+        <Foursquare
+          showBottom={started}
+          progress={100 * progressedS / totalS}
+        />
+        {stopped
+          ? <AfterRun onStart={this._startTimer} />
+          : !started && <BeforeRun onStart={this._startTimer} />}
+      </div>
+    );
+  }
+}
+
+export default Wrapper;

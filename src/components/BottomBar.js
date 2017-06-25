@@ -1,5 +1,5 @@
 import React from 'react';
-import { Progress, Icon, Tag } from 'antd';
+import { Progress, Icon, Tag, Button } from 'antd';
 import Camera from './Camera';
 import './BottomBar.css';
 
@@ -51,3 +51,12 @@ const BottomBar = ({
   </footer>;
 
 export default BottomBar;
+
+export const BeforeRun = ({ onStart }) =>
+  <footer className="BottomBar">
+    <Button onClick={onStart}>Start</Button>
+  </footer>;
+export const AfterRun = ({ onStart }) =>
+  <footer className="BottomBar">
+    <Button onClick={onStart}>Restart</Button>
+  </footer>;
