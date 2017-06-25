@@ -5,11 +5,13 @@ const foursquare = foursquareApi({
   clientSecret: process.env.REACT_APP_FOURSQUARE_SECRET,
 });
 
-export const getVenues = ({ latitude, longitude, ...query }) =>
-  foursquare.venues.getVenues({
-    ll: `${latitude},${longitude}`,
-    ...query,
-  });
+export const getVenues = ({ latitude, longitude, ...query, blacklist = [] }) =>
+  foursquare.venues
+    .getVenues({
+      ll: `${latitude},${longitude}`,
+      ...query,
+    })
+    .filter(({ id }) => blacklist.indexOf(id) > -1);
 
 export const getVenuePhoto = id =>
   foursquare.venues.getVenuePhotos({

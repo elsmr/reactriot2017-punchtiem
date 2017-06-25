@@ -71,7 +71,12 @@ class ConnectedApp extends Component {
       };
     });
 
-    getVenues({ latitude, longitude, ...this.state.query }).then(res => {
+    getVenues({
+      latitude,
+      longitude,
+      ...this.state.query,
+      blacklist: this.state.visitedVenues.map(({ id }) => id),
+    }).then(res => {
       const { response: { venues } } = res;
       const _venues = venues
         .slice()
