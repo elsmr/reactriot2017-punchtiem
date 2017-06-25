@@ -10,11 +10,16 @@ class Leaderboard extends Component {
 
   componentDidMount() {
     ref.child('runs')
-      .orderByChild('score')
-      .limitToFirst(20)
+      .orderByChild('points')
+      .limitToLast(20)
       .once('value')
       .then(snapshot => {
-        this.setState({ leaderboard: snapshot });
+        const leaderboard = [];
+        snapshot.forEach(record => {
+          const { points, name } = record.val();
+          leaderboard.push({ run_id: record.key, points, name });
+        });
+        this.setState({ leaderboard: leaderboard.reverse() });
       });
   }
 
@@ -27,9 +32,9 @@ class Leaderboard extends Component {
         key: 'name'
       },
       {
-        title: 'Score',
-        dataIndex: 'score',
-        key: 'score'
+        title: 'Points',
+        dataIndex: 'points',
+        key: 'points'
       },
       {
         title: 'Run',

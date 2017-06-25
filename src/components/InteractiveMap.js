@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMapboxGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
 import { Icon, Tooltip } from 'antd';
 import { PRIMARY_COLOR } from '../constants';
+import { getScore } from '../helpers/foursquare';
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
@@ -34,10 +35,10 @@ const hereStyle = {
 
 const Venues = ({ venues, venueImages }) =>
   <div>
-    {venues.map(({ id, name, location: { lat, lng } }) => {
+    {venues.map(({ id, name, location: { lat, lng }, stats }) => {
       const isPlaceholder = !venueImages.hasOwnProperty(id);
       return <Marker coordinates={[lng, lat]} key={id}>
-        <Tooltip title={name}>
+        <Tooltip title={`${name} (${getScore(stats)}p)`}>
         { isPlaceholder ? (
           <div style={placeholderMarkerStyle}>
             <Icon style={placeholderIconStyle} type="camera" />
