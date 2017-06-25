@@ -30,7 +30,7 @@ const placeholderIconStyle = {
 const placeholderMarkerStyle = {
   ...markerStyle,
   display: 'flex',
-  justifyCOntent: 'center',
+  justifyContent: 'center',
   alignItems: 'center',
 };
 
@@ -41,20 +41,22 @@ const hereStyle = {
 
 const Venues = ({ venues, venueImages }) =>
   <div>
-    {venues.map(({ id, name, location: { lat, lng }, stats }) => {
-      const isPlaceholder = !venueImages.hasOwnProperty(id);
-      return (
-        <Marker coordinates={[lng, lat]} key={id}>
-          <Tooltip title={`${name} (${getScore(stats)}p)`}>
-            {isPlaceholder
-              ? <div style={placeholderMarkerStyle}>
-                  <Icon style={placeholderIconStyle} type="camera" />
-                </div>
-              : <img style={markerStyle} src={venueImages[id]} alt={name} />}
-          </Tooltip>
-        </Marker>
-      );
-    })}
+    {venues.map(
+      ({ id, name, location: { lat, lng }, stats, score = false }) => {
+        const isPlaceholder = !venueImages.hasOwnProperty(id);
+        return (
+          <Marker coordinates={[lng, lat]} key={id}>
+            <Tooltip title={`${name} (${score ? score : getScore(stats)}p)`}>
+              {isPlaceholder
+                ? <div style={placeholderMarkerStyle}>
+                    <Icon style={placeholderIconStyle} type="camera" />
+                  </div>
+                : <img style={markerStyle} src={venueImages[id]} alt={name} />}
+            </Tooltip>
+          </Marker>
+        );
+      }
+    )}
   </div>;
 
 const Here = ({ here }) =>
