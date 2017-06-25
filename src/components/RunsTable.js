@@ -5,8 +5,8 @@ const getColumns = (history, showName) => {
   const columns = [
     {
       title: 'Points',
-      dataIndex: 'points',
-      key: 'points',
+      dataIndex: 'score',
+      key: 'score',
     },
     {
       title: 'Run',

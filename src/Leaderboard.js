@@ -11,17 +11,17 @@ class Leaderboard extends Component {
   componentDidMount() {
     ref
       .child('runs')
-      .orderByChild('points')
+      .orderByChild('score')
       .limitToLast(50)
       .once('value')
       .then(snapshot => {
         const leaderboard = [];
         snapshot.forEach(record => {
-          const { points, name } = record.val();
+          const { score, name } = record.val();
           leaderboard.push({
             key: record.key,
             run_id: record.key,
-            points,
+            score,
             name,
           });
         });

@@ -41,7 +41,7 @@ const BottomBar = ({
   speed = null,
   visited = 0,
   total = 10,
-  closest = null,
+  closest,
   onUploaded,
 }) =>
   <footer className="BottomBar">
@@ -84,7 +84,7 @@ export const BeforeRun = ({ onStart }) =>
     </p>
     <p>You have 15 minutes to spot monuments</p>
     <p>Take a picture at each monument you're close to</p>
-    <p>You get more points for more popular monuments</p>
+    <p>Some monuments score more than others!</p>
     <Button onClick={onStart} style={{ margin: '1em' }}>Start</Button>
   </footer>;
 
@@ -94,7 +94,7 @@ export const AfterRun = ({ onStart, totalPoints, runId }) =>
       Congratulations <span role="img" aria-label="woo fucking hoo!">🎉</span>
     </p>
     <p>
-      You won a whole {totalPoints} points{' '}
+      You got a score of {totalPoints} points{' '}
       <span role="img" aria-label="if you know what i mean"> 😏 🍆 </span>
     </p>
     <p>View the <Link to={`/run/${runId}`}>Run</Link> again</p>
