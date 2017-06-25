@@ -97,7 +97,7 @@ class ConnectedApp extends Component {
   };
 
   startTimer = () => {
-    this.setState({ started: true, progressedS: 0 });
+    this.setState({ started: true, stopped: false, progressedS: 0 });
 
     this.timer = setInterval(() => {
       if (RUN_DURATION_SECONDS > this.state.progressedS) {
