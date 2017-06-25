@@ -24,13 +24,24 @@ const topBarStyle = {
   display: 'inline-flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  width: '100%'
+  width: '100%',
+};
+
+const titleStyle = {
+  marginLeft: '2.5em',
+  marginRight: '0.5em',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 };
 
 const profileStyle = {
   display: 'flex',
   alignItems: 'center',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 };
 
 class App extends Component {
@@ -40,14 +51,14 @@ class App extends Component {
     token: null,
     user: null,
     collapsed: true,
-    currentPage: PAGE_TITLES.default
+    currentPage: PAGE_TITLES.default,
   };
 
   history = createHistory(this.props);
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
@@ -55,7 +66,7 @@ class App extends Component {
     this.setState({
       currentPage:
         PAGE_TITLES[window.location.pathname.split('/')[1]] ||
-          PAGE_TITLES.default
+          PAGE_TITLES.default,
     });
   }
 
@@ -66,14 +77,14 @@ class App extends Component {
           auth: true,
           loading: false,
           user,
-          token: user.accessToken
+          token: user.accessToken,
         });
       } else {
         this.setState({
           auth: false,
           loading: false,
           user: null,
-          token: null
+          token: null,
         });
       }
     });
@@ -84,7 +95,13 @@ class App extends Component {
   }
 
   render() {
-    const { startTracking, stopTracking, startTimer, stopTimer, runState } = this.props;
+    const {
+      startTracking,
+      stopTracking,
+      startTimer,
+      stopTimer,
+      runState,
+    } = this.props;
     const { user, auth, loading } = this.state;
     return loading
       ? <Loading />
@@ -112,7 +129,7 @@ class App extends Component {
                 }
                 this.setState({
                   collapsed: true,
-                  currentPage: PAGE_TITLES[key] || PAGE_TITLES.default
+                  currentPage: PAGE_TITLES[key] || PAGE_TITLES.default,
                 });
               }}
             />
@@ -125,7 +142,7 @@ class App extends Component {
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
-                zIndex: 100
+                zIndex: 100,
               }}
             >
               <Icon
@@ -134,7 +151,7 @@ class App extends Component {
                 onClick={this.toggle}
               />
               <div style={topBarStyle}>
-                <span style={{ marginLeft: '2.5em' }}>
+                <span style={titleStyle}>
                   {this.state.currentPage}
                 </span>
                 {auth &&
