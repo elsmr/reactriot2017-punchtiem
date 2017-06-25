@@ -16,20 +16,31 @@ class Foursquare extends Component {
   }
 
   _pushData = () => {
-    const { runState: { runId, history } } = this.props;
+    const { runState: { runId, history, venues } } = this.props;
     const path = `runs/${runId}`;
 
-    const newData = {
-      runId,
-      history,
-      // todo: push history etc to firebaaase
-    };
+    const closest = venues && venues[0]
+      ? {
+          name: venues[0].name,
+          distance: venues[0].location.distance,
+          score: getScore(venues[0].stats),
+          categories: venues[0].categories,
+        }
+      : false;
 
-    ref
-      .child(path)
-      .once('value')
-      .then(sn => sn.val())
-      .then(snapshot => ref.child(path).set({ ...snapshot, ...newData }));
+    if (closest) {
+      ref.child(path).once('value').then(sn => sn.val()).then(snapshot => {
+        const score = (snapshot.score ? snapshot.score : 0) + closest.score;
+        debugger;
+        ref.child(path).set({
+          ...snapshot,
+          runId,
+          history,
+          venues: snapshot.venues ? [...snapshot.venues, closest] : [closest],
+          score,
+        });
+      });
+    }
   };
 
   render() {

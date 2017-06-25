@@ -29,7 +29,7 @@ class Run extends Component {
     name: null,
     loading: true,
     notFound: false,
-    points: 0,
+    score: 0,
   };
 
   componentWillMount() {
@@ -46,8 +46,8 @@ class Run extends Component {
       return;
     }
 
-    const { history, name, points, venues } = record;
-    this.setState({ venues, history, name, points, loading: false });
+    const { history, name, score, venues } = record;
+    this.setState({ venues, history, name, score, loading: false });
     venues.forEach(venue => {
       if (!this.state.venueImages.hasOwnProperty(venue.id)) {
         getVenuePhoto(venue.id).then(res => {
@@ -80,7 +80,7 @@ class Run extends Component {
       venues,
       venueImages,
       history,
-      points,
+      score,
     } = this.state;
     if (notFound) {
       return <RunNotFound />;
@@ -101,7 +101,7 @@ class Run extends Component {
             >
               <span>Run by {name}{' '}</span>
               <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
-                {points}p
+                {score}p
               </Tag>
             </h1>
             <Timeline>

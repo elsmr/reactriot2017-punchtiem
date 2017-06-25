@@ -18,7 +18,7 @@ class Profile extends Component {
       const data = snapshot.val();
       const runs = Object.keys(data).map(runId => ({
         run_id: runId,
-        points: data[runId],
+        score: data[runId],
       }));
       this.setState({ runs, loading: false });
     });
