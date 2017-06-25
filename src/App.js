@@ -198,9 +198,10 @@ class App extends Component {
                         onLogin={this.onLogin.bind(this)}
                       />}
                   />
-                  <Route
+                  <PrivateRoute
                     exact
                     path="/app"
+                    auth={auth}
                     render={() =>
                       <Map
                         pushData={pushData}
