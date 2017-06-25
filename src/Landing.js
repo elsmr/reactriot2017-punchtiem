@@ -151,7 +151,10 @@ export default class Landing extends Component {
               <a href="https://weyts.xyz">
                 Arnaud Weyts
               </a>. It's part of{' '}
-              <a href="reactriot.com">React Riot</a> 2017.
+              <a href="https://www.reactriot.com/entries/3-punchtiem/vote">
+                React Riot
+              </a>{' '}
+              2017.
             </p>
             <p>
               The monument data is available on the{' '}
