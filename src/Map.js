@@ -22,7 +22,7 @@ class Foursquare extends Component {
     const closest = venues && venues[0]
       ? {
           name: venues[0].name,
-          distance: venues[0].location.distance,
+          location: venues[0].location,
           score: getScore(venues[0].stats),
           categories: venues[0].categories,
           id: venues[0].id,
