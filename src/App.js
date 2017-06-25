@@ -14,7 +14,7 @@ import Profile from './Profile';
 import Landing from './Landing';
 import Map from './Map';
 import Leaderboard from './Leaderboard';
-import Run from './components/Run';
+import Run from './Run';
 
 import './App.css';
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Timeline, Tag } from 'antd';
-import InteractiveMap from './InteractiveMap';
-import LoadingPage from './LoadingPage';
-import { PRIMARY_COLOR } from '../constants';
-import { getVenuePhoto } from '../helpers/foursquare';
-import { ref } from '../helpers/firebase';
+import InteractiveMap from './components/InteractiveMap';
+import LoadingPage from './components/LoadingPage';
+import { PRIMARY_COLOR } from './constants';
+import { getVenuePhoto } from './helpers/foursquare';
+import { ref } from './helpers/firebase';
 
 const RunNotFound = () =>
   <div
