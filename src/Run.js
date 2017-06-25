@@ -3,7 +3,7 @@ import { Timeline, Tag } from 'antd';
 import InteractiveMap from './components/InteractiveMap';
 import LoadingPage from './components/LoadingPage';
 import { PRIMARY_COLOR } from './constants';
-import { getVenuePhoto } from './helpers/foursquare';
+import { getVenuePhoto, distance } from './helpers/foursquare';
 import { ref, firebaseImages } from './helpers/firebase';
 
 const RunNotFound = () =>
@@ -37,13 +37,20 @@ class PhotoPreview extends Component {
     const { url } = this.state;
     const { venueName } = this.props;
 
-    return (
-      <a href={url}>
-        <div>
-          {url && <img src={url} alt={venueName} />}
-        </div>
-      </a>
-    );
+    return url
+      ? <img
+          style={{
+            objectFit: 'cover',
+            border: `${PRIMARY_COLOR} 2px solid`,
+            width: '100%',
+            maxHeight: '25vh',
+            background: '#fff',
+            marginTop: '.5em',
+          }}
+          src={url}
+          alt={venueName}
+        />
+      : null;
   }
 }
 
@@ -112,6 +119,20 @@ class Run extends Component {
       return <RunNotFound />;
     }
 
+    const _totalDistance = (history || [])
+      .reduce(
+        (acc, val, index, arr) =>
+          index === 0
+            ? 0
+            : acc +
+                distance(
+                  { latitude: val[0], longitude: val[1] },
+                  { latitude: arr[index - 1][0], longitude: arr[index - 1][1] }
+                ),
+        0
+      );
+    const totalDistance = Math.round(_totalDistance).toLocaleString();
+
     return loading
       ? <LoadingPage />
       : <div>
@@ -123,35 +144,41 @@ class Run extends Component {
           />
           <div style={{ margin: '2em' }}>
             <h1
-              style={{ margin: '2em 0', display: 'flex', alignItems: 'center' }}
+              style={{
+                margin: '2em 0',
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+              }}
             >
               <span>Run by {name}{' '}</span>
               <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
                 {score}p
               </Tag>
+              <Tag style={{ marginLeft: '.5em' }} color={PRIMARY_COLOR}>
+                {totalDistance}m
+              </Tag>
             </h1>
+
             <Timeline>
               {venues.map(({ id, name, score }) => {
                 return (
-                  <Timeline.Item
-                    dot={
-                      <PhotoPreview
-                        run={this.props.match.params.id}
-                        venue={id}
-                        venueName={name}
-                      />
-                    }
-                    key={id}
-                  >
+                  <Timeline.Item key={id}>
                     {name}{' '}
                     <Tag color={PRIMARY_COLOR}>
                       {score}p
                     </Tag>
+                    <PhotoPreview
+                      run={this.props.match.params.id}
+                      venue={id}
+                      venueName={name}
+                    />
                   </Timeline.Item>
                 );
               })}
             </Timeline>
           </div>
+
         </div>;
   }
 }
