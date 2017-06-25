@@ -173,7 +173,7 @@ class App extends Component {
                         style={{ marginRight: '.5em' }}
                         src={`${CLOUDINARY}${user.photoURL}`}
                       />
-                      <span>{user.displayName}</span>
+                      <span className="profile__displayName">{user.displayName}</span>
                     </div>
                   </Tooltip>}
               </div>
