@@ -8,32 +8,45 @@ import User from './components/User';
 class Profile extends Component {
   state = {
     runs: null,
-    loading: true
-  }
+    loading: true,
+  };
 
   componentDidMount() {
     const { user } = this.props;
 
-    ref.child(`users/${user.uid}/runs`)
-      .once('value')
-      .then(snapshot => {
-        const data = snapshot.val();
-        const runs = Object.keys(data).map(runId => ({ run_id: runId, points: data[runId] }))
-        this.setState({ runs, loading: false });
-      });
+    ref.child(`users/${user.uid}/runs`).once('value').then(snapshot => {
+      const data = snapshot.val();
+      const runs = Object.keys(data).map(runId => ({
+        run_id: runId,
+        points: data[runId],
+      }));
+      this.setState({ runs, loading: false });
+    });
   }
 
   render() {
     const { user, history, onLogout } = this.props;
     const { runs, loading } = this.state;
 
-    return loading ? <LoadingPage /> : <div>
+    return loading
+      ? <LoadingPage />
+      : <div>
           <User {...user} onLogout={onLogout} />
-          {runs && <h2 style={{ margin: '1em' }}>
+          {runs &&
+            <h2 style={{ margin: '1em' }}>
               {user.displayName}'s Runs
             </h2>}
-          {runs && <RunsTable history={history} dataSource={runs} showName={false} />}
-          {!runs && <div style={{ display: 'flex', height: 'calc(100vh - 200px)', justifyContent: 'center', alignItems: 'center' }}>
+          {runs &&
+            <RunsTable history={history} dataSource={runs} showName={false} />}
+          {!runs &&
+            <div
+              style={{
+                display: 'flex',
+                height: 'calc(100vh - 200px)',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               <div>
                 You have not made any runs yet{' '}
                 <span role="img" aria-label="that's actually quite sad">

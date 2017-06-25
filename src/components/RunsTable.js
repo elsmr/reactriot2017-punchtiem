@@ -6,7 +6,7 @@ const getColumns = (history, showName) => {
     {
       title: 'Points',
       dataIndex: 'points',
-      key: 'points'
+      key: 'points',
     },
     {
       title: 'Run',
@@ -17,17 +17,20 @@ const getColumns = (history, showName) => {
             icon="right-circle"
             onClick={() => history.push(`/run/${record.run_id}`)}
           />
-        </span>
-    }
+        </span>,
+    },
   ];
   if (showName) {
     columns.unshift({ title: 'Name', dataIndex: 'name', key: 'name' });
   }
   return columns;
-}
+};
 
-const RunsTable = ({ history, dataSource, showName = true }) => (
-  <Table pagination={false} columns={getColumns(history, showName)} dataSource={dataSource} />
-);
+const RunsTable = ({ history, dataSource, showName = true }) =>
+  <Table
+    pagination={false}
+    columns={getColumns(history, showName)}
+    dataSource={dataSource}
+  />;
 
 export default RunsTable;

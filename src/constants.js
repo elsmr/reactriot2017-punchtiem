@@ -13,5 +13,5 @@ export const CLOUDINARY = `https://res.cloudinary.com/coolegast/image/fetch/c_fi
 
 export const FOURSQUARE_CATEGORIES = [
   '4d4b7104d754a06370d81259',
-  '4bf58dd8d48988d12d941735'
-]
+  '4bf58dd8d48988d12d941735',
+];

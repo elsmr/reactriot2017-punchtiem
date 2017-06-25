@@ -19,10 +19,13 @@
   "devDependencies": {
     "concurrently": "^3.5.0",
     "flow-bin": "^0.48.0",
+    "husky": "^0.14.1",
     "less": "^2.7.2",
     "less-watch-compiler": "^1.6.7",
     "lessc-each": "^1.1.0",
+    "lint-staged": "^4.0.0",
     "npm-run-all": "^4.0.2",
+    "prettier": "^1.4.4",
     "react-scripts": "1.0.7"
   },
   "scripts": {
@@ -33,6 +36,13 @@
     "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "flow": "flow"
+    "flow": "flow",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "{*.js,*.less}": [
+      "prettier --single-quote=true --trailing-comma=es5 --write src/**/{*.js,*.less}",
+      "git add"
+    ]
   }
 }
