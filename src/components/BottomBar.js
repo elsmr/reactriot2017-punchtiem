@@ -41,6 +41,7 @@ const BottomBar = ({
     distance: 223,
     heading: 10,
   },
+  onUploaded,
 }) =>
   <footer className="BottomBar">
     <div className="BottomBar--inner">
@@ -55,7 +56,12 @@ const BottomBar = ({
           </div>
         </div>
       </div>
-      <Camera isNear={isNear} run={run} venue={closest} />
+      <Camera
+        isNear={isNear}
+        run={run}
+        venue={closest}
+        onUploaded={onUploaded}
+      />
     </div>
     <Progress percent={progress} status="active" showInfo={false} />
   </footer>;

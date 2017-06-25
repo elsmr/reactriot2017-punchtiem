@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ref } from './helpers/firebase';
 import { getScore, calculateHeading } from './helpers/foursquare';
 import InteractiveMap from './components/InteractiveMap';
 import LoadingPage from './components/LoadingPage';
@@ -13,6 +14,23 @@ class Foursquare extends Component {
   componentWillUnmount() {
     this.props.stopTracking();
   }
+
+  _pushData = () => {
+    const { runState: { runId, history } } = this.props;
+    const path = `runs/${runId}`;
+
+    const newData = {
+      runId,
+      history,
+      // todo: push history etc to firebaaase
+    };
+
+    ref
+      .child(path)
+      .once('value')
+      .then(sn => sn.val())
+      .then(snapshot => ref.child(path).set({ ...snapshot, ...newData }));
+  };
 
   render() {
     const {
@@ -59,6 +77,7 @@ class Foursquare extends Component {
               progress={progress}
               isNear={closest.distance < 20}
               closest={closest}
+              onUploaded={this._pushData}
             />
           : null}
       </div>
@@ -72,9 +91,11 @@ const Wrapper = ({
   stopTimer,
   startTracking,
   stopTracking,
+  runId,
 }) =>
   <div>
     <Foursquare
+      runId={runId}
       runState={runState}
       startTracking={startTracking}
       stopTracking={stopTracking}
