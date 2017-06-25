@@ -28,11 +28,9 @@ const Closest = ({ name, categories, score, distance, heading }) =>
     <div className="Closest--details">
       <Heading rotation={heading} />
       <span className="seperator">&middot;</span>
-      <div>{distance || 0}m from you</div>
-      { categories && <span className="seperator">&middot;</span> }
-      { categories &&
-        <div>{categories[0].name}</div>
-      }
+      <div>{distance || 0}m away</div>
+      {categories && <span className="seperator">&middot;</span>}
+      {categories && <div>{categories[0].name}</div>}
     </div>
   </div>;
 
@@ -44,7 +42,7 @@ const BottomBar = ({
   visited = 0,
   total = 10,
   closest = null,
-  onUploaded
+  onUploaded,
 }) =>
   <footer className="BottomBar">
     <div className="BottomBar--inner">
