@@ -194,7 +194,7 @@ class Run extends Component {
 
             <Modal
               title={modal && modal.name}
-              visible={modal}
+              visible={!!modal}
               footer={null}
               onCancel={this.dismiss}
             >
