@@ -12,7 +12,7 @@ class ConnectedApp extends Component {
     venues: [],
     venueImages: {},
     query: {
-      radius: 100,
+      radius: 500,
       categoryId: FOURSQUARE_CATEGORIES.join(','), // arts & entertainment
     },
     history: [],
