@@ -124,6 +124,25 @@ export default class Landing extends Component {
                 Start your Monument Run
               </Button>}
         </div>
+        <section className="Landing-info">
+          <h3>Info</h3>
+          <p>
+            This app is made by <a href="https://eliasmei.re">Elias Meire</a>,{' '}
+            <a href="https://haroen.me">Haroen Viaene</a> and{' '}
+            <a href="https://weyts.xyz">Arnaud Weyts</a>. It's part of{' '}
+            <a href="reactriot.com">React Riot</a> 2017.
+          </p>
+          <p>
+            The monument data is available on the{' '}
+            <a href="https://developer.foursquare.com/">Foursquare</a> API.
+          </p>
+          <p>
+            This is an open source project,{' '}
+            <a href="https://github.com/Hackbit/reactriot2017-punchtiem">
+              source code
+            </a>
+          </p>
+        </section>
       </div>
     );
   }
