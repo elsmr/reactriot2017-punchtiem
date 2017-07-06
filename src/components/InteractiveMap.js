@@ -14,7 +14,7 @@ const Map = ReactMapboxGl({
 });
 
 const markerStyle = {
-  borderRadius: '50px',
+  borderRadius: '100%',
   border: `2px solid ${PRIMARY_COLOR}`,
   width: '36px',
   height: '36px',
