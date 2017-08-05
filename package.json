@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@haroenv/react-foursquare": "^1.1.0",
     "antd": "2.11.1",
     "eslint-config-react-app": "^1.0.4",
     "firebase": "^4.1.3",
@@ -11,7 +12,6 @@
     "mapbox-gl": "^0.38.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-foursquare": "https://github.com/haroenv/react-foursquare.git",
     "react-mapbox-gl": "^2.0.3",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1"

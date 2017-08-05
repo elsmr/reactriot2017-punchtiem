@@ -1,4 +1,4 @@
-import foursquareApi from 'react-foursquare';
+import foursquareApi from '@haroenv/react-foursquare';
 
 const foursquare = foursquareApi({
   clientID: process.env.REACT_APP_FOURSQUARE_ID,
