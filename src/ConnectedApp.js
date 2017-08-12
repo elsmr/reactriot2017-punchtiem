@@ -122,7 +122,7 @@ class ConnectedApp extends Component {
     const { uid, displayName: name } = firebaseAuth().currentUser;
     const runId = ref
       .child('runs')
-      .push({ name, score: 0, history: [], venues: [], date }).key;
+      .push({ name, score: 0, history: [], venues: [], date, uid }).key;
 
     ref
       .child(`users/${uid}`)
